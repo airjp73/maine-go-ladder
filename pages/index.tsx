@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { css } from "@emotion/core";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState, AppDispatch } from "../store/store";
-import { fetchUsers, userEntity, userSelectors } from "../users/userSlice";
+import { AppDispatch } from "../store/store";
+import { fetchUsers, userSelectors } from "../users/userSlice";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
