@@ -1,7 +1,9 @@
+import React from "react";
 import { css } from "@emotion/core";
-import Head from "next/head";
+import { NextPage } from "next";
+import graphql from "../util/graphql";
 
-const Home: React.FC = () => (
+const Home: NextPage<{ users: any[] }> = ({ users = [] }) => (
   <div
     css={css`
       margin: 3rem;
@@ -12,8 +14,22 @@ const Home: React.FC = () => (
       text-align: center;
     `}
   >
-    <h1>Hi</h1>
+    {users.map(user => (
+      <p>
+        {user.id}, {user.name}
+      </p>
+    ))}
   </div>
 );
+
+Home.getInitialProps = () =>
+  graphql(`
+    query {
+      users {
+        id
+        name
+      }
+    }
+  `);
 
 export default Home;
