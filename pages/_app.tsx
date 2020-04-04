@@ -6,7 +6,6 @@ import { AppPropsType } from "next/dist/next-server/lib/utils";
 import { css, Global } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import theme, { Theme } from "../styles/theme";
-import opacify from "../styles/opacify";
 import "@reach/dialog/styles.css";
 
 const App = ({ Component, pageProps }: AppPropsType) => {
@@ -22,7 +21,7 @@ const App = ({ Component, pageProps }: AppPropsType) => {
         <Global
           styles={(theme: Theme) => css`
             html {
-              background-color: ${opacify(theme.colors.blue[80], 0.75)};
+              background-color: ${theme.colors.background};
             }
             html,
             body,

@@ -21,11 +21,27 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, children }) => {
   return (
     <Dialog
       css={(theme: Theme) => css`
-        background-color: ${theme.colors.blue};
+        background-color: ${theme.colors.modalBackground};
+        position: relative;
+        border-radius: 3px;
       `}
       isOpen={active}
       onDismiss={onClose}
     >
+      <button
+        css={(theme: Theme) => css`
+          background: none;
+          border: none;
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          font-size: 1rem;
+          color: ${theme.colors.green[50].hex};
+        `}
+        onClick={onClose}
+      >
+        X
+      </button>
       {children}
     </Dialog>
   );
