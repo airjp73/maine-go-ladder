@@ -53,7 +53,17 @@ const Home: React.FC = () => {
                 display: flex;
                 background-color: ${theme.colors.blue[90].hex};
                 color: ${theme.colors.green[20].hex};
+                outline: none;
+                cursor: pointer;
+
+                :hover,
+                :focus {
+                  background-color: ${theme.colors.blue[80].hex};
+                  box-shadow: 2px 3px 6px ${theme.colors.blue[80].hex};
+                }
               `}
+              role="button"
+              tabIndex={0}
               key={user.id}
               initial={{ scale: 0.8, opacity: 0, x: 0 }}
               animate={{ scale: 1, opacity: 1, x: 0 }}
