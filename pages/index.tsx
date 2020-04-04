@@ -1,7 +1,18 @@
+import { css } from "@emotion/core";
 import Head from "next/head";
 
+const container = css`
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: blue;
+`;
+
 const Home: React.FC = () => (
-  <div className="container">
+  <div css={container}>
     <Head>
       <title>Create Next App</title>
       <link rel="icon" href="/favicon.ico" />
@@ -58,15 +69,6 @@ const Home: React.FC = () => (
     </footer>
 
     <style jsx>{`
-      .container {
-        min-height: 100vh;
-        padding: 0 0.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
       main {
         padding: 5rem 0;
         flex: 1;
