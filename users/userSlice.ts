@@ -1,7 +1,12 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter,
+} from "@reduxjs/toolkit";
 import { User } from "../api/User";
 import fetchData from "../api/fetchData";
 import gql from "graphql-tag";
+import { AppState } from "../store/store";
 
 const fetchQuery = gql`
   query {
@@ -17,14 +22,22 @@ export const fetchUsers = createAsyncThunk(
   (): Promise<{ users: User[] }> => fetchData(fetchQuery)
 );
 
+export const userEntity = createEntityAdapter<User>({
+  selectId: (user) => user.id,
+  sortComparer: (a, b) => a.rating - b.rating,
+});
+
+export const userSelectors = userEntity.getSelectors(
+  (state: AppState) => state.users
+);
+
 const userSlice = createSlice({
-  initialState: [] as User[],
+  initialState: userEntity.getInitialState(),
   name: "users",
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchUsers.fulfilled,
-      (state, action) => action.payload.users
+    builder.addCase(fetchUsers.fulfilled, (state, action) =>
+      userEntity.setAll(state, action.payload.users)
     );
   },
 });

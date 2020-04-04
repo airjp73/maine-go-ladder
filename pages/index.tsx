@@ -2,16 +2,14 @@ import React, { useEffect } from "react";
 import { css } from "@emotion/core";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState, AppDispatch } from "../store/store";
-import { fetchUsers } from "../users/userSlice";
+import { fetchUsers, userEntity, userSelectors } from "../users/userSlice";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const users = useSelector((state: AppState) => state.users);
+  const users = useSelector(userSelectors.selectAll);
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
-
-  console.log(users);
 
   return (
     <div
