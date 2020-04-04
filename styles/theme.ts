@@ -8,7 +8,6 @@ const theme = {
     green,
     background: opacify(green[70], 0.75),
     modalBackground: blue[10].hex,
-    // background: green[90].hex,
   },
 };
 
