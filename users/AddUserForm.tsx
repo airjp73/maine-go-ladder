@@ -2,6 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
+import { useDispatch } from "react-redux";
+import { addUser } from "./userSlice";
+import { AppDispatch } from "../store/store";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 interface AddUserFormProps {
   onAfterSubmit: () => void;
@@ -25,12 +29,19 @@ const error = css`
 
 const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
   const { handleSubmit, register, errors } = useForm<FormData>();
-  console.log(errors);
+  const dispatch = useDispatch<AppDispatch>();
+
   return (
     <form
       onSubmit={handleSubmit((values) => {
-        console.log(values);
-        onAfterSubmit();
+        dispatch(
+          addUser({
+            name: values.name,
+            rating: values.rating,
+          })
+        )
+          .then(unwrapResult)
+          .then(() => onAfterSubmit());
       })}
       css={css`
         > * {
