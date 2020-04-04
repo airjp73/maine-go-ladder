@@ -3,6 +3,7 @@ import { css } from "@emotion/core";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { fetchUsers, userSelectors } from "../users/userSlice";
+import { Theme } from "../styles/theme";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,25 +35,27 @@ const Home: React.FC = () => {
       >
         {users.map((user) => (
           <li
-            css={css`
+            css={(theme: Theme) => css`
               padding: 0.5rem 1rem;
-              box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+              box-shadow: 1px 2px 4px ${theme.colors.darkBlue};
               border-radius: 3px;
               display: flex;
+              background-color: ${theme.colors.blue};
+              color: ${theme.colors.green};
             `}
             key={user.id}
           >
             <span
               css={css`
-                font-weight: bold;
+                font-weight: 600;
               `}
             >
               {user.name}
-            </span>{" "}
+            </span>
             <span
               css={css`
                 margin-left: auto;
-                color: rgba(0, 0, 0, 0.5);
+                opacity: 0.75;
               `}
             >
               {user.rating}
