@@ -7,6 +7,7 @@ import { Theme } from "../styles/theme";
 import { motion, AnimatePresence } from "framer-motion";
 import ModalButton from "../components/modal/ModalButton";
 import AddUserForm from "../users/AddUserForm";
+import AddGameForm from "../games/AddGameForm";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,13 +27,25 @@ const Home: React.FC = () => {
       `}
     >
       <div
-        css={css`
+        css={(theme: Theme) => css`
           display: flex;
           justify-content: flex-end;
+          > * + * {
+            margin-left: 1rem;
+          }
+
+          > h2 {
+            color: ${theme.colors.green[90].hex};
+            margin: 0 auto 0 0;
+          }
         `}
       >
+        <h2>Maine Go Ladder</h2>
         <ModalButton buttonLabel="Add User" title="Add User">
           {({ close }) => <AddUserForm onAfterSubmit={close} />}
+        </ModalButton>
+        <ModalButton buttonLabel="Add Game Result" title="Add Game Result">
+          {({ close }) => <AddGameForm onAfterSubmit={close} />}
         </ModalButton>
       </div>
       <ul
