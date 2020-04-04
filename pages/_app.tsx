@@ -20,9 +20,13 @@ const App = ({ Component, pageProps }: AppPropsType) => {
         <Global
           styles={(theme: Theme) => css`
             html,
-            body {
+            body,
+            #__next {
               font-family: Roboto, sans-serif;
               background-color: ${theme.colors.darkBlue};
+              height: 100%;
+              margin: 0;
+              padding: 0;
             }
           `}
         />
