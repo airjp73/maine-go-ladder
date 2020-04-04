@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { fetchUsers, userSelectors } from "../users/userSlice";
 import { Theme } from "../styles/theme";
-import AddUserButton from "../users/AddUserButton";
 import { motion, AnimatePresence } from "framer-motion";
+import ModalButton from "../components/modal/ModalButton";
+import AddUserForm from "../users/AddUserForm";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,7 +31,9 @@ const Home: React.FC = () => {
           justify-content: flex-end;
         `}
       >
-        <AddUserButton />
+        <ModalButton buttonLabel="Add User" title="Add User">
+          {({ close }) => <AddUserForm onAfterSubmit={close} />}
+        </ModalButton>
       </div>
       <ul
         css={css`

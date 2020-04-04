@@ -1,10 +1,21 @@
 import React from "react";
-import Modal, { useModal } from "../components/modal/Modal";
-import AddUserForm from "./AddUserForm";
+import Modal, { useModal } from "./Modal";
 import { css } from "@emotion/core";
-import { Theme } from "../styles/theme";
+import { Theme } from "../../styles/theme";
 
-const AddUserButton: React.FC = () => {
+type RenderPropApi = { close: () => void };
+
+interface ModalButtonProps {
+  title: string;
+  buttonLabel: string;
+  children: (renderProps: RenderPropApi) => React.ReactNode;
+}
+
+const ModalButton: React.FC<ModalButtonProps> = ({
+  title,
+  buttonLabel,
+  children,
+}) => {
   const [active, open, close] = useModal();
   return (
     <>
@@ -27,13 +38,13 @@ const AddUserButton: React.FC = () => {
         `}
         onClick={open}
       >
-        Add User
+        {buttonLabel}
       </button>
-      <Modal title="Add User" active={active} onClose={close}>
-        <AddUserForm onAfterSubmit={close} />
+      <Modal title={title} active={active} onClose={close}>
+        {children({ close })}
       </Modal>
     </>
   );
 };
 
-export default AddUserButton;
+export default ModalButton;
