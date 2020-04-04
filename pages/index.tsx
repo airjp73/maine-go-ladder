@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { fetchUsers, userSelectors } from "../users/userSlice";
 import { Theme } from "../styles/theme";
+import AddUserButton from "../users/AddUserButton";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
         text-align: center;
       `}
     >
+      <AddUserButton />
       <ul
         css={css`
           list-style: none;
@@ -37,11 +39,11 @@ const Home: React.FC = () => {
           <li
             css={(theme: Theme) => css`
               padding: 0.5rem 1rem;
-              box-shadow: 1px 2px 4px ${theme.colors.darkBlue};
+              box-shadow: 1px 2px 4px ${theme.colors.blue[80].hex};
               border-radius: 3px;
               display: flex;
-              background-color: ${theme.colors.blue};
-              color: ${theme.colors.green};
+              background-color: ${theme.colors.blue[90].hex};
+              color: ${theme.colors.green[20].hex};
             `}
             key={user.id}
           >
