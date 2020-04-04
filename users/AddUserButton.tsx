@@ -8,7 +8,7 @@ const AddUserButton: React.FC = () => {
     <>
       <button onClick={open}>Add User</button>
       <Modal title="Add User" active={active} onClose={close}>
-        <AddUserForm />
+        <AddUserForm onAfterSubmit={close} />
       </Modal>
     </>
   );

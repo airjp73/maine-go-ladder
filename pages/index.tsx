@@ -23,7 +23,13 @@ const Home: React.FC = () => {
         text-align: center;
       `}
     >
-      <AddUserButton />
+      <div
+        css={css`
+          display: flex;
+        `}
+      >
+        <AddUserButton />
+      </div>
       <ul
         css={css`
           list-style: none;

@@ -59,6 +59,7 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, title, children }) => {
       {active && (
         <MotionOverlay key="overlay" onDismiss={onClose}>
           <MotionContent
+            aria-label={title}
             css={(theme: Theme) => css`
               background-color: ${theme.colors.modalBackground};
               position: relative;
@@ -70,8 +71,10 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, title, children }) => {
             exit={{ opacity: 0, y: -50 }}
           >
             <header
-              css={css`
+              css={(theme: Theme) => css`
                 display: flex;
+                color: ${theme.colors.blue[60].hex};
+                font-weight: bold;
               `}
             >
               <span>{title}</span>
@@ -80,8 +83,8 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, title, children }) => {
                   background: none;
                   border: none;
                   margin-left: auto;
-                  color: ${theme.colors.green[50].hex};
                   font-size: 1rem;
+                  color: ${theme.colors.blue[60].hex};
                 `}
                 onClick={onClose}
               >
