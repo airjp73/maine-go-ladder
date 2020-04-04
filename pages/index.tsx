@@ -17,16 +17,49 @@ const Home: React.FC = () => {
         margin: 3rem;
         display: flex;
         flex-direction: column;
-        border: 1px solid grey;
         padding: 1rem;
         text-align: center;
       `}
     >
-      {users.map((user) => (
-        <p key={user.id}>
-          {user.id}, {user.name}
-        </p>
-      ))}
+      <ul
+        css={css`
+          list-style: none;
+          margin: none;
+          padding: 1rem;
+
+          > * + * {
+            margin-top: 1rem;
+          }
+        `}
+      >
+        {users.map((user) => (
+          <li
+            css={css`
+              padding: 0.5rem 1rem;
+              box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+              border-radius: 3px;
+              display: flex;
+            `}
+            key={user.id}
+          >
+            <span
+              css={css`
+                font-weight: bold;
+              `}
+            >
+              {user.name}
+            </span>{" "}
+            <span
+              css={css`
+                margin-left: auto;
+                color: rgba(0, 0, 0, 0.5);
+              `}
+            >
+              {user.rating}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

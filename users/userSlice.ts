@@ -13,6 +13,7 @@ const fetchQuery = gql`
     users {
       id
       name
+      rating
     }
   }
 `;
@@ -24,7 +25,7 @@ export const fetchUsers = createAsyncThunk(
 
 export const userEntity = createEntityAdapter<User>({
   selectId: (user) => user.id,
-  sortComparer: (a, b) => a.rating - b.rating,
+  sortComparer: (a, b) => b.rating - a.rating,
 });
 
 export const userSelectors = userEntity.getSelectors(
