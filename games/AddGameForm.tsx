@@ -21,11 +21,6 @@ const field = (theme: Theme) => css`
   }
 `;
 
-const error = css`
-  font-size: 0.5rem;
-  color: red;
-`;
-
 type TabCustomProp = { prev: number; current: number };
 
 const transition = { type: "spring", stiffness: 375, damping: 30 };
@@ -50,13 +45,11 @@ const TabContent: React.FC<React.ComponentProps<typeof motion.div>> = (
 );
 
 const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
-  const { handleSubmit } = useForm<FormData>();
   const [blackPlayer, setBlackPlayer] = useState<User | null>(null);
   const [whitePlayer, setWhitePlayer] = useState<User | null>(null);
   const [winner, setWinner] = useState<User | null>(null);
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
-  const dispatch = useDispatch<AppDispatch>();
 
   const variants = {
     initial: {
@@ -74,14 +67,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit((values) => {
-        // dispatch(
-        //   () => {}
-        // )
-        //   .then(unwrapResult)
-        //   .then(() => onAfterSubmit());
-      })}
+    <div
       css={css`
         > * {
           margin-top: 1rem;
@@ -171,7 +157,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           )}
         </AnimatePresence>
       </div>
-    </form>
+    </div>
   );
 };
 
