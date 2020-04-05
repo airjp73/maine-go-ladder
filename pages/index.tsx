@@ -23,6 +23,9 @@ const Home: React.FC = () => {
   const isLoading = useSelector(
     (state: AppState) => !state.loading.initialDataLoaded
   );
+  const userHasNavigated = useSelector(
+    (state: AppState) => state.loading.userHasNavigated
+  );
   const router = useRouter();
   const dimensions = useWindowDimensions();
   useEffect(() => {
@@ -79,6 +82,7 @@ const Home: React.FC = () => {
               initial={{ scale: 0.8, opacity: 0, x: 0 }}
               animate={{ scale: 1, opacity: 1, x: 0 }}
               exit={{ scale: 1, opacity: 0, x: 100 }}
+              transition={{ delay: userHasNavigated ? 0.35 : 0 }}
               positionTransition
             >
               <span
