@@ -10,6 +10,8 @@ const AddUser: React.FC = () => {
     <div
       css={css`
         padding: 1rem;
+        max-width: 750px;
+        margin: 0 auto;
       `}
     >
       <PageHeader header="Add User" />
