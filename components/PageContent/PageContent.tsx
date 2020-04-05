@@ -19,7 +19,11 @@ const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
       box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.5);
     `}
     {...rest}
-    transition={{ type: "spring", stiffness: 150, damping: 50 }}
+    transition={{
+      type: "spring",
+      stiffness: 175,
+      damping: 30,
+    }}
   >
     <div
       className={className}
