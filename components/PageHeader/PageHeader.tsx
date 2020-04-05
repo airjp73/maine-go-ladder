@@ -11,6 +11,13 @@ const PageHeader: React.FC<PageHeaderProps> = ({ header, children }) => (
     css={(theme: Theme) => css`
       display: flex;
       justify-content: flex-end;
+      background-color: ${theme.colors.green[30].hex};
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      padding: 1rem;
+
       > * + * {
         margin-left: 1rem;
       }

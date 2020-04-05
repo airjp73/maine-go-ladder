@@ -14,6 +14,7 @@ import PageContent from "../components/PageContent/PageContent";
 import SpeedDial from "../components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../components/SpeedDial/SpeedDialOption";
 import GoIcon from "../components/SpeedDial/GoIcon";
+import { useRouter } from "next/router";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,6 +22,7 @@ const Home: React.FC = () => {
   const isLoading = useSelector(
     (state: AppState) => !state.loading.initialDataLoaded
   );
+  const router = useRouter();
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
@@ -37,16 +39,12 @@ const Home: React.FC = () => {
       animate={{ scale: 1 }}
       exit={{ scale: 0.9 }}
     >
-      <PageHeader header="Maine Go Ladder">
-        <Link href="/add-user">
-          <a css={buttonStyle}>Add User</a>
-        </Link>
-      </PageHeader>
+      <PageHeader header="Maine Go Ladder" />
       {isLoading && <LoadingState />}
       <ul
         css={css`
           list-style: none;
-          margin: none;
+          margin: 0 0 10rem 0;
           padding: 1rem;
 
           > * + * {
@@ -103,12 +101,21 @@ const Home: React.FC = () => {
       <SpeedDial
         css={css`
           position: absolute;
-          bottom: 3rem;
+          top: calc(100% - 5rem);
           right: 3rem;
+          transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
+
+          @media only screen and (min-width: 1000px) {
+            bottom: unset;
+            top: 2rem;
+          }
         `}
         icon={<Plus />}
       >
-        <SpeedDialOption label="Add User">
+        <SpeedDialOption
+          label="Add User"
+          onClick={() => router.push("/add-user")}
+        >
           <User />
         </SpeedDialOption>
         <SpeedDialOption label="Record Game">

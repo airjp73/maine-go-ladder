@@ -29,8 +29,9 @@ const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
       className={className}
       css={css`
         max-width: 750px;
-        margin: 0 auto;
+        margin: 3rem auto 0 auto;
         height: 100%;
+        overflow: auto;
       `}
     >
       {children}

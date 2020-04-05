@@ -46,13 +46,13 @@ const Fab: React.FC<FabProps> = forwardRef(
     return (
       <motion.button
         css={css`
-          background-color: ${theme.colors.blue[90].hex};
+          background-color: ${theme.colors.highlight};
           height: ${size && sizeDimensions[size]};
           width: ${size && sizeDimensions[size]};
           border: none;
           border-radius: 50%;
           outline: none;
-          color: ${theme.colors.highlight};
+          color: ${theme.colors.dark};
           display: flex;
           align-items: center;
           justify-content: center;

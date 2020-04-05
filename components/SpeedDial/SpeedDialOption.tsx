@@ -61,7 +61,7 @@ const SpeedDialOption: React.FC<SpeedDialOptionProps> = ({
       css={(theme: Theme) => css`
         position: absolute;
         font-size: 0.7rem;
-        background-color: ${theme.colors.dark};
+        background-color: ${theme.colors.medDark};
         color: ${theme.colors.highlight};
         opacity: 0.5;
         padding: 0.5rem;
