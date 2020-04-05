@@ -130,26 +130,12 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
             </TabContent>
           )}
           {tab === 1 && (
-            <TabContent
-              animate="enter"
-              initial="initial"
-              exit="exit"
-              variants={variants}
-              key="choose-white"
-              transition={transition}
-            >
+            <TabContent variants={variants} key="choose-white">
               <UserList />
             </TabContent>
           )}
           {tab === 2 && (
-            <TabContent
-              animate="enter"
-              initial="initial"
-              exit="exit"
-              variants={variants}
-              key="who-won"
-              transition={transition}
-            >
+            <TabContent variants={variants} key="who-won">
               <h1>Who won?</h1>
             </TabContent>
           )}
