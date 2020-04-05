@@ -45,27 +45,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         }
       `}
     >
-      <div css={field}>
-        <label>Name</label>
-
-        <input name="name" ref={register({ required: true })} />
-        {errors.name?.type === "required" && (
-          <span css={error}>This field is required</span>
-        )}
-      </div>
-
-      <div css={field}>
-        <label>Rating</label>
-        <input
-          name="rating"
-          type="number"
-          step="0.01"
-          ref={register({ required: true })}
-        />
-        {errors.rating?.type === "required" && (
-          <span css={error}>This field is required</span>
-        )}
-      </div>
+      <h4>In Progress</h4>
 
       <div>
         <button>Submit</button>

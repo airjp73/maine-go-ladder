@@ -23,7 +23,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div
+    <motion.div
       css={css`
         display: flex;
         flex-direction: column;
@@ -31,7 +31,15 @@ const Home: React.FC = () => {
         text-align: center;
         max-width: 750px;
         margin: 0 auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
       `}
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
     >
       <PageHeader header="Maine Go Ladder">
         <Link href="/add-user">
@@ -99,7 +107,7 @@ const Home: React.FC = () => {
           ))}
         </AnimatePresence>
       </ul>
-    </div>
+    </motion.div>
   );
 };
 

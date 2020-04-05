@@ -7,8 +7,9 @@ import { css, Global } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import theme, { Theme } from "../styles/theme";
 import "@reach/dialog/styles.css";
+import { AnimatePresence } from "framer-motion";
 
-const App = ({ Component, pageProps }: AppPropsType) => {
+const App = ({ Component, pageProps, router }: AppPropsType) => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -33,7 +34,19 @@ const App = ({ Component, pageProps }: AppPropsType) => {
             }
           `}
         />
-        <Component {...pageProps} />
+        <div
+          css={css`
+            height: 100%;
+            max-width: 750px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+          `}
+        >
+          <AnimatePresence initial={false}>
+            <Component {...pageProps} key={router.route} />
+          </AnimatePresence>
+        </div>
       </Provider>
     </ThemeProvider>
   );
