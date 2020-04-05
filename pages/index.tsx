@@ -25,11 +25,12 @@ const Home: React.FC = () => {
   return (
     <div
       css={css`
-        margin: 3rem;
         display: flex;
         flex-direction: column;
         padding: 1rem;
         text-align: center;
+        max-width: 750px;
+        margin: 0 auto;
       `}
     >
       <PageHeader header="Maine Go Ladder">
