@@ -28,7 +28,7 @@ const LoadingState: React.FC = () => {
         }
       `}
     >
-      <h4>This could take a minute if nobody has used the app in awhile.</h4>
+      <h4>This could take a second if nobody has used the app in awhile.</h4>
       <svg
         width="105"
         height="105"
