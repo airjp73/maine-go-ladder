@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { css } from "@emotion/core";
 import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
+import { AppDispatch, AppState } from "../store/store";
 import { fetchUsers, userSelectors } from "../users/userSlice";
 import { Theme } from "../styles/theme";
 import { motion, AnimatePresence } from "framer-motion";
 import ModalButton from "../components/modal/ModalButton";
 import AddUserForm from "../users/AddUserForm";
 import AddGameForm from "../games/AddGameForm";
+import LoadingState from "../loading/LoadingState";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const users = useSelector(userSelectors.selectAll);
+  const isLoading = useSelector(
+    (state: AppState) => !state.loading.initialDataLoaded
+  );
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
@@ -48,6 +52,7 @@ const Home: React.FC = () => {
           {({ close }) => <AddGameForm onAfterSubmit={close} />}
         </ModalButton>
       </div>
+      {isLoading && <LoadingState />}
       <ul
         css={css`
           list-style: none;
