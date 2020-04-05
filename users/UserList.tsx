@@ -64,14 +64,18 @@ export const UserItem: React.FC<UserItemProps> = ({
 interface UserListProps extends React.ComponentProps<typeof motion.ul> {
   userEnterDelay?: number;
   onUserClick?: (user: User) => void;
+  userList?: User[];
 }
 
 const UserList: React.FC<UserListProps> = ({
   userEnterDelay = 0,
   onUserClick,
+  userList,
   ...rest
 }) => {
   const users = useSelector(userSelectors.selectAll);
+  const usersToShow = userList || users;
+
   return (
     <motion.ul
       css={css`
@@ -86,7 +90,7 @@ const UserList: React.FC<UserListProps> = ({
       {...rest}
     >
       <AnimatePresence initial={false}>
-        {users.map((user) => (
+        {usersToShow.map((user) => (
           <UserItem
             user={user}
             enterDelay={userEnterDelay}

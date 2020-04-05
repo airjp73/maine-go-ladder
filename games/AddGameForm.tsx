@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
@@ -7,9 +7,7 @@ import { AppDispatch } from "../store/store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion, MotionAdvancedProps } from "framer-motion";
-import UserList, { UserItem } from "../users/UserList";
-import PageContent from "../components/PageContent/PageContent";
-import { PageChecker } from "next/dist/next-server/server/router";
+import UserList from "../users/UserList";
 import { User } from "../api/User";
 
 interface AddGameFormProps {
@@ -146,8 +144,12 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           {tab === 2 && !!blackPlayer && !!whitePlayer && (
             <TabContent variants={variants} key="who-won">
               <h1>Who won?</h1>
-              <UserItem user={blackPlayer} />
-              <UserItem user={whitePlayer} />
+              <UserList
+                userList={[blackPlayer, whitePlayer]}
+                onUserClick={(user) => {
+                  alert(`${user.name} won!`);
+                }}
+              />
             </TabContent>
           )}
         </AnimatePresence>
