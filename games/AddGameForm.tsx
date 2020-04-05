@@ -9,6 +9,7 @@ import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion, MotionAdvancedProps } from "framer-motion";
 import UserList from "../users/UserList";
 import { User } from "../api/User";
+import { ArrowRight } from "react-feather";
 
 interface AddGameFormProps {
   onAfterSubmit: () => void;
@@ -90,7 +91,15 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         height: calc(100% - 4rem);
       `}
     >
-      <div>
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          > * + * {
+            margin-left: 1rem;
+          }
+        `}
+      >
         <button
           css={buttonStyle}
           onClick={() => changeTab(0)}
@@ -98,6 +107,9 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         >
           Choose Black
         </button>
+
+        <ArrowRight />
+
         <button
           css={buttonStyle}
           onClick={() => changeTab(1)}
@@ -105,6 +117,9 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         >
           Choose White
         </button>
+
+        <ArrowRight />
+
         <button
           css={buttonStyle}
           onClick={() => changeTab(2)}
@@ -123,6 +138,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         <AnimatePresence custom={{ prev: prevTab, current: tab }}>
           {tab === 0 && (
             <TabContent variants={variants} key="choose-black">
+              <h1>Who played black?</h1>
               <UserList
                 onUserClick={(user) => {
                   setTab(1);
@@ -133,6 +149,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           )}
           {tab === 1 && (
             <TabContent variants={variants} key="choose-white">
+              <h1>Who played white?</h1>
               <UserList
                 onUserClick={(user) => {
                   setTab(2);
