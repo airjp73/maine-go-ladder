@@ -39,9 +39,6 @@ const Home: React.FC = () => {
         <Link href="/add-user">
           <a css={buttonStyle}>Add User</a>
         </Link>
-        <ModalButton buttonLabel="Add Game Result" title="Add Game Result">
-          {({ close }) => <AddGameForm onAfterSubmit={close} />}
-        </ModalButton>
       </PageHeader>
       {isLoading && <LoadingState />}
       <ul
