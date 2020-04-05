@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { css } from "@emotion/core";
+import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, AppState } from "../store/store";
 import { fetchUsers, userSelectors } from "../users/userSlice";
 import { Theme } from "../styles/theme";
 import { motion, AnimatePresence } from "framer-motion";
 import ModalButton from "../components/modal/ModalButton";
-import AddUserForm from "../users/AddUserForm";
 import AddGameForm from "../games/AddGameForm";
 import LoadingState from "../loading/LoadingState";
+import buttonStyle from "../styles/buttonStyle";
+import PageHeader from "../components/PageHeader/PageHeader";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,28 +32,14 @@ const Home: React.FC = () => {
         text-align: center;
       `}
     >
-      <div
-        css={(theme: Theme) => css`
-          display: flex;
-          justify-content: flex-end;
-          > * + * {
-            margin-left: 1rem;
-          }
-
-          > h2 {
-            color: ${theme.colors.green[90].hex};
-            margin: 0 auto 0 0;
-          }
-        `}
-      >
-        <h2>Maine Go Ladder</h2>
-        <ModalButton buttonLabel="Add User" title="Add User">
-          {({ close }) => <AddUserForm onAfterSubmit={close} />}
-        </ModalButton>
+      <PageHeader header="Maine Go Ladder">
+        <Link href="/add-user">
+          <a css={buttonStyle}>Add User</a>
+        </Link>
         <ModalButton buttonLabel="Add Game Result" title="Add Game Result">
           {({ close }) => <AddGameForm onAfterSubmit={close} />}
         </ModalButton>
-      </div>
+      </PageHeader>
       {isLoading && <LoadingState />}
       <ul
         css={css`

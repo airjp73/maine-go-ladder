@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "./userSlice";
 import { AppDispatch } from "../store/store";
 import { unwrapResult } from "@reduxjs/toolkit";
+import buttonStyle from "../styles/buttonStyle";
 
 interface AddUserFormProps {
   onAfterSubmit: () => void;
@@ -17,8 +18,18 @@ interface FormData {
 }
 
 const field = (theme: Theme) => css`
-  > * + * {
-    margin-left: 0.5rem;
+  label {
+    font-weight: bold;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  > * {
+    display: block;
   }
 `;
 
@@ -28,13 +39,14 @@ const error = css`
 `;
 
 const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
-  const { handleSubmit, register, errors } = useForm<FormData>();
+  const { handleSubmit, register, errors, formState } = useForm<FormData>();
   const dispatch = useDispatch<AppDispatch>();
+  console.log(formState.isSubmitting);
 
   return (
     <form
       onSubmit={handleSubmit((values) => {
-        dispatch(
+        return dispatch(
           addUser({
             name: values.name,
             rating: values.rating,
@@ -71,9 +83,9 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
         )}
       </div>
 
-      <div>
-        <button>Submit</button>
-      </div>
+      <button css={buttonStyle} disabled={formState.isSubmitting}>
+        Submit
+      </button>
     </form>
   );
 };
