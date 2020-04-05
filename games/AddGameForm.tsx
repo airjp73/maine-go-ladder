@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
@@ -7,17 +7,13 @@ import { AppDispatch } from "../store/store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion, MotionAdvancedProps } from "framer-motion";
-import UserList from "../users/UserList";
+import UserList, { UserItem } from "../users/UserList";
 import PageContent from "../components/PageContent/PageContent";
 import { PageChecker } from "next/dist/next-server/server/router";
+import { User } from "../api/User";
 
 interface AddGameFormProps {
   onAfterSubmit: () => void;
-}
-
-interface FormData {
-  name: string;
-  rating: number;
 }
 
 const field = (theme: Theme) => css`
@@ -55,7 +51,10 @@ const TabContent: React.FC<React.ComponentProps<typeof motion.div>> = (
 );
 
 const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
-  const { handleSubmit, setValue } = useForm<FormData>();
+  const { handleSubmit } = useForm<FormData>();
+  const [blackPlayer, setBlackPlayer] = useState<User | null>(null);
+  const [whitePlayer, setWhitePlayer] = useState<User | null>(null);
+  const [winner, setWinner] = useState<User | null>(null);
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
   const dispatch = useDispatch<AppDispatch>();
@@ -111,7 +110,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         <button
           css={buttonStyle}
           onClick={() => changeTab(2)}
-          disabled={tab === 2}
+          disabled={tab === 2 || !blackPlayer || !whitePlayer}
         >
           Who Won?
         </button>
@@ -126,17 +125,29 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         <AnimatePresence custom={{ prev: prevTab, current: tab }}>
           {tab === 0 && (
             <TabContent variants={variants} key="choose-black">
-              <UserList />
+              <UserList
+                onUserClick={(user) => {
+                  setTab(1);
+                  setBlackPlayer(user);
+                }}
+              />
             </TabContent>
           )}
           {tab === 1 && (
             <TabContent variants={variants} key="choose-white">
-              <UserList />
+              <UserList
+                onUserClick={(user) => {
+                  setTab(2);
+                  setWhitePlayer(user);
+                }}
+              />
             </TabContent>
           )}
-          {tab === 2 && (
+          {tab === 2 && !!blackPlayer && !!whitePlayer && (
             <TabContent variants={variants} key="who-won">
               <h1>Who won?</h1>
+              <UserItem user={blackPlayer} />
+              <UserItem user={whitePlayer} />
             </TabContent>
           )}
         </AnimatePresence>
