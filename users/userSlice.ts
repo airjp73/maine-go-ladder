@@ -71,10 +71,6 @@ const userSlice = createSlice({
     builder.addCase(fetchUsers.fulfilled, (state, action) =>
       userEntity.setAll(state, action.payload.users)
     );
-
-    builder.addCase(addUser.fulfilled, (state, action) => {
-      userEntity.addOne(state, action.payload);
-    });
   },
 });
 
