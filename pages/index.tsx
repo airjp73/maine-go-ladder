@@ -113,7 +113,7 @@ const Home: React.FC = () => {
           }
         `}
         icon={<Plus />}
-        direction={dimensions.width > 1000 ? "DOWN" : "UP"}
+        direction={dimensions.width >= 1000 ? "DOWN" : "UP"}
       >
         <SpeedDialOption
           label="Add User"
