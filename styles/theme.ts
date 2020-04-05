@@ -1,6 +1,5 @@
 import blue from "./blue";
 import green from "./green";
-import opacify from "./opacify";
 
 const theme = {
   colors: {
@@ -8,6 +7,9 @@ const theme = {
     green,
     background: green[50].hex,
     modalBackground: blue[10].hex,
+    dark: blue[90].hex,
+    highlight: blue[20].hex,
+    highlightSecondary: blue[70].hex,
   },
 };
 

@@ -6,12 +6,14 @@ import { AppDispatch, AppState } from "../store/store";
 import { fetchUsers, userSelectors } from "../users/userSlice";
 import { Theme } from "../styles/theme";
 import { motion, AnimatePresence } from "framer-motion";
+import { Plus, User } from "react-feather";
 import LoadingState from "../loading/LoadingState";
 import buttonStyle from "../styles/buttonStyle";
 import PageHeader from "../components/PageHeader/PageHeader";
 import PageContent from "../components/PageContent/PageContent";
 import SpeedDial from "../components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../components/SpeedDial/SpeedDialOption";
+import GoIcon from "../components/SpeedDial/GoIcon";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -104,9 +106,14 @@ const Home: React.FC = () => {
           bottom: 3rem;
           right: 3rem;
         `}
+        icon={<Plus />}
       >
-        <SpeedDialOption label="Test1" />
-        <SpeedDialOption label="Test2" />
+        <SpeedDialOption label="Add User">
+          <User />
+        </SpeedDialOption>
+        <SpeedDialOption label="Record Game">
+          <GoIcon height={25} width={25} />
+        </SpeedDialOption>
       </SpeedDial>
     </PageContent>
   );

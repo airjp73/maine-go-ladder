@@ -17,15 +17,14 @@ const sizeDimensions = {
 const Fab: React.FC<FabProps> = forwardRef(
   ({ highlighted, size = "MEDIUM", ...rest }, ref) => {
     const theme = useTheme<Theme>();
-    const highlightColor = theme.colors.blue[20].hex;
 
     const inactiveSvg = css`
-      filter: drop-shadow(1px 1px 2px ${highlightColor});
+      filter: drop-shadow(1px 1px 2px ${theme.colors.highlight});
       transform: scale(1);
     `;
 
     const activeSvg = css`
-      filter: drop-shadow(2px 2px 5px ${highlightColor});
+      filter: drop-shadow(2px 2px 5px ${theme.colors.highlight});
       transform: scale(1.15);
       stroke-width: 2.5;
     `;
@@ -53,16 +52,16 @@ const Fab: React.FC<FabProps> = forwardRef(
           border: none;
           border-radius: 50%;
           outline: none;
-          color: ${highlightColor};
+          color: ${theme.colors.highlight};
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          box-shadow: 1px 2px 4px ${theme.colors.blue[80].hex};
+          box-shadow: 1px 2px 4px ${theme.colors.dark};
           transition: transform 0.25s ease;
 
           ${highlighted && breathingSvg} :hover {
-            box-shadow: 2px 3px 6px ${theme.colors.blue[80].hex};
+            box-shadow: 2px 3px 6px ${theme.colors.dark};
             transform: scale(1.05);
 
             svg {
