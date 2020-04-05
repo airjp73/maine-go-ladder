@@ -6,7 +6,7 @@ const theme = {
   colors: {
     blue,
     green,
-    background: opacify(green[70], 0.75),
+    background: green[50].hex,
     modalBackground: blue[10].hex,
   },
 };
