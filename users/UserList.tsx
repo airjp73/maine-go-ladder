@@ -5,13 +5,13 @@ import { userSelectors } from "./userSlice";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
 
-interface UserListProps {
-  userEnterDelay: number;
+interface UserListProps extends React.ComponentProps<typeof motion.ul> {
+  userEnterDelay?: number;
 }
-const UserList: React.FC<UserListProps> = ({ userEnterDelay }) => {
+const UserList: React.FC<UserListProps> = ({ userEnterDelay = 0, ...rest }) => {
   const users = useSelector(userSelectors.selectAll);
   return (
-    <ul
+    <motion.ul
       css={css`
         list-style: none;
         margin: 0 0 10rem 0;
@@ -21,6 +21,7 @@ const UserList: React.FC<UserListProps> = ({ userEnterDelay }) => {
           margin-top: 1rem;
         }
       `}
+      {...rest}
     >
       <AnimatePresence initial={false}>
         {users.map((user) => (
@@ -68,7 +69,7 @@ const UserList: React.FC<UserListProps> = ({ userEnterDelay }) => {
           </motion.li>
         ))}
       </AnimatePresence>
-    </ul>
+    </motion.ul>
   );
 };
 
