@@ -7,25 +7,19 @@ import Link from "next/link";
 import buttonStyle from "../styles/buttonStyle";
 import { motion } from "framer-motion";
 import { Theme } from "../styles/theme";
+import PageContent from "../components/PageContent/PageContent";
 
 const AddUser: React.FC = () => {
   const router = useRouter();
   return (
-    <motion.div
+    <PageContent
       css={(theme: Theme) => css`
         padding: 1rem;
-        max-width: 750px;
-        margin: 0 auto;
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        background-color: ${theme.colors.background};
+        z-index: 1;
       `}
       initial={{ x: "100%" }}
       animate={{ x: "0" }}
-      exit={{ x: "100%" }}
+      exit={{ x: "100%", zIndex: 1 }}
     >
       <PageHeader header="Add User">
         <Link href="/">
@@ -33,7 +27,7 @@ const AddUser: React.FC = () => {
         </Link>
       </PageHeader>
       <AddUserForm onAfterSubmit={() => router.push("/")} />
-    </motion.div>
+    </PageContent>
   );
 };
 

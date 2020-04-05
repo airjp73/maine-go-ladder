@@ -11,6 +11,7 @@ import AddGameForm from "../games/AddGameForm";
 import LoadingState from "../loading/LoadingState";
 import buttonStyle from "../styles/buttonStyle";
 import PageHeader from "../components/PageHeader/PageHeader";
+import PageContent from "../components/PageContent/PageContent";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,23 +24,16 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <motion.div
+    <PageContent
       css={css`
         display: flex;
         flex-direction: column;
         padding: 1rem;
         text-align: center;
-        max-width: 750px;
-        margin: 0 auto;
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
       `}
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.8, opacity: 0 }}
+      initial={{ scale: 0.9 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0.9 }}
     >
       <PageHeader header="Maine Go Ladder">
         <Link href="/add-user">
@@ -107,7 +101,7 @@ const Home: React.FC = () => {
           ))}
         </AnimatePresence>
       </ul>
-    </motion.div>
+    </PageContent>
   );
 };
 

@@ -22,7 +22,7 @@ const App = ({ Component, pageProps, router }: AppPropsType) => {
         <Global
           styles={(theme: Theme) => css`
             html {
-              background-color: ${theme.colors.background};
+              background-color: ${theme.colors.green[80].hex};
             }
             html,
             body,
@@ -37,8 +37,6 @@ const App = ({ Component, pageProps, router }: AppPropsType) => {
         <div
           css={css`
             height: 100%;
-            max-width: 750px;
-            margin: 0 auto;
             position: relative;
             overflow: hidden;
           `}
