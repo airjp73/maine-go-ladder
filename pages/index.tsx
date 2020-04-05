@@ -125,7 +125,10 @@ const Home: React.FC = () => {
         >
           <User />
         </SpeedDialOption>
-        <SpeedDialOption label="Record Game">
+        <SpeedDialOption
+          label="Record Game"
+          onClick={() => router.push("/record-game")}
+        >
           <GoIcon height={25} width={25} />
         </SpeedDialOption>
       </SpeedDial>
