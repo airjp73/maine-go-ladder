@@ -68,7 +68,7 @@ const Home: React.FC = () => {
           label="Record Game"
           onClick={() => router.push("/record-game")}
         >
-          <GoIcon height={25} width={25} />
+          <GoIcon />
         </SpeedDialOption>
       </SpeedDial>
     </PageContent>

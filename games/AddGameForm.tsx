@@ -7,9 +7,11 @@ import { AppDispatch } from "../store/store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion, MotionAdvancedProps } from "framer-motion";
-import UserList from "../users/UserList";
+import UserList, { UserItem } from "../users/UserList";
 import { User } from "../api/User";
-import { ArrowRight } from "react-feather";
+import { ArrowRight, UserCheck, Check } from "react-feather";
+import Fab from "../components/SpeedDial/Fab";
+import GoIcon from "../components/SpeedDial/GoIcon";
 
 interface AddGameFormProps {
   onAfterSubmit: () => void;
@@ -86,33 +88,35 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           }
         `}
       >
-        <button
-          css={buttonStyle}
-          onClick={() => changeTab(0)}
-          disabled={tab === 0}
-        >
-          Choose Black
-        </button>
+        <Fab onClick={() => changeTab(0)} highlighted={tab === 0}>
+          <GoIcon />
+        </Fab>
 
         <ArrowRight />
 
-        <button
-          css={buttonStyle}
-          onClick={() => changeTab(1)}
-          disabled={tab === 1}
-        >
-          Choose White
-        </button>
+        <Fab onClick={() => changeTab(1)} highlighted={tab === 1}>
+          <GoIcon />
+        </Fab>
 
         <ArrowRight />
 
-        <button
-          css={buttonStyle}
+        <Fab
           onClick={() => changeTab(2)}
-          disabled={tab === 2 || !blackPlayer || !whitePlayer}
+          disabled={!blackPlayer || !whitePlayer}
+          highlighted={tab === 2}
         >
-          Who Won?
-        </button>
+          <UserCheck />
+        </Fab>
+
+        <ArrowRight />
+
+        <Fab
+          onClick={() => changeTab(2)}
+          disabled={!blackPlayer || !whitePlayer || !winner}
+          highlighted={tab === 3}
+        >
+          <Check />
+        </Fab>
       </div>
 
       <div
@@ -150,9 +154,36 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
               <UserList
                 userList={[blackPlayer, whitePlayer]}
                 onUserClick={(user) => {
-                  alert(`${user.name} won!`);
+                  setTab(3);
+                  setWinner(user);
                 }}
               />
+            </TabContent>
+          )}
+          {tab === 3 && !!blackPlayer && !!whitePlayer && !!winner && (
+            <TabContent variants={variants} key="who-won">
+              <h1>Is this Correct?</h1>
+
+              <h4>Black</h4>
+              <UserItem user={blackPlayer} />
+
+              <h4>White</h4>
+              <UserItem user={whitePlayer} />
+
+              <h4>Winner</h4>
+              <UserItem user={winner} />
+
+              <button
+                onClick={() => {
+                  alert(
+                    `${winner.name} won! This part is not implemented yet.`
+                  );
+                }}
+                css={buttonStyle}
+                style={{ marginTop: "1rem" }}
+              >
+                Yep!
+              </button>
             </TabContent>
           )}
         </AnimatePresence>

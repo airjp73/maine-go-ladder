@@ -19,12 +19,12 @@ const Fab: React.FC<FabProps> = forwardRef(
     const theme = useTheme<Theme>();
 
     const inactiveSvg = css`
-      filter: drop-shadow(1px 1px 2px ${theme.colors.highlight});
+      filter: drop-shadow(1px 1px 2px ${theme.colors.highlightSecondary});
       transform: scale(1);
     `;
 
     const activeSvg = css`
-      filter: drop-shadow(2px 2px 5px ${theme.colors.highlight});
+      filter: drop-shadow(2px 2px 5px ${theme.colors.highlightSecondary});
       transform: scale(1.15);
       stroke-width: 2.5;
     `;
@@ -67,6 +67,11 @@ const Fab: React.FC<FabProps> = forwardRef(
             svg {
               ${activeSvg}
             }
+          }
+
+          :disabled {
+            box-shadow: none;
+            opacity: 0.5;
           }
         `}
         ref={ref}
