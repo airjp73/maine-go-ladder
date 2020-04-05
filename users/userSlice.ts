@@ -35,7 +35,7 @@ export const addUser = createAsyncThunk(
   async ({ name, rating }: AddUserPayload, thunkApi) => {
     const addQuery = gql`
       mutation AddUser {
-        insert_users(objects: { name: "${name}", rating: ${rating} }) {
+        insert_users(objects: { name: "${name}", rating: ${rating.toString()} }) {
           returning {
             id
             name

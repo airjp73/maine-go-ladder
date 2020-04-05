@@ -14,7 +14,7 @@ interface AddUserFormProps {
 
 interface FormData {
   name: string;
-  rating: number;
+  rating: string;
 }
 
 const field = (theme: Theme) => css`
@@ -41,7 +41,6 @@ const error = css`
 const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
   const { handleSubmit, register, errors, formState } = useForm<FormData>();
   const dispatch = useDispatch<AppDispatch>();
-  console.log(formState.isSubmitting);
 
   return (
     <form
@@ -49,7 +48,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
         return dispatch(
           addUser({
             name: values.name,
-            rating: values.rating,
+            rating: parseFloat(values.rating),
           })
         )
           .then(unwrapResult)
