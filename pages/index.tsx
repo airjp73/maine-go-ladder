@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { css } from "@emotion/core";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, AppState } from "../store/store";
-import { fetchUsers, userSelectors } from "../users/userSlice";
+import { useSelector } from "react-redux";
+import { AppState } from "../store/store";
 import { Plus, User } from "react-feather";
-import LoadingState from "../loading/LoadingState";
 import PageHeader from "../components/PageHeader/PageHeader";
 import PageContent from "../components/PageContent/PageContent";
 import SpeedDial from "../components/SpeedDial/SpeedDial";
@@ -13,20 +11,15 @@ import GoIcon from "../components/SpeedDial/GoIcon";
 import { useRouter } from "next/router";
 import useWindowDimensions from "../util/useWindowDimensions";
 import UserList from "../users/UserList";
+import useUserFetch from "../users/useUserFetch";
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const isLoading = useSelector(
-    (state: AppState) => !state.loading.initialDataLoaded
-  );
+  useUserFetch();
   const userHasNavigated = useSelector(
     (state: AppState) => state.loading.userHasNavigated
   );
   const router = useRouter();
   const dimensions = useWindowDimensions();
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, []);
 
   return (
     <PageContent
@@ -41,7 +34,6 @@ const Home: React.FC = () => {
       exit={{ scale: 0.9 }}
     >
       <PageHeader header="Maine Go Ladder" />
-      {isLoading && <LoadingState />}
       <UserList userEnterDelay={userHasNavigated ? 0.35 : 0} />
       <SpeedDial
         css={css`

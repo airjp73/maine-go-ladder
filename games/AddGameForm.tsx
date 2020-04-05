@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
-import { unwrapResult } from "@reduxjs/toolkit";
 import buttonStyle from "../styles/buttonStyle";
-import { AnimatePresence, motion, MotionAdvancedProps } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import UserList, { UserItem } from "../users/UserList";
 import { User } from "../api/User";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
 import GoIcon from "../components/SpeedDial/GoIcon";
+import useUserFetch from "../users/useUserFetch";
 
 interface AddGameFormProps {
   onAfterSubmit: () => void;
@@ -47,6 +44,7 @@ const TabContent: React.FC<React.ComponentProps<typeof motion.div>> = (
 );
 
 const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
+  useUserFetch();
   const [blackPlayer, setBlackPlayer] = useState<User | null>(null);
   const [whitePlayer, setWhitePlayer] = useState<User | null>(null);
   const [winner, setWinner] = useState<User | null>(null);
@@ -94,7 +92,11 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
 
         <ArrowRight />
 
-        <Fab onClick={() => changeTab(1)} highlighted={tab === 1}>
+        <Fab
+          onClick={() => changeTab(1)}
+          highlighted={tab === 1}
+          disabled={!blackPlayer}
+        >
           <GoIcon />
         </Fab>
 
@@ -111,7 +113,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         <ArrowRight />
 
         <Fab
-          onClick={() => changeTab(2)}
+          onClick={() => changeTab(3)}
           disabled={!blackPlayer || !whitePlayer || !winner}
           highlighted={tab === 3}
         >

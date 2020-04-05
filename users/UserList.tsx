@@ -5,6 +5,8 @@ import { userSelectors } from "./userSlice";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
 import { User } from "../api/User";
+import { AppState } from "../store/store";
+import LoadingState from "../loading/LoadingState";
 
 interface UserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -73,32 +75,38 @@ const UserList: React.FC<UserListProps> = ({
   userList,
   ...rest
 }) => {
+  const isLoading = useSelector(
+    (state: AppState) => !state.loading.initialDataLoaded
+  );
   const users = useSelector(userSelectors.selectAll);
   const usersToShow = userList || users;
 
   return (
-    <motion.ul
-      css={css`
-        list-style: none;
-        margin: 0 0 10rem 0;
-        padding: 1rem;
+    <>
+      {isLoading && <LoadingState />}
+      <motion.ul
+        css={css`
+          list-style: none;
+          margin: 0 0 10rem 0;
+          padding: 1rem;
 
-        > * + * {
-          margin-top: 1rem;
-        }
-      `}
-      {...rest}
-    >
-      <AnimatePresence initial={false}>
-        {usersToShow.map((user) => (
-          <UserItem
-            user={user}
-            enterDelay={userEnterDelay}
-            onClick={() => onUserClick?.(user)}
-          />
-        ))}
-      </AnimatePresence>
-    </motion.ul>
+          > * + * {
+            margin-top: 1rem;
+          }
+        `}
+        {...rest}
+      >
+        <AnimatePresence initial={false}>
+          {usersToShow.map((user) => (
+            <UserItem
+              user={user}
+              enterDelay={userEnterDelay}
+              onClick={() => onUserClick?.(user)}
+            />
+          ))}
+        </AnimatePresence>
+      </motion.ul>
+    </>
   );
 };
 
