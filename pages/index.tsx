@@ -15,6 +15,7 @@ import SpeedDial from "../components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../components/SpeedDial/SpeedDialOption";
 import GoIcon from "../components/SpeedDial/GoIcon";
 import { useRouter } from "next/router";
+import useWindowDimensions from "../util/useWindowDimensions";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,6 +24,7 @@ const Home: React.FC = () => {
     (state: AppState) => !state.loading.initialDataLoaded
   );
   const router = useRouter();
+  const dimensions = useWindowDimensions();
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
@@ -111,6 +113,7 @@ const Home: React.FC = () => {
           }
         `}
         icon={<Plus />}
+        direction={dimensions.width > 1000 ? "DOWN" : "UP"}
       >
         <SpeedDialOption
           label="Add User"
