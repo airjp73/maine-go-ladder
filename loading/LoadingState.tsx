@@ -19,6 +19,7 @@ const LoadingState: React.FC = () => {
         left: 50%;
         transform: translate(-50%, -50%);
         color: ${theme.colors.green[10].hex};
+        text-align: center;
 
         h4 {
           animation: ${delayedEntrance} 2.5s linear;

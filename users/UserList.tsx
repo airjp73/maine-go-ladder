@@ -99,6 +99,7 @@ const UserList: React.FC<UserListProps> = ({
         <AnimatePresence initial={false}>
           {usersToShow.map((user) => (
             <UserItem
+              key={user.id}
               user={user}
               enterDelay={userEnterDelay}
               onClick={() => onUserClick?.(user)}

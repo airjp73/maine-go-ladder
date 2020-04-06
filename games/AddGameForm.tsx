@@ -81,6 +81,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         css={css`
           display: flex;
           align-items: center;
+          justify-content: center;
           > * + * {
             margin-left: 1rem;
           }
@@ -122,9 +123,17 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
       </div>
 
       <div
-        css={css`
+        css={(theme: Theme) => css`
           position: relative;
           flex: 1;
+          h1 {
+            position: sticky;
+            top: 0;
+            margin: 0;
+            padding-bottom: 1rem;
+            background-color: ${theme.colors.background};
+            z-index: 1;
+          }
         `}
       >
         <AnimatePresence custom={{ prev: prevTab, current: tab }}>
@@ -163,16 +172,27 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
             </TabContent>
           )}
           {tab === 3 && !!blackPlayer && !!whitePlayer && !!winner && (
-            <TabContent variants={variants} key="who-won">
+            <TabContent
+              variants={variants}
+              key="who-won"
+              css={css`
+                display: flex;
+                flex-direction: column;
+
+                h3 {
+                  margin-bottom: 0;
+                }
+              `}
+            >
               <h1>Is this Correct?</h1>
 
-              <h4>Black</h4>
+              <h3>Black</h3>
               <UserItem user={blackPlayer} />
 
-              <h4>White</h4>
+              <h3>White</h3>
               <UserItem user={whitePlayer} />
 
-              <h4>Winner</h4>
+              <h3>Winner</h3>
               <UserItem user={winner} />
 
               <button
@@ -181,8 +201,10 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
                     `${winner.name} won! This part is not implemented yet.`
                   );
                 }}
-                css={buttonStyle}
-                style={{ marginTop: "1rem" }}
+                css={(theme: Theme) => css`
+                  ${buttonStyle(theme)}
+                  margin: auto 0 2rem 0;
+                `}
               >
                 Yep!
               </button>
