@@ -14,7 +14,6 @@ const RecordGame: React.FC = () => {
     <PageContent
       css={(theme: Theme) => css`
         padding: 1rem;
-        z-index: 1;
       `}
       initial={{ x: "100%" }}
       animate={{ x: "0" }}
