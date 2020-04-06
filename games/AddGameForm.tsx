@@ -43,6 +43,20 @@ const TabContent: React.FC<React.ComponentProps<typeof motion.div>> = (
   />
 );
 
+const getErrors = (
+  blackPlayer: User | null,
+  whitePlayer: User | null,
+  winner: User | null
+) => {
+  if (!blackPlayer) return "Must choose a player for black";
+  if (!whitePlayer) return "Must choose a player for white";
+  if (!winner) return "Must choose a winner";
+  if (blackPlayer === whitePlayer)
+    return "Cannot choose the same player for both black and white";
+  if (![blackPlayer, whitePlayer].includes(winner))
+    return "The winner must be one of the selected players";
+};
+
 const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   useUserFetch();
   const [blackPlayer, setBlackPlayer] = useState<User | null>(null);
@@ -50,6 +64,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const [winner, setWinner] = useState<User | null>(null);
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
+  const error = getErrors(blackPlayer, whitePlayer, winner);
 
   const variants = {
     initial: {
@@ -194,7 +209,6 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
 
               <h3>Winner</h3>
               <UserItem user={winner} />
-
               <button
                 onClick={() => {
                   alert(
@@ -205,8 +219,9 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
                   ${buttonStyle(theme)}
                   margin: auto 0 2rem 0;
                 `}
+                disabled={!!error}
               >
-                Yep!
+                {error || "Yep!"}
               </button>
             </TabContent>
           )}
