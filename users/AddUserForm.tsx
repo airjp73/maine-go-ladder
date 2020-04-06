@@ -7,6 +7,7 @@ import { addUser } from "./userSlice";
 import { AppDispatch } from "../store/store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import buttonStyle from "../styles/buttonStyle";
+import { ratingtoRung } from "../ladder/ratings";
 
 interface AddUserFormProps {
   onAfterSubmit: () => void;
@@ -45,10 +46,13 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit((values) => {
+        const ladderRung = ratingtoRung( parseFloat(values.rating));
+        // blow up if not an integer
+        // if (ladderRung) 
         return dispatch(
           addUser({
             name: values.name,
-            rating: parseFloat(values.rating),
+            rating: ,
           })
         )
           .then(unwrapResult)

@@ -7,6 +7,7 @@ import { Theme } from "../styles/theme";
 import { User } from "../api/User";
 import { AppState } from "../store/store";
 import LoadingState from "../loading/LoadingState";
+import { rungToRating } from "../ladder/ratings";
 
 interface UserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -58,7 +59,7 @@ export const UserItem: React.FC<UserItemProps> = ({
         opacity: 0.75;
       `}
     >
-      {user.rating}
+      {rungToRating(user.ladder_rung)}
     </span>
   </motion.li>
 );

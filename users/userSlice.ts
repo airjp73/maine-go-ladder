@@ -56,7 +56,7 @@ export const addUser = createAsyncThunk(
 
 export const userEntity = createEntityAdapter<User>({
   selectId: (user) => user.id,
-  sortComparer: (a, b) => b.rating - a.rating,
+  sortComparer: (a, b) => b.ladder_rung - a.ladder_rung,
 });
 
 export const userSelectors = userEntity.getSelectors(
