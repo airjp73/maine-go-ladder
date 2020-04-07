@@ -14,15 +14,28 @@ interface FailedResponse {
 type Response<T> = SuccessfulResponse<T> | FailedResponse;
 
 async function fetchData<T>(
-  query: DocumentNode,
+  query: DocumentNode | DocumentNode[],
+  operationName?: string,
   variables: object = {}
 ): Promise<T> {
+  const body = Array.isArray(query)
+    ? query.map((q) => ({
+        query: print(q),
+      }))
+    : { query: print(query) };
   const data = await fetch("https://maine-go-ladder.herokuapp.com/v1/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ query: print(query), variables }),
+    body: JSON.stringify(body),
+    // body: JSON.stringify({
+    //   query: Array.isArray(query)
+    //     ? query.map((q) => ({ query: print(q) }))
+    //     : print(query),
+    //   variables,
+    //   operationName,
+    // }),
   });
   const result = (await data.json()) as Response<T>;
   if (result.errors) throw new Error(result.errors[0].message);

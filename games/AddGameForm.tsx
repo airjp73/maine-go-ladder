@@ -9,6 +9,9 @@ import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
 import GoIcon from "../components/SpeedDial/GoIcon";
 import useUserFetch from "../users/useUserFetch";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
+import { addGame } from "./addGame";
 
 interface AddGameFormProps {
   onAfterSubmit: () => void;
@@ -65,6 +68,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
   const error = getErrors(blackPlayer, whitePlayer, winner);
+  const dispatch = useDispatch<AppDispatch>();
 
   const variants = {
     initial: {
@@ -79,6 +83,16 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const changeTab = (nextTab: number) => {
     setPrevTab(tab);
     setTab(nextTab);
+  };
+
+  const submit = () => {
+    dispatch(
+      addGame({
+        black_player: blackPlayer!,
+        white_player: whitePlayer!,
+        winner: winner!,
+      })
+    );
   };
 
   return (
@@ -210,11 +224,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
               <h3>Winner</h3>
               <UserItem user={winner} />
               <button
-                onClick={() => {
-                  alert(
-                    `${winner.name} won! This part is not implemented yet.`
-                  );
-                }}
+                onClick={() => submit()}
                 css={(theme: Theme) => css`
                   ${buttonStyle(theme)}
                   margin: auto 0 2rem 0;
