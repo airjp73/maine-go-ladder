@@ -34,28 +34,26 @@ const field = (theme: Theme) => css`
   }
 `;
 
-const error = css`
-  font-size: 0.5rem;
-  color: red;
+const error = (theme: Theme) => css`
+  font-size: 1rem;
+  font-weight: bold;
 `;
 
 const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
-  const { handleSubmit, register, errors, formState, setError } = useForm<
-    FormData
-  >();
+  const {
+    handleSubmit,
+    register,
+    errors,
+    formState,
+    setError,
+    clearError,
+  } = useForm<FormData>();
   const dispatch = useDispatch<AppDispatch>();
 
   return (
     <form
       onSubmit={handleSubmit((values) => {
         const ladderRung = ratingtoRung(parseFloat(values.rating));
-        // blow up if not an integer
-        if (!Number.isInteger(ladderRung))
-          return setError(
-            "rating",
-            "notMatch",
-            "This rating is not a valid rung on the ladder."
-          );
         return dispatch(
           addUser({
             name: values.name,
@@ -75,9 +73,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
         <label>Name</label>
 
         <input name="name" ref={register({ required: true })} />
-        {errors.name?.type === "required" && (
-          <span css={error}>This field is required</span>
-        )}
+        {errors.name && <span css={error}>{errors.name.message}</span>}
       </div>
 
       <div css={field}>
@@ -85,12 +81,21 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
         <input
           name="rating"
           type="number"
-          step="0.01"
+          step="0.1"
           ref={register({ required: true })}
+          onChange={(event) => {
+            const target = event.target as HTMLInputElement;
+            const rung = ratingtoRung(parseFloat(target.value));
+            if (!Number.isInteger(rung))
+              setError(
+                "rating",
+                "not-valid-ladder-rung",
+                "This rating is not a valid rung on the ladder."
+              );
+            else clearError("rating");
+          }}
         />
-        {errors.rating?.type === "required" && (
-          <span css={error}>This field is required</span>
-        )}
+        {errors.rating && <span css={error}>{errors.rating.message}</span>}
       </div>
 
       <button css={buttonStyle} disabled={formState.isSubmitting}>
