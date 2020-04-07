@@ -10,6 +10,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@apollo/client": "^3.0.0-beta.43",
+    "@apollo/link-batch-http": "^2.0.0-beta.3",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
     "@reach/dialog": "^0.9.1",

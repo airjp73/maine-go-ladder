@@ -11,10 +11,8 @@ import GoIcon from "../components/SpeedDial/GoIcon";
 import { useRouter } from "next/router";
 import useWindowDimensions from "../util/useWindowDimensions";
 import UserList from "../users/UserList";
-import useUserFetch from "../users/useUserFetch";
 
 const Home: React.FC = () => {
-  useUserFetch();
   const userHasNavigated = useSelector(
     (state: AppState) => state.loading.userHasNavigated
   );

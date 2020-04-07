@@ -3,16 +3,49 @@ import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
-import UserList, { UserItem } from "../users/UserList";
+import UserList, { UserItem, USERS } from "../users/UserList";
 import { User } from "../api/User";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
 import GoIcon from "../components/SpeedDial/GoIcon";
-import useUserFetch from "../users/useUserFetch";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
-import { addGame } from "./addGame";
-import { unwrapResult } from "@reduxjs/toolkit";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
+
+const ADD_GAME = gql`
+  mutation AddGame($black: uuid!, $white: uuid!, $winner: uuid) {
+    insert_games(
+      objects: { black_player: $black, white_player: $white, winner: $winner }
+    ) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
+const UPDATE_WINNER = gql`
+  mutation UpdateWinner($winner: uuid!) {
+    update_users(where: { id: { _eq: $winner } }, _inc: { ladder_rung: 1 }) {
+      returning {
+        id
+        ladder_rung
+        name
+      }
+    }
+  }
+`;
+
+const UPDATE_LOSER = gql`
+  mutation UpdateLoser($loser: uuid!) {
+    update_users(where: { id: { _eq: $loser } }, _inc: { ladder_rung: -1 }) {
+      returning {
+        id
+        ladder_rung
+        name
+      }
+    }
+  }
+`;
 
 interface AddGameFormProps {
   onAfterSubmit: () => void;
@@ -62,14 +95,15 @@ const getErrors = (
 };
 
 const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
-  useUserFetch();
   const [blackPlayer, setBlackPlayer] = useState<User | null>(null);
   const [whitePlayer, setWhitePlayer] = useState<User | null>(null);
   const [winner, setWinner] = useState<User | null>(null);
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
   const error = getErrors(blackPlayer, whitePlayer, winner);
-  const dispatch = useDispatch<AppDispatch>();
+  const [addGame] = useMutation(ADD_GAME);
+  const [updateWinner] = useMutation(UPDATE_WINNER);
+  const [updateLoser] = useMutation(UPDATE_LOSER);
 
   const variants = {
     initial: {
@@ -87,15 +121,17 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   };
 
   const submit = () => {
-    dispatch(
+    const black = blackPlayer!.id;
+    const white = whitePlayer!.id;
+    const loser = black === winner!.id ? white : black;
+    Promise.all([
       addGame({
-        black_player: blackPlayer!,
-        white_player: whitePlayer!,
-        winner: winner!,
-      })
-    )
-      .then(unwrapResult)
-      .then(onAfterSubmit);
+        variables: { black, white, winner: winner!.id },
+        refetchQueries: [{ query: USERS }],
+      }),
+      updateWinner({ variables: { winner: winner!.id } }),
+      updateLoser({ variables: { loser } }),
+    ]).then(onAfterSubmit);
   };
 
   return (

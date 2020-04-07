@@ -1,13 +1,22 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useSelector } from "react-redux";
-import { userSelectors } from "./userSlice";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
 import { User } from "../api/User";
-import { AppState } from "../store/store";
 import LoadingState from "../loading/LoadingState";
 import { rungToRating } from "../ladder/ratings";
+import { useQuery, gql } from "@apollo/client";
+
+export const USERS = gql`
+  query {
+    users(order_by: { ladder_rung: desc }) {
+      id
+      name
+      ladder_rung
+    }
+  }
+`;
+type UsersResponse = { users: User[] };
 
 interface UserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -76,15 +85,14 @@ const UserList: React.FC<UserListProps> = ({
   userList,
   ...rest
 }) => {
-  const isLoading = useSelector(
-    (state: AppState) => !state.loading.initialDataLoaded
-  );
-  const users = useSelector(userSelectors.selectAll);
-  const usersToShow = userList || users;
+  const { loading, data: { users } = {} } = useQuery<UsersResponse>(USERS, {
+    pollInterval: 10000,
+  });
+  const usersToShow = userList ?? users ?? [];
 
   return (
     <>
-      {isLoading && <LoadingState />}
+      {loading && <LoadingState />}
       <motion.ul
         css={css`
           list-style: none;

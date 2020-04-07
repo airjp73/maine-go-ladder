@@ -1,10 +1,8 @@
 import { configureStore, Store, combineReducers } from "@reduxjs/toolkit";
-import userSlice from "../users/userSlice";
 import loadingSlice from "../loading/loadingSlice";
 import { Router } from "next/router";
 
 const rootReducer = combineReducers({
-  users: userSlice.reducer,
   loading: loadingSlice.reducer,
 });
 

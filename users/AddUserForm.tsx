@@ -2,12 +2,23 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
-import { useDispatch } from "react-redux";
-import { addUser } from "./userSlice";
-import { AppDispatch } from "../store/store";
-import { unwrapResult } from "@reduxjs/toolkit";
+import { USERS } from "./UserList";
 import buttonStyle from "../styles/buttonStyle";
 import { ratingtoRung } from "../ladder/ratings";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
+
+const ADD_USER = gql`
+  mutation AddUser($name: String!, $rung: Int!) {
+    insert_users(objects: { name: $name, ladder_rung: $rung }) {
+      returning {
+        id
+        name
+        ladder_rung
+      }
+    }
+  }
+`;
 
 interface AddUserFormProps {
   onAfterSubmit: () => void;
@@ -48,20 +59,19 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
     setError,
     clearError,
   } = useForm<FormData>();
-  const dispatch = useDispatch<AppDispatch>();
+  const [addUser] = useMutation(ADD_USER);
 
   return (
     <form
       onSubmit={handleSubmit((values) => {
         const ladderRung = ratingtoRung(parseFloat(values.rating));
-        return dispatch(
-          addUser({
+        addUser({
+          variables: {
             name: values.name,
-            ladder_rung: ladderRung,
-          })
-        )
-          .then(unwrapResult)
-          .then(() => onAfterSubmit());
+            rung: ladderRung,
+          },
+          refetchQueries: [{ query: USERS }],
+        }).then(() => onAfterSubmit());
       })}
       css={css`
         display: flex;
