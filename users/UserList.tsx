@@ -43,7 +43,7 @@ export const UserItem: React.FC<UserItemProps> = ({
     animate={{ scale: 1, opacity: 1, x: 0 }}
     exit={{ scale: 1, opacity: 0, x: 100 }}
     transition={{ delay: enterDelay }}
-    positionTransition
+    positionTransition={{ delay: enterDelay }}
     {...rest}
   >
     <span

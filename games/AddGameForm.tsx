@@ -12,6 +12,7 @@ import useUserFetch from "../users/useUserFetch";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { addGame } from "./addGame";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 interface AddGameFormProps {
   onAfterSubmit: () => void;
@@ -92,7 +93,9 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         white_player: whitePlayer!,
         winner: winner!,
       })
-    );
+    )
+      .then(unwrapResult)
+      .then(onAfterSubmit);
   };
 
   return (
