@@ -13,6 +13,7 @@ interface FailedResponse {
 
 type Response<T> = SuccessfulResponse<T> | FailedResponse;
 
+// TODO: Consider a separate query method entirely for arrays
 async function fetchData<T>(
   query: DocumentNode | DocumentNode[],
   operationName?: string,
