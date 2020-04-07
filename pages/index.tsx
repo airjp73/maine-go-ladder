@@ -1,16 +1,16 @@
-import React from "react";
 import { css } from "@emotion/core";
-import { useSelector } from "react-redux";
-import { AppState } from "../store/store";
+import { useRouter } from "next/router";
+import React from "react";
 import { Plus, User } from "react-feather";
-import PageHeader from "../components/PageHeader/PageHeader";
+import { useSelector } from "react-redux";
 import PageContent from "../components/PageContent/PageContent";
+import PageHeader from "../components/PageHeader/PageHeader";
+import GoIcon from "../components/SpeedDial/GoIcon";
 import SpeedDial from "../components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../components/SpeedDial/SpeedDialOption";
-import GoIcon from "../components/SpeedDial/GoIcon";
-import { useRouter } from "next/router";
-import useWindowDimensions from "../util/useWindowDimensions";
+import { AppState } from "../store/store";
 import UserList from "../users/UserList";
+import useWindowDimensions from "../util/useWindowDimensions";
 
 const Home: React.FC = () => {
   const userHasNavigated = useSelector(
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
       exit={{ scale: 0.9 }}
     >
       <PageHeader header="Maine Go Ladder" />
-      <UserList userEnterDelay={userHasNavigated ? 0.35 : 0} />
+      <UserList userEnterDelay={userHasNavigated ? 1 : 0} />
       <SpeedDial
         css={css`
           position: absolute;

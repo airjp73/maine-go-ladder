@@ -24,7 +24,11 @@ const RecordGame: React.FC = () => {
           <a css={buttonStyle}>Back</a>
         </Link>
       </PageHeader>
-      <AddGameForm onAfterSubmit={() => router.push("/")} />
+      <AddGameForm
+        onAfterSubmit={(black, white) =>
+          router.push(`/?updated=${black}&updated=${white}`)
+        }
+      />
     </PageContent>
   );
 };

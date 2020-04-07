@@ -48,7 +48,7 @@ const UPDATE_LOSER = gql`
 `;
 
 interface AddGameFormProps {
-  onAfterSubmit: () => void;
+  onAfterSubmit: (black: string, white: string) => void;
 }
 
 const field = (theme: Theme) => css`
@@ -131,7 +131,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
       }),
       updateWinner({ variables: { winner: winner!.id } }),
       updateLoser({ variables: { loser } }),
-    ]).then(onAfterSubmit);
+    ]).then(() => onAfterSubmit(black, white));
   };
 
   return (
