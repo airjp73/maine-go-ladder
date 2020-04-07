@@ -13,7 +13,7 @@ const fetchQuery = gql`
     users {
       id
       name
-      rating
+      ladder_rung
     }
   }
 `;
@@ -28,18 +28,18 @@ interface AddUserResponse {
 }
 interface AddUserPayload {
   name: string;
-  rating: number;
+  ladder_rung: number;
 }
 export const addUser = createAsyncThunk(
   "users/add",
-  async ({ name, rating }: AddUserPayload, thunkApi) => {
+  async ({ name, ladder_rung }: AddUserPayload, thunkApi) => {
     const addQuery = gql`
       mutation AddUser {
-        insert_users(objects: { name: "${name}", rating: ${rating.toString()} }) {
+        insert_users(objects: { name: "${name}", ladder_rung: ${ladder_rung.toString()} }) {
           returning {
             id
             name
-            rating
+            ladder_rung
           }
         }
       }

@@ -40,19 +40,26 @@ const error = css`
 `;
 
 const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
-  const { handleSubmit, register, errors, formState } = useForm<FormData>();
+  const { handleSubmit, register, errors, formState, setError } = useForm<
+    FormData
+  >();
   const dispatch = useDispatch<AppDispatch>();
 
   return (
     <form
       onSubmit={handleSubmit((values) => {
-        const ladderRung = ratingtoRung( parseFloat(values.rating));
+        const ladderRung = ratingtoRung(parseFloat(values.rating));
         // blow up if not an integer
-        // if (ladderRung) 
+        if (!Number.isInteger(ladderRung))
+          return setError(
+            "rating",
+            "notMatch",
+            "This rating is not a valid rung on the ladder."
+          );
         return dispatch(
           addUser({
             name: values.name,
-            rating: ,
+            ladder_rung: ladderRung,
           })
         )
           .then(unwrapResult)
