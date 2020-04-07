@@ -64,8 +64,15 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
           .then(() => onAfterSubmit());
       })}
       css={css`
+        display: flex;
+        flex-direction: column;
+
         > * {
           margin-top: 1rem;
+        }
+
+        > button {
+          margin-top: 2rem;
         }
       `}
     >
