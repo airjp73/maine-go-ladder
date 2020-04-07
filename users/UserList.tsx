@@ -9,7 +9,7 @@ import { useQuery, gql } from "@apollo/client";
 
 export const USERS = gql`
   query {
-    users(order_by: { ladder_rung: desc }) {
+    users(order_by: { ladder_rung: desc, name: asc }) {
       id
       name
       ladder_rung
