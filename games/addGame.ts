@@ -53,7 +53,13 @@ export const addGame = createAsyncThunk(
         update_users(
           where: { id: { _eq: "${loser.id}" } }
           _inc: { ladder_rung: -1 }
-        ) 
+        ) {
+          returning {
+            id
+            ladder_rung
+            name
+          }
+        }
       }
     `;
 
