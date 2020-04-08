@@ -3,13 +3,14 @@ import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
-import UserList, { UserItem, USERS } from "../users/UserList";
+import UserList, { USERS } from "../users/UserList";
 import { User } from "../api/User";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
 import GoIcon from "../components/SpeedDial/GoIcon";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
+import UserItem from "../users/UserItem";
 
 const ADD_GAME = gql`
   mutation AddGame($black: uuid!, $white: uuid!, $winner: uuid) {
