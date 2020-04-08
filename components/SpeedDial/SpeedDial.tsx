@@ -72,6 +72,7 @@ const SpeedDial: React.FC<SpeedDialProps> = ({
     <div
       css={css`
         position: relative;
+        z-index: 1;
       `}
       className={className}
     >

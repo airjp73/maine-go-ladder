@@ -17,6 +17,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ header, children }) => (
       right: 0;
       left: 0;
       padding: 1rem;
+      z-index: 1;
 
       > * + * {
         margin-left: 1rem;
