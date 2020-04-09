@@ -9,14 +9,10 @@ import GoIcon from "../components/SpeedDial/GoIcon";
 import SpeedDial from "../components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../components/SpeedDial/SpeedDialOption";
 import { AppState } from "../store/store";
-import UserList from "../users/UserList";
 import useWindowDimensions from "../util/useWindowDimensions";
-import MainPageUserItem from "../users/MainPageUserItem";
+import MainPageUserList from "../users/MainPageUserList";
 
 const Home: React.FC = () => {
-  const userHasNavigated = useSelector(
-    (state: AppState) => state.loading.userHasNavigated
-  );
   const router = useRouter();
   const dimensions = useWindowDimensions();
 
@@ -33,15 +29,7 @@ const Home: React.FC = () => {
       exit={{ scale: 0.9 }}
     >
       <PageHeader header="Maine Go Ladder" />
-      <UserList
-        renderUser={(user) => (
-          <MainPageUserItem
-            key={user.id}
-            user={user}
-            enterDelay={userHasNavigated ? 1 : 0}
-          />
-        )}
-      />
+      <MainPageUserList />
       <SpeedDial
         css={css`
           position: absolute;

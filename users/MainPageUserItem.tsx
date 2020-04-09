@@ -12,7 +12,6 @@ import buttonStyle from "../styles/buttonStyle";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
-  enterDelay?: number;
 }
 
 const containerVariants = {
@@ -53,9 +52,12 @@ const headingStyle = css`
 
 export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
   user,
-  enterDelay = 0,
   ...rest
 }) => {
+  const userHasNavigated = useSelector(
+    (state: AppState) => state.loading.userHasNavigated
+  );
+  const enterDelay = userHasNavigated ? 1 : 0;
   const isSelected = useSelector(
     (state: AppState) => state.users.selectedUser?.id === user.id
   );
@@ -130,7 +132,15 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
                 }
               `}
             >
-              <button css={buttonStyle}>Calculate Matchup</button>
+              <button
+                css={buttonStyle}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  dispatch(userSlice.actions.calculateMatchup());
+                }}
+              >
+                Calculate Matchup
+              </button>
               <button css={buttonStyle}>View Game History</button>
             </div>
           </motion.div>

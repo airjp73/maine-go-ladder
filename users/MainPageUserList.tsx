@@ -4,7 +4,7 @@ import { css } from "@emotion/core";
 import { User } from "../api/User";
 import LoadingState from "../loading/LoadingState";
 import { useQuery, gql } from "@apollo/client";
-import { UserItem } from "./UserItem";
+import MainPageUserItem from "./MainPageUserItem";
 
 export const USERS = gql`
   query {
@@ -17,21 +17,10 @@ export const USERS = gql`
 `;
 type UsersResponse = { users: User[] };
 
-interface UserListProps extends React.ComponentProps<typeof motion.ul> {
-  userEnterDelay?: number;
-  onUserClick?: (user: User) => void;
-  userList?: User[];
-}
-
-const UserList: React.FC<UserListProps> = ({
-  onUserClick,
-  userList,
-  ...rest
-}) => {
+const MainPageUserList: React.FC = () => {
   const { loading, data: { users } = {} } = useQuery<UsersResponse>(USERS, {
     pollInterval: 10000,
   });
-  const usersToShow = userList ?? users ?? [];
 
   return (
     <>
@@ -46,15 +35,10 @@ const UserList: React.FC<UserListProps> = ({
             margin-top: 1rem;
           }
         `}
-        {...rest}
       >
         <AnimatePresence initial={false}>
-          {usersToShow.map((user: User) => (
-            <UserItem
-              key={user.id}
-              user={user}
-              onClick={() => onUserClick?.(user)}
-            />
+          {users?.map((user: User) => (
+            <MainPageUserItem key={user.id} user={user} />
           ))}
         </AnimatePresence>
       </motion.ul>
@@ -62,4 +46,4 @@ const UserList: React.FC<UserListProps> = ({
   );
 };
 
-export default UserList;
+export default MainPageUserList;
