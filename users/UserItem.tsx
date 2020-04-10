@@ -32,9 +32,9 @@ export const UserItem: React.FC<UserItemProps> = ({ user, ...rest }) => (
     role="button"
     tabIndex={0}
     key={user.id}
-    initial={{ scale: 0.8, opacity: 0, x: 0 }}
-    animate={{ scale: 1, opacity: 1, x: 0 }}
-    exit={{ scale: 1, opacity: 0, x: 100 }}
+    initial={{ scale: 0.8, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    exit={{ scale: 0.8, opacity: 0 }}
     {...rest}
   >
     <span

@@ -5,6 +5,9 @@ import { User } from "../api/User";
 import LoadingState from "../loading/LoadingState";
 import { useQuery, gql } from "@apollo/client";
 import MainPageUserItem from "./MainPageUserItem";
+import { useSelector } from "react-redux";
+import { AppState } from "../store/store";
+import { UserStates } from "./userSlice";
 
 export const USERS = gql`
   query {
@@ -21,6 +24,14 @@ const MainPageUserList: React.FC = () => {
   const { loading, data: { users } = {} } = useQuery<UsersResponse>(USERS, {
     pollInterval: 10000,
   });
+  const mode = useSelector((state: AppState) => state.users.currentState);
+  const selectedUser = useSelector(
+    (state: AppState) => state.users.selectedUser
+  );
+  const matchupUser = useSelector((state: AppState) => state.users.matchup);
+
+  const userIsInMatchup = (user: User) =>
+    user.id === selectedUser?.id || user.id === matchupUser?.id;
 
   return (
     <>
@@ -37,9 +48,13 @@ const MainPageUserList: React.FC = () => {
         `}
       >
         <AnimatePresence initial={false}>
-          {users?.map((user: User) => (
-            <MainPageUserItem key={user.id} user={user} />
-          ))}
+          {users
+            ?.filter(
+              (user) => mode !== UserStates.MATCHUP || !userIsInMatchup(user)
+            )
+            .map((user) => (
+              <MainPageUserItem key={user.id} user={user} />
+            ))}
         </AnimatePresence>
       </motion.ul>
     </>

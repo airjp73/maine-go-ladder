@@ -2,15 +2,14 @@ import { css } from "@emotion/core";
 import { useRouter } from "next/router";
 import React from "react";
 import { Plus, User } from "react-feather";
-import { useSelector } from "react-redux";
 import PageContent from "../components/PageContent/PageContent";
 import PageHeader from "../components/PageHeader/PageHeader";
 import GoIcon from "../components/SpeedDial/GoIcon";
 import SpeedDial from "../components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../components/SpeedDial/SpeedDialOption";
-import { AppState } from "../store/store";
 import useWindowDimensions from "../util/useWindowDimensions";
 import MainPageUserList from "../users/MainPageUserList";
+import MatchupCalculator from "../users/MatchupCalculator";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -29,6 +28,7 @@ const Home: React.FC = () => {
       exit={{ scale: 0.9 }}
     >
       <PageHeader header="Maine Go Ladder" />
+      <MatchupCalculator />
       <MainPageUserList />
       <SpeedDial
         css={css`

@@ -47,6 +47,7 @@ const userSlice = createSlice({
     cancelMatchup: (state) => {
       state.matchup = null;
       state.currentState = UserStates.DEFAULT;
+      state.selectedUser = null;
     },
   },
   extraReducers: {
