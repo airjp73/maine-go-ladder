@@ -54,10 +54,6 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
   user,
   ...rest
 }) => {
-  const userHasNavigated = useSelector(
-    (state: AppState) => state.loading.userHasNavigated
-  );
-  const enterDelay = userHasNavigated ? 1 : 0;
   const isSelected = useSelector(
     (state: AppState) => state.users.selectedUser?.id === user.id
   );
@@ -85,8 +81,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
       initial="initial"
       animate={isSelected ? "selected" : "entered"}
       exit="exit"
-      transition={{ delay: enterDelay }}
-      positionTransition={{ delay: enterDelay }}
+      positionTransition
       onClick={() => {
         if (isSelected) dispatch(userSlice.actions.deselectUser(user));
         else dispatch(userSlice.actions.selectUser(user));

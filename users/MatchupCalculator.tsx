@@ -10,6 +10,7 @@ import buttonStyle from "../styles/buttonStyle";
 import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
 import type { User } from "../api/User";
 import { rungToRating } from "../ladder/ratings";
+import opacify from "../styles/opacify";
 
 interface EvenMatchup {
   type: "EVEN";
@@ -64,7 +65,9 @@ const MatchupCalculator: React.FC = () => {
           <div
             css={(theme: Theme) => css`
               padding: 1rem;
-              background-color: ${theme.colors.blue[70].hex};
+              background-color: ${theme.colors.green[40].hex};
+              box-shadow: 1px 2px 2px ${opacify(theme.colors.green[90], 0.75)};
+              margin: 0.5rem 0;
               border-radius: 3px;
               > * + * {
                 margin-top: 1rem;
