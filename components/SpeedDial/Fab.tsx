@@ -10,8 +10,8 @@ interface FabProps extends React.ComponentProps<typeof motion.button> {
 }
 
 const sizeDimensions = {
-  MEDIUM: "3rem",
-  SMALL: "2.5rem",
+  MEDIUM: "4rem",
+  SMALL: "3rem",
 };
 
 const Fab: React.FC<FabProps> = forwardRef(

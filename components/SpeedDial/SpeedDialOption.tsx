@@ -18,12 +18,12 @@ const getLabelStyle = (labelDirection: labelDirections) => {
   switch (labelDirection) {
     case labelDirections.RIGHT:
       return css`
-        top: 0.4rem;
+        top: 0.5rem;
         left: calc(100% + 0.5em);
       `;
     case labelDirections.LEFT:
       return css`
-        top: 0.4rem;
+        top: 0.5rem;
         right: calc(100% + 0.5em);
       `;
   }

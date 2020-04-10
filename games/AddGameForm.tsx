@@ -156,7 +156,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           }
         `}
       >
-        <Fab onClick={() => changeTab(0)} highlighted={tab === 0}>
+        <Fab onClick={() => changeTab(0)} highlighted={tab === 0} size="SMALL">
           <GoIcon />
         </Fab>
 
@@ -166,6 +166,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           onClick={() => changeTab(1)}
           highlighted={tab === 1}
           disabled={!blackPlayer}
+          size="SMALL"
         >
           <GoIcon />
         </Fab>
@@ -176,6 +177,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           onClick={() => changeTab(2)}
           disabled={!blackPlayer || !whitePlayer}
           highlighted={tab === 2}
+          size="SMALL"
         >
           <UserCheck />
         </Fab>
@@ -186,6 +188,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           onClick={() => changeTab(3)}
           disabled={!blackPlayer || !whitePlayer || !winner}
           highlighted={tab === 3}
+          size="SMALL"
         >
           <Check />
         </Fab>

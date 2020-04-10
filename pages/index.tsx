@@ -33,7 +33,7 @@ const Home: React.FC = () => {
       <SpeedDial
         css={css`
           position: absolute;
-          top: calc(100% - 5rem);
+          top: calc(100% - 6rem);
           right: 3rem;
           transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
 
