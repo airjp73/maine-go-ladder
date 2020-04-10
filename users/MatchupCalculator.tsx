@@ -65,6 +65,7 @@ const MatchupCalculator: React.FC = () => {
             css={(theme: Theme) => css`
               padding: 1rem;
               background-color: ${theme.colors.blue[70].hex};
+              border-radius: 3px;
               > * + * {
                 margin-top: 1rem;
               }
@@ -108,7 +109,7 @@ const MatchupCalculator: React.FC = () => {
               css={buttonStyle}
               onClick={() => dispatch(userSlice.actions.cancelMatchup())}
             >
-              Cancel Matchup Mode
+              Close Matchup Calculator
             </button>
           </div>
         </motion.div>
