@@ -63,7 +63,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
   );
   const dispatch = useDispatch<AppDispatch>();
   const controls = useAnimation();
-  const { query } = useRouter();
+  const { query, push } = useRouter();
 
   useEffect(() => {
     async function animate() {
@@ -153,7 +153,15 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
               >
                 Calculate Matchup
               </button>
-              <button css={buttonStyle}>View Game History</button>
+              <button
+                css={buttonStyle}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  push(`/user?userId=${user.id}`);
+                }}
+              >
+                View Game History
+              </button>
             </div>
           </motion.div>
         )}

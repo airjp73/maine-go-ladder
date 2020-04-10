@@ -50,11 +50,6 @@ const userSlice = createSlice({
       state.selectedUser = null;
     },
   },
-  extraReducers: {
-    [loadingSlice.actions.onNavigate.type]: (state) => {
-      state.selectedUser = null;
-    },
-  },
 });
 
 export default userSlice;
