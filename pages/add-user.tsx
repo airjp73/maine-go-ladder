@@ -5,7 +5,6 @@ import { css } from "@emotion/core";
 import PageHeader from "../components/PageHeader/PageHeader";
 import Link from "next/link";
 import buttonStyle from "../styles/buttonStyle";
-import { motion } from "framer-motion";
 import { Theme } from "../styles/theme";
 import PageContent from "../components/PageContent/PageContent";
 
