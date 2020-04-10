@@ -26,6 +26,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ header, children }) => (
       > h2 {
         color: ${theme.colors.green[90].hex};
         margin: 0 auto 0 0;
+        white-space: nowrap;
       }
     `}
   >

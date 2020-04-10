@@ -126,9 +126,21 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
           >
             <div
               css={css`
+                display: flex;
+                justify-content: center;
                 padding: 0.5rem;
-                > * + * {
-                  margin-left: 1rem;
+
+                @media only screen and (min-width: 750px) {
+                  > * + * {
+                    margin-left: 1rem;
+                  }
+                }
+
+                @media only screen and (max-width: 749px) {
+                  flex-direction: column;
+                  > * + * {
+                    margin-top: 1rem;
+                  }
                 }
               `}
             >
