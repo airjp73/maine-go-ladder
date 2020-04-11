@@ -39,8 +39,9 @@ const MainPageUserList: React.FC = () => {
       <motion.ul
         css={css`
           list-style: none;
-          margin: 0 0 10rem 0;
-          padding: 1rem;
+          padding: 1rem 1rem 10rem 1rem;
+          overflow: auto;
+          flex: 1;
 
           > * + * {
             margin-top: 1rem;

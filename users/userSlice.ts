@@ -3,8 +3,8 @@ import { User } from "../api/User";
 import loadingSlice from "../loading/loadingSlice";
 
 export enum UserStates {
-  DEFAULT,
-  MATCHUP,
+  DEFAULT = "DEFAULT",
+  MATCHUP = "MATCHUP",
 }
 
 interface UserState {

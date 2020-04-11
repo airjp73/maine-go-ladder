@@ -3,7 +3,7 @@ import { css } from "@emotion/core";
 import { motion } from "framer-motion";
 
 interface AnimateHeightProps extends React.ComponentProps<typeof motion.div> {
-  height: string | number;
+  height?: string | number;
 }
 const AnimateHeight: React.FC<AnimateHeightProps> = ({
   children,
@@ -15,6 +15,7 @@ const AnimateHeight: React.FC<AnimateHeightProps> = ({
       css={css`
         overflow: hidden;
         box-sizing: border-box;
+        flex-shrink: 0;
       `}
       initial={{ height: 0 }}
       animate={{ height: height ?? "auto" }}

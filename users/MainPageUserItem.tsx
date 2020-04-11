@@ -9,6 +9,7 @@ import { AppState, AppDispatch } from "../store/store";
 import userSlice from "./userSlice";
 import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
+import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -109,16 +110,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
       </motion.div>
       <AnimatePresence>
         {isSelected && (
-          <motion.div
-            css={css`
-              overflow: hidden;
-              box-sizing: border-box;
-            `}
-            key="userOptions"
-            initial={{ height: 0 }}
-            animate={{ height: "auto" }}
-            exit={{ height: 0 }}
-          >
+          <AnimateHeight key="userOptions">
             <div
               css={css`
                 display: flex;
@@ -158,7 +150,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
                 View Game History
               </button>
             </div>
-          </motion.div>
+          </AnimateHeight>
         )}
       </AnimatePresence>
     </motion.li>

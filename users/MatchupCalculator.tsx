@@ -53,15 +53,7 @@ const MatchupCalculator: React.FC = () => {
   return (
     <AnimatePresence>
       {mode === UserStates.MATCHUP && (
-        <motion.div
-          css={css`
-            overflow: hidden;
-          `}
-          initial={{ height: 0 }}
-          animate={{ height: "auto" }}
-          exit={{ height: 0 }}
-          key="matchup-mode-section"
-        >
+        <AnimateHeight key="matchup-mode-section">
           <div
             css={(theme: Theme) => css`
               padding: 1rem;
@@ -115,7 +107,7 @@ const MatchupCalculator: React.FC = () => {
               Close Matchup Calculator
             </button>
           </div>
-        </motion.div>
+        </AnimateHeight>
       )}
     </AnimatePresence>
   );
