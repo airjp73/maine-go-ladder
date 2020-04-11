@@ -8,7 +8,6 @@ import PageContent from "../components/PageContent/PageContent";
 import { User } from "../api/User";
 import { rungToRating } from "../ladder/ratings";
 import { Theme } from "../styles/theme";
-import opacify from "../styles/opacify";
 
 const UserPage: React.FC = () => {
   const { query } = useRouter();
@@ -36,11 +35,8 @@ const UserPage: React.FC = () => {
       </PageHeader>
       <div
         css={(theme: Theme) => css`
-          padding: 1rem;
-          background-color: ${theme.colors.blue[70].hex};
+          ${theme.styles.raisedBox};
           border-radius: 3px;
-          background-color: ${theme.colors.green[40].hex};
-          box-shadow: 1px 2px 2px ${opacify(theme.colors.green[90], 0.75)};
           margin: 0.5rem 0;
 
           p {

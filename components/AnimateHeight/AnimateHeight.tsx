@@ -20,7 +20,6 @@ const AnimateHeight: React.FC<AnimateHeightProps> = ({
       initial={{ height: 0 }}
       animate={{ height: height ?? "auto" }}
       exit={{ height: 0 }}
-      layoutTransition
       {...rest}
     >
       {children}

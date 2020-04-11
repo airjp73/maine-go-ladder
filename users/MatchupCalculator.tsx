@@ -51,14 +51,12 @@ const MatchupCalculator: React.FC = () => {
     user1 && user2 ? calculateMatchup(user1, user2) : null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {mode === UserStates.MATCHUP && (
         <AnimateHeight key="matchup-mode-section">
           <div
             css={(theme: Theme) => css`
-              padding: 1rem;
-              background-color: ${theme.colors.green[40].hex};
-              box-shadow: 1px 2px 2px ${opacify(theme.colors.green[90], 0.75)};
+              ${theme.styles.raisedBox};
               margin: 0.5rem 0;
               border-radius: 3px;
               > * + * {
@@ -80,7 +78,7 @@ const MatchupCalculator: React.FC = () => {
                 Choose another player
               </div>
             )}
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
               {matchup && (
                 <AnimateHeight
                   key="matchup-info"

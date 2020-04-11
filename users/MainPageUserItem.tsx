@@ -108,7 +108,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
           {rungToRating(user.ladder_rung)}
         </motion.span>
       </motion.div>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isSelected && (
           <AnimateHeight key="userOptions">
             <div

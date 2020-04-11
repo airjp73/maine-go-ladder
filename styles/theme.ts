@@ -1,5 +1,7 @@
 import blue from "./blue";
 import green from "./green";
+import { css } from "@emotion/core";
+import opacify from "./opacify";
 
 const theme = {
   colors: {
@@ -11,6 +13,13 @@ const theme = {
     medDark: blue[80].hex,
     highlight: blue[20].hex,
     highlightSecondary: blue[40].hex,
+  },
+  styles: {
+    raisedBox: css`
+      padding: 1rem;
+      background-color: ${green[40].hex};
+      box-shadow: 1px 2px 2px ${opacify(green[90], 0.75)};
+    `,
   },
 };
 
