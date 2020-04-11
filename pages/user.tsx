@@ -30,6 +30,7 @@ const USER_GAMES_QUERY = gql`
           name
         }
         created_at
+        winner
       }
       games_as_white {
         id
@@ -46,11 +47,30 @@ const USER_GAMES_QUERY = gql`
           name
         }
         created_at
+        winner
       }
       id
       ladder_rung
       name
     }
+  }
+`;
+
+export const userItemStyle = (theme: Theme) => css`
+  padding: 0.5rem 1rem;
+  box-shadow: 1px 2px 4px ${theme.colors.blue[80].hex};
+  border-radius: 3px;
+  display: flex;
+  background-color: ${theme.colors.blue[90].hex};
+  color: ${theme.colors.green[20].hex};
+  outline: none;
+  cursor: pointer;
+  align-items: center;
+
+  :hover,
+  :focus {
+    background-color: ${theme.colors.blue[80].hex};
+    box-shadow: 2px 3px 6px ${theme.colors.blue[80].hex};
   }
 `;
 
@@ -79,12 +99,14 @@ const UserPage: React.FC = () => {
     <PageContent
       css={css`
         padding: 1rem;
+        display: flex;
+        flex-direction: column;
       `}
       initial={{ x: "100%" }}
       animate={{ x: "0" }}
       exit={{ x: "100%", zIndex: 1 }}
     >
-      <PageHeader header={user?.name ?? "User"}>
+      <PageHeader header={user.name ?? "User"}>
         <Link href="/">
           <a css={buttonStyle}>Back</a>
         </Link>
@@ -102,17 +124,48 @@ const UserPage: React.FC = () => {
         `}
       >
         <p>
-          <em>Ladder Rating:</em> {rungToRating(user.ladder_rung)}
+          <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
         </p>
         <p>
           {/* TODO: Add streaks */}
-          <em>Current Streak:</em> 0
+          <strong>Current Streak:</strong> 0
         </p>
       </div>
       <h3>Games:</h3>
-      {games.map((game) => (
-        <p>{game.id}</p>
-      ))}
+      <div
+        css={css`
+          overflow: auto;
+          flex: 1;
+          height: 200px;
+          > * + * {
+            margin-top: 1rem;
+          }
+        `}
+      >
+        {games.map((game) => (
+          <div css={userItemStyle}>
+            <div>
+              <p>
+                <strong>Black:</strong> {game.black.name}
+              </p>
+              <p>
+                <strong>White:</strong> {game.white.name}
+              </p>
+            </div>
+            <span
+              css={(theme: Theme) => css`
+                margin-left: auto;
+                font-size: 1.5rem;
+                color: ${game.winner === user.id
+                  ? theme.colors.highlight
+                  : theme.colors.green[60].hex};
+              `}
+            >
+              {game.winner === user.id ? "Won" : "Lost"}
+            </span>
+          </div>
+        ))}
+      </div>
     </PageContent>
   );
 };

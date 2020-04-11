@@ -30,8 +30,9 @@ const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
       css={css`
         max-width: 750px;
         margin: 3rem auto 0 auto;
-        height: 100%;
+        height: calc(100% - 3rem);
         overflow: auto;
+        box-sizing: border-box;
       `}
     >
       {children}
