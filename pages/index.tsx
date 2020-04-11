@@ -23,9 +23,9 @@ const Home: React.FC = () => {
         padding: 1rem;
         text-align: center;
       `}
-      initial={{ scale: 0.9, zIndex: 0 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0.9 }}
+      initial={{ scale: 0.9, opacity: 0, zIndex: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.9, opacity: 0 }}
     >
       <PageHeader header="Maine Go Ladder" />
       <MatchupCalculator />

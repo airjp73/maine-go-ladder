@@ -1,23 +1,79 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import buttonStyle from "../styles/buttonStyle";
 import { css } from "@emotion/core";
 import PageHeader from "../components/PageHeader/PageHeader";
 import Link from "next/link";
 import PageContent from "../components/PageContent/PageContent";
-import { User } from "../api/User";
+import { User, UserWithGames, Game } from "../api/User";
 import { rungToRating } from "../ladder/ratings";
 import { Theme } from "../styles/theme";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
+import LoadingState from "../loading/LoadingState";
+
+const USER_GAMES_QUERY = gql`
+  query UserWithGames($user: uuid!) {
+    users_by_pk(id: $user) {
+      games_as_black {
+        id
+        black {
+          id
+          name
+        }
+        white {
+          id
+          name
+        }
+        winning_user {
+          id
+          name
+        }
+        created_at
+      }
+      games_as_white {
+        id
+        black {
+          id
+          name
+        }
+        white {
+          id
+          name
+        }
+        winning_user {
+          id
+          name
+        }
+        created_at
+      }
+      id
+      ladder_rung
+      name
+    }
+  }
+`;
 
 const UserPage: React.FC = () => {
   const { query } = useRouter();
+  const { loading, data, error } = useQuery<{ users_by_pk: UserWithGames }>(
+    USER_GAMES_QUERY,
+    { variables: { user: query.userId } }
+  );
 
-  // TODO: Use a query
-  const user: User = {
-    id: query.userId as string,
-    ladder_rung: 22,
-    name: "Jim Bob",
-  };
+  const user = data?.users_by_pk!;
+  const games: Game[] = useMemo(
+    () =>
+      user?.games_as_black
+        .concat(user.games_as_white)
+        .sort(
+          (a, b) =>
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        ),
+    [user]
+  );
+
+  if (!user) return <LoadingState />;
 
   return (
     <PageContent
@@ -28,11 +84,12 @@ const UserPage: React.FC = () => {
       animate={{ x: "0" }}
       exit={{ x: "100%", zIndex: 1 }}
     >
-      <PageHeader header={user.name}>
+      <PageHeader header={user?.name ?? "User"}>
         <Link href="/">
           <a css={buttonStyle}>Back</a>
         </Link>
       </PageHeader>
+      {loading && <LoadingState />}
       <div
         css={(theme: Theme) => css`
           ${theme.styles.raisedBox};
@@ -53,8 +110,8 @@ const UserPage: React.FC = () => {
         </p>
       </div>
       <h3>Games:</h3>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-        <p>Game {num}</p>
+      {games.map((game) => (
+        <p>{game.id}</p>
       ))}
     </PageContent>
   );
