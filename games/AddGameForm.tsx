@@ -198,6 +198,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         css={(theme: Theme) => css`
           position: relative;
           flex: 1;
+          overflow-x: hidden;
           h1 {
             position: sticky;
             top: 0;
