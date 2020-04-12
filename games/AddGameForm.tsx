@@ -203,6 +203,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           max-width: 750px;
           width: 100%;
           ${theme.styles.raisedBox}
+          box-sizing: border-box;
           padding: 1rem;
           h1 {
             position: sticky;
