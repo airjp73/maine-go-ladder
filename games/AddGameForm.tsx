@@ -202,15 +202,13 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           margin: 1rem auto;
           max-width: 750px;
           width: 100%;
-          ${theme.styles.raisedBox}
           box-sizing: border-box;
-          padding: 1rem;
           h1 {
             position: sticky;
             top: 0;
             margin: 0;
             padding-bottom: 1rem;
-            background-color: ${theme.colors.green[40].hex};
+            background-color: ${theme.colors.background};
             z-index: 1;
           }
         `}
