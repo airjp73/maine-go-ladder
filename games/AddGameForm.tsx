@@ -144,7 +144,6 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         display: flex;
         flex-direction: column;
         height: 100%;
-        overflow-x: hidden;
       `}
     >
       <div
@@ -199,7 +198,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         css={(theme: Theme) => css`
           position: relative;
           flex: 1;
-          overflow-x: hidden;
+          overflow: hidden;
           h1 {
             position: sticky;
             top: 0;
@@ -248,10 +247,11 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           {tab === 3 && !!blackPlayer && !!whitePlayer && !!winner && (
             <TabContent
               variants={variants}
-              key="who-won"
+              key="confirm"
               css={css`
                 display: flex;
                 flex-direction: column;
+                padding: 0 1rem;
 
                 h3 {
                   margin-bottom: 0;
