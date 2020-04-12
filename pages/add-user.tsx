@@ -8,6 +8,7 @@ import {
   Header,
   Content,
 } from "../components/PageContent/PageContent";
+import { css } from "@emotion/core";
 
 const AddUser: React.FC = () => {
   const router = useRouter();
@@ -22,7 +23,11 @@ const AddUser: React.FC = () => {
           <a css={buttonStyle}>Back</a>
         </Link>
       </Header>
-      <Content>
+      <Content
+        css={css`
+          padding: 1rem;
+        `}
+      >
         <AddUserForm onAfterSubmit={() => router.push("/")} />
       </Content>
     </Wrapper>
