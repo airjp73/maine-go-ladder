@@ -10,21 +10,20 @@ import buttonStyle from "../styles/buttonStyle";
 import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
 import type { User } from "../api/User";
 import { rungToRating } from "../ladder/ratings";
-import { Content } from "../components/PageContent/PageContent";
 
-interface EvenMatchup {
+export interface EvenMatchup {
   type: "EVEN";
 }
-interface HandicapMatchup {
+export interface HandicapMatchup {
   type: "HANDICAP";
   black: User;
   white: User;
   numStones: number;
   komi: number;
 }
-type Matchup = EvenMatchup | HandicapMatchup;
+export type Matchup = EvenMatchup | HandicapMatchup;
 
-function calculateMatchup(user1: User, user2: User): Matchup {
+export function calculateMatchup(user1: User, user2: User): Matchup {
   if (user1.ladder_rung === user2.ladder_rung) return { type: "EVEN" };
 
   const [black, white] =
