@@ -141,7 +141,7 @@ const UserPage: React.FC = () => {
           </p>
           <p>
             {/* TODO: Add streaks */}
-            <strong>Current Streak:</strong> ${user.streak}
+            <strong>Current Streak:</strong> {user.streak}
           </p>
         </div>
         <h3>Games:</h3>
