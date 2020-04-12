@@ -98,7 +98,6 @@ const UserPage: React.FC = () => {
   return (
     <PageContent
       css={css`
-        padding: 1rem;
         display: flex;
         flex-direction: column;
       `}

@@ -20,7 +20,6 @@ const Home: React.FC = () => {
       css={css`
         display: flex;
         flex-direction: column;
-        padding: 1rem 1rem 0 1rem;
         text-align: center;
       `}
       initial={{ scale: 0.9, opacity: 0, zIndex: 0 }}

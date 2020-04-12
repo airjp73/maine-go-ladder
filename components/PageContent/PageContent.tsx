@@ -17,6 +17,7 @@ const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
       bottom: 0;
       background-color: ${theme.colors.background};
       box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.5);
+      padding: 1rem 1rem 0 1rem;
     `}
     {...rest}
     transition={{
