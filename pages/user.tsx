@@ -77,6 +77,13 @@ export const userItemStyle = (theme: Theme) => css`
   }
 `;
 
+const dateFormat = new Intl.DateTimeFormat("en", {
+  year: "numeric",
+  month: "long",
+  day: "2-digit",
+});
+const formatDate = (dateStr: string) => dateFormat.format(new Date(dateStr));
+
 const UserPage: React.FC = () => {
   const { query } = useRouter();
   const { loading, data, error } = useQuery<{ users_by_pk: UserWithGames }>(
@@ -155,6 +162,9 @@ const UserPage: React.FC = () => {
                 </p>
                 <p>
                   <strong>White:</strong> {game.white.name}
+                </p>
+                <p>
+                  <strong>Uploaded:</strong> {formatDate(game.created_at)}
                 </p>
               </div>
               <span
