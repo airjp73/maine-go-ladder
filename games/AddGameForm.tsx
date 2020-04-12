@@ -5,6 +5,7 @@ import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
 import UserList, { USERS } from "../users/UserList";
 import { User } from "../api/User";
+import { Content } from "../components/PageContent/PageContent";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
 import GoIcon from "../components/SpeedDial/GoIcon";
@@ -137,13 +138,13 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
 
   return (
     <div
-      css={css`
+      css={(theme: Theme) => css`
         > * {
           margin-top: 1rem;
         }
         display: flex;
         flex-direction: column;
-        height: 100%;
+        height: calc(100% - ${theme.headerHeight});
       `}
     >
       <div
@@ -151,6 +152,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           display: flex;
           align-items: center;
           justify-content: center;
+          margin: 1rem auto;
           > * + * {
             margin-left: 1rem;
           }
@@ -194,94 +196,104 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         </Fab>
       </div>
 
-      <div
+      <Content
         css={(theme: Theme) => css`
-          position: relative;
           flex: 1;
-          overflow: hidden;
+          width: 750px;
+          margin: 1rem auto;
+          ${theme.styles.raisedBox}
+          padding: 1rem;
           h1 {
             position: sticky;
             top: 0;
             margin: 0;
             padding-bottom: 1rem;
-            background-color: ${theme.colors.background};
+            background-color: ${theme.colors.green[40].hex};
             z-index: 1;
           }
         `}
       >
-        <AnimatePresence custom={{ prev: prevTab, current: tab }}>
-          {tab === 0 && (
-            <TabContent variants={variants} key="choose-black">
-              <h1>Who played black?</h1>
-              <UserList
-                onUserClick={(user) => {
-                  changeTab(1);
-                  setBlackPlayer(user);
-                }}
-              />
-            </TabContent>
-          )}
-          {tab === 1 && (
-            <TabContent variants={variants} key="choose-white">
-              <h1>Who played white?</h1>
-              <UserList
-                onUserClick={(user) => {
-                  changeTab(2);
-                  setWhitePlayer(user);
-                }}
-              />
-            </TabContent>
-          )}
-          {tab === 2 && !!blackPlayer && !!whitePlayer && (
-            <TabContent variants={variants} key="who-won">
-              <h1>Who won?</h1>
-              <UserList
-                userList={[blackPlayer, whitePlayer]}
-                onUserClick={(user) => {
-                  changeTab(3);
-                  setWinner(user);
-                }}
-              />
-            </TabContent>
-          )}
-          {tab === 3 && !!blackPlayer && !!whitePlayer && !!winner && (
-            <TabContent
-              variants={variants}
-              key="confirm"
-              css={css`
-                display: flex;
-                flex-direction: column;
-                padding: 0 1rem;
+        <div
+          css={css`
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+          `}
+        >
+          <AnimatePresence custom={{ prev: prevTab, current: tab }}>
+            {tab === 0 && (
+              <TabContent variants={variants} key="choose-black">
+                <h1>Who played black?</h1>
+                <UserList
+                  onUserClick={(user) => {
+                    changeTab(1);
+                    setBlackPlayer(user);
+                  }}
+                />
+              </TabContent>
+            )}
+            {tab === 1 && (
+              <TabContent variants={variants} key="choose-white">
+                <h1>Who played white?</h1>
+                <UserList
+                  onUserClick={(user) => {
+                    changeTab(2);
+                    setWhitePlayer(user);
+                  }}
+                />
+              </TabContent>
+            )}
+            {tab === 2 && !!blackPlayer && !!whitePlayer && (
+              <TabContent variants={variants} key="who-won">
+                <h1>Who won?</h1>
+                <UserList
+                  userList={[blackPlayer, whitePlayer]}
+                  onUserClick={(user) => {
+                    changeTab(3);
+                    setWinner(user);
+                  }}
+                />
+              </TabContent>
+            )}
+            {tab === 3 && !!blackPlayer && !!whitePlayer && !!winner && (
+              <TabContent
+                variants={variants}
+                key="confirm"
+                css={css`
+                  display: flex;
+                  flex-direction: column;
+                  padding: 0 1rem;
 
-                h3 {
-                  margin-bottom: 0;
-                }
-              `}
-            >
-              <h1>Is this Correct?</h1>
-
-              <h3>Black</h3>
-              <UserItem user={blackPlayer} />
-
-              <h3>White</h3>
-              <UserItem user={whitePlayer} />
-
-              <h3>Winner</h3>
-              <UserItem user={winner} />
-              <button
-                onClick={() => submit()}
-                css={(theme: Theme) => css`
-                  ${buttonStyle(theme)}
-                  margin: auto 0 2rem 0;
+                  h3 {
+                    margin-bottom: 0;
+                  }
                 `}
-                disabled={!!error}
               >
-                {error || "Yep!"}
-              </button>
-            </TabContent>
-          )}
-        </AnimatePresence>
-      </div>
+                <h1>Is this Correct?</h1>
+
+                <h3>Black</h3>
+                <UserItem user={blackPlayer} />
+
+                <h3>White</h3>
+                <UserItem user={whitePlayer} />
+
+                <h3>Winner</h3>
+                <UserItem user={winner} />
+                <button
+                  onClick={() => submit()}
+                  css={(theme: Theme) => css`
+                    ${buttonStyle(theme)}
+                    margin: auto 0 2rem 0;
+                  `}
+                  disabled={!!error}
+                >
+                  {error || "Yep!"}
+                </button>
+              </TabContent>
+            )}
+          </AnimatePresence>
+        </div>
+      </Content>
     </div>
   );
 };

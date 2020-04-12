@@ -2,10 +2,13 @@ import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import buttonStyle from "../styles/buttonStyle";
 import { css } from "@emotion/core";
-import PageHeader from "../components/PageHeader/PageHeader";
 import Link from "next/link";
-import PageContent from "../components/PageContent/PageContent";
-import { User, UserWithGames, Game } from "../api/User";
+import {
+  Wrapper,
+  Header,
+  Content,
+} from "../components/PageContent/PageContent";
+import { UserWithGames, Game } from "../api/User";
 import { rungToRating } from "../ladder/ratings";
 import { Theme } from "../styles/theme";
 import gql from "graphql-tag";
@@ -96,76 +99,80 @@ const UserPage: React.FC = () => {
   if (!user) return <LoadingState />;
 
   return (
-    <PageContent
-      css={css`
-        display: flex;
-        flex-direction: column;
-      `}
+    <Wrapper
       initial={{ x: "100%" }}
       animate={{ x: "0" }}
       exit={{ x: "100%", zIndex: 1 }}
     >
-      <PageHeader header={user.name ?? "User"}>
+      <Header header={user.name ?? "User"}>
         <Link href="/">
           <a css={buttonStyle}>Back</a>
         </Link>
-      </PageHeader>
-      {loading && <LoadingState />}
-      <div
-        css={(theme: Theme) => css`
-          ${theme.styles.raisedBox};
-          border-radius: 3px;
-          margin: 0.5rem 0;
-
-          p {
-            margin: 0;
-          }
-        `}
-      >
-        <p>
-          <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
-        </p>
-        <p>
-          {/* TODO: Add streaks */}
-          <strong>Current Streak:</strong> 0
-        </p>
-      </div>
-      <h3>Games:</h3>
-      <div
+      </Header>
+      <Content
         css={css`
-          overflow: auto;
-          flex: 1;
-          height: 200px;
-          > * + * {
-            margin-top: 1rem;
-          }
+          display: flex;
+          flex-direction: column;
+          padding: 1rem;
         `}
       >
-        {games.map((game) => (
-          <div css={userItemStyle}>
-            <div>
-              <p>
-                <strong>Black:</strong> {game.black.name}
-              </p>
-              <p>
-                <strong>White:</strong> {game.white.name}
-              </p>
+        {loading && <LoadingState />}
+        <div
+          css={(theme: Theme) => css`
+            ${theme.styles.raisedBox};
+            border-radius: 3px;
+            margin: 0.5rem 0;
+
+            p {
+              margin: 0;
+            }
+          `}
+        >
+          <p>
+            <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
+          </p>
+          <p>
+            {/* TODO: Add streaks */}
+            <strong>Current Streak:</strong> 0
+          </p>
+        </div>
+        <h3>Games:</h3>
+        <div
+          css={css`
+            overflow: auto;
+            flex: 1;
+            height: 200px;
+            > * + * {
+              margin-top: 1rem;
+            }
+          `}
+        >
+          {games.map((game) => (
+            <div css={userItemStyle}>
+              <div>
+                <p>
+                  <strong>Black:</strong> {game.black.name}
+                </p>
+                <p>
+                  <strong>White:</strong> {game.white.name}
+                </p>
+              </div>
+              <span
+                css={(theme: Theme) => css`
+                  margin-left: auto;
+                  font-size: 1.5rem;
+                  color: ${game.winner === user.id
+                    ? theme.colors.highlight
+                    : theme.colors.green[60].hex};
+                `}
+              >
+                {game.winner === user.id ? "Won" : "Lost"}
+              </span>
             </div>
-            <span
-              css={(theme: Theme) => css`
-                margin-left: auto;
-                font-size: 1.5rem;
-                color: ${game.winner === user.id
-                  ? theme.colors.highlight
-                  : theme.colors.green[60].hex};
-              `}
-            >
-              {game.winner === user.id ? "Won" : "Lost"}
-            </span>
-          </div>
-        ))}
-      </div>
-    </PageContent>
+          ))}
+        </div>
+      </Content>
+    </Wrapper>
   );
 };
 

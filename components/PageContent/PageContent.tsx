@@ -3,9 +3,8 @@ import { motion } from "framer-motion";
 import { css } from "@emotion/core";
 import { Theme } from "../../styles/theme";
 
-const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
+export const Wrapper: React.FC<React.ComponentProps<typeof motion.div>> = ({
   children,
-  className,
   ...rest
 }) => (
   <motion.div
@@ -17,7 +16,6 @@ const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
       bottom: 0;
       background-color: ${theme.colors.background};
       box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.5);
-      padding: 1rem 1rem 0 1rem;
     `}
     {...rest}
     transition={{
@@ -27,11 +25,8 @@ const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
     }}
   >
     <div
-      className={className}
       css={css`
-        max-width: 750px;
-        margin: 3rem auto 0 auto;
-        height: calc(100% - 3rem);
+        height: 100%;
         overflow: auto;
         box-sizing: border-box;
       `}
@@ -41,4 +36,47 @@ const PageContent: React.FC<React.ComponentProps<typeof motion.div>> = ({
   </motion.div>
 );
 
-export default PageContent;
+export const Content: React.FC<React.HTMLProps<HTMLDivElement>> = ({
+  ...rest
+}) => (
+  <div
+    css={css`
+      max-width: 750px;
+      margin: 0 auto;
+    `}
+    {...rest}
+  />
+);
+
+interface HeaderProps {
+  header: String;
+}
+
+export const Header: React.FC<HeaderProps> = ({ header, children }) => (
+  <header
+    css={(theme: Theme) => css`
+      display: flex;
+      justify-content: flex-end;
+      background-color: ${theme.colors.green[30].hex};
+      position: sticky;
+      top: 0;
+      padding: 1rem;
+      z-index: 1;
+      height: ${theme.headerHeight};
+      box-sizing: border-box;
+
+      > * + * {
+        margin-left: 1rem;
+      }
+
+      > h2 {
+        color: ${theme.colors.green[90].hex};
+        margin: 0 auto 0 0;
+        white-space: nowrap;
+      }
+    `}
+  >
+    <h2>{header}</h2>
+    {children}
+  </header>
+);

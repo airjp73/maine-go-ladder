@@ -10,7 +10,7 @@ import buttonStyle from "../styles/buttonStyle";
 import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
 import type { User } from "../api/User";
 import { rungToRating } from "../ladder/ratings";
-import opacify from "../styles/opacify";
+import { Content } from "../components/PageContent/PageContent";
 
 interface EvenMatchup {
   type: "EVEN";
@@ -53,12 +53,20 @@ const MatchupCalculator: React.FC = () => {
   return (
     <AnimatePresence initial={false}>
       {mode === UserStates.MATCHUP && (
-        <AnimateHeight key="matchup-mode-section">
+        <AnimateHeight
+          key="matchup-mode-section"
+          css={css`
+            position: sticky;
+            top: 4rem;
+            z-index: 1;
+          `}
+        >
           <div
             css={(theme: Theme) => css`
               ${theme.styles.raisedBox};
-              margin: 0.5rem 0;
+              margin: 0.5rem auto;
               border-radius: 3px;
+              max-width: 850px;
               > * + * {
                 margin-top: 1rem;
               }

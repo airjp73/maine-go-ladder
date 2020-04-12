@@ -18,9 +18,11 @@ const theme = {
     raisedBox: css`
       padding: 1rem;
       background-color: ${green[40].hex};
-      box-shadow: 1px 2px 2px ${opacify(green[90], 0.75)};
+      box-shadow: 1px 1px 6px ${opacify(green[90], 0.75)};
+      border-radius: 3px;
     `,
   },
+  headerHeight: "4rem",
 };
 
 export type Theme = typeof theme;
