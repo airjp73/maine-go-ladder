@@ -199,8 +199,9 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
       <Content
         css={(theme: Theme) => css`
           flex: 1;
-          width: 750px;
           margin: 1rem auto;
+          max-width: 750px;
+          width: 100%;
           ${theme.styles.raisedBox}
           padding: 1rem;
           h1 {
