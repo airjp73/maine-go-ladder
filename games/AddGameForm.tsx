@@ -4,7 +4,7 @@ import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
 import UserList, { USERS } from "../users/UserList";
-import { User } from "../api/User";
+import { User, UserWithStreak } from "../api/User";
 import { Content } from "../components/PageContent/PageContent";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
@@ -27,11 +27,29 @@ const ADD_GAME = gql`
 
 const UPDATE_WINNER = gql`
   mutation UpdateWinner($winner: uuid!) {
-    update_users(where: { id: { _eq: $winner } }, _inc: { ladder_rung: 1 }) {
+    update_users(
+      where: { id: { _eq: $winner } }
+      _inc: { ladder_rung: 1, streak: 1 }
+    ) {
       returning {
         id
-        ladder_rung
-        name
+        streak
+      }
+    }
+  }
+`;
+interface UpdateWinnerReturnValue {
+  returning: UserWithStreak;
+}
+
+const UPDATE_WINNER_FROM_STREAK = gql`
+  mutation UpdateWinnerFromStreak($winner: uuid!) {
+    update_users(
+      where: { id: { _eq: $winner } }
+      _inc: { ladder_rung: 1, streak: -3 }
+    ) {
+      returning {
+        id
       }
     }
   }
@@ -39,7 +57,11 @@ const UPDATE_WINNER = gql`
 
 const UPDATE_LOSER = gql`
   mutation UpdateLoser($loser: uuid!) {
-    update_users(where: { id: { _eq: $loser } }, _inc: { ladder_rung: -1 }) {
+    update_users(
+      where: { id: { _eq: $loser } }
+      _inc: { ladder_rung: -1 }
+      _set: { streak: 0 }
+    ) {
       returning {
         id
         ladder_rung
@@ -105,6 +127,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const error = getErrors(blackPlayer, whitePlayer, winner);
   const [addGame] = useMutation(ADD_GAME);
   const [updateWinner] = useMutation(UPDATE_WINNER);
+  const [updateWinnerFromStreak] = useMutation(UPDATE_WINNER_FROM_STREAK);
   const [updateLoser] = useMutation(UPDATE_LOSER);
 
   const variants = {
@@ -122,18 +145,31 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
     setTab(nextTab);
   };
 
-  const submit = () => {
+  const submit = async () => {
     const black = blackPlayer!.id;
     const white = whitePlayer!.id;
     const loser = black === winner!.id ? white : black;
-    Promise.all([
+    const [winnerData] = await Promise.all([
+      updateWinner({ variables: { winner: winner!.id } }),
       addGame({
         variables: { black, white, winner: winner!.id },
         refetchQueries: [{ query: USERS }],
       }),
-      updateWinner({ variables: { winner: winner!.id } }),
       updateLoser({ variables: { loser } }),
-    ]).then(() => onAfterSubmit(black, white));
+    ]);
+    if (winnerData.data.update_users.returning[0].streak >= 3) {
+      await updateWinnerFromStreak({
+        variables: { winner: winner!.id },
+        // update(cache, { data: { update_users } }) {
+        //   const { users } = cache.readQuery({ query: USERS });
+        //   cache.writeQuery({
+        //     query: USERS,
+        //     data: { users: users.map()}
+        //   })
+        // }
+      });
+    }
+    onAfterSubmit(black, white);
   };
 
   return (
