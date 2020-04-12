@@ -143,7 +143,8 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
         }
         display: flex;
         flex-direction: column;
-        height: calc(100% - 4rem);
+        height: 100%;
+        overflow-x: hidden;
       `}
     >
       <div
@@ -215,7 +216,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
               <h1>Who played black?</h1>
               <UserList
                 onUserClick={(user) => {
-                  setTab(1);
+                  changeTab(1);
                   setBlackPlayer(user);
                 }}
               />
@@ -226,7 +227,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
               <h1>Who played white?</h1>
               <UserList
                 onUserClick={(user) => {
-                  setTab(2);
+                  changeTab(2);
                   setWhitePlayer(user);
                 }}
               />
@@ -238,7 +239,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
               <UserList
                 userList={[blackPlayer, whitePlayer]}
                 onUserClick={(user) => {
-                  setTab(3);
+                  changeTab(3);
                   setWinner(user);
                 }}
               />
