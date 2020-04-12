@@ -10,6 +10,7 @@ import buttonStyle from "../styles/buttonStyle";
 import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
 import type { User } from "../api/User";
 import { rungToRating } from "../ladder/ratings";
+import matchupValues from "./matchupValues";
 
 export interface EvenMatchup {
   type: "EVEN";
@@ -21,7 +22,10 @@ export interface HandicapMatchup {
   numStones: number;
   komi: number;
 }
-export type Matchup = EvenMatchup | HandicapMatchup;
+export interface LargeDifferenceMatchup {
+  type: "LARGE_DIFF";
+}
+export type Matchup = EvenMatchup | HandicapMatchup | LargeDifferenceMatchup;
 
 export function calculateMatchup(user1: User, user2: User): Matchup {
   if (user1.ladder_rung === user2.ladder_rung) return { type: "EVEN" };
@@ -31,10 +35,18 @@ export function calculateMatchup(user1: User, user2: User): Matchup {
 
   const blackRating = rungToRating(black.ladder_rung);
   const whiteRating = rungToRating(white.ladder_rung);
-  // TODO: use the correct calculations
-  const numStones = Math.round(whiteRating - blackRating);
-  const komi = -0.5;
-  return { type: "HANDICAP", black, white, numStones, komi };
+  const difference = whiteRating - blackRating;
+  const vals = matchupValues.find(([diff]) => diff === difference);
+  if (!vals) return { type: "LARGE_DIFF" };
+
+  const [rating, numStones, komi] = vals;
+  return {
+    type: "HANDICAP",
+    black,
+    white,
+    numStones,
+    komi: komi * -1, // komi is backwards in the lookup values
+  };
 }
 
 const matchupStyle = css`
@@ -48,6 +60,28 @@ const MatchupCalculator: React.FC = () => {
   const user2 = useSelector((state: AppState) => state.users.matchup);
   const matchup: Matchup | null =
     user1 && user2 ? calculateMatchup(user1, user2) : null;
+
+  const getMatchupInfo = (matchup: Matchup): React.ReactElement => {
+    switch (matchup.type) {
+      case "EVEN":
+        return <p css={matchupStyle}>Even Game</p>;
+      case "LARGE_DIFF":
+        return <p css={matchupStyle}>Difference too large to calculate</p>;
+      case "HANDICAP":
+        return (
+          <>
+            <p>{matchup.black.name} is black</p>
+            <p>{matchup.white.name} is white</p>
+            <p>{matchup.numStones} handicap stones</p>
+            <p>
+              {matchup.komi < 0
+                ? `Black has ${matchup.komi * -1} komi`
+                : `White has ${matchup.komi} komi`}
+            </p>
+          </>
+        );
+    }
+  };
 
   return (
     <AnimatePresence initial={false}>
@@ -89,19 +123,9 @@ const MatchupCalculator: React.FC = () => {
               {matchup && (
                 <AnimateHeight
                   key="matchup-info"
-                  height={matchup.type === "EVEN" ? "1.5rem" : "9rem"}
+                  height={matchup.type === "HANDICAP" ? "9rem" : "1.5rem"}
                 >
-                  {matchup.type === "EVEN" && (
-                    <p css={matchupStyle}>Even Game</p>
-                  )}
-                  {matchup.type === "HANDICAP" && (
-                    <>
-                      <p>{matchup.black.name} is black</p>
-                      <p>{matchup.white.name} is white</p>
-                      <p>{matchup.numStones} handicap stones</p>
-                      <p>{matchup.komi} komi</p>
-                    </>
-                  )}
+                  {getMatchupInfo(matchup)}
                 </AnimateHeight>
               )}
             </AnimatePresence>
