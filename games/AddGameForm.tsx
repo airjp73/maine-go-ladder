@@ -204,6 +204,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
           width: 100%;
           box-sizing: border-box;
           h1 {
+            padding: 0 1rem;
             position: sticky;
             top: 0;
             margin: 0;
