@@ -16,6 +16,7 @@ export interface UserWithGames {
   id: string;
   name: string;
   ladder_rung: number;
+  streak: number;
   games_as_white: Game[];
   games_as_black: Game[];
 }

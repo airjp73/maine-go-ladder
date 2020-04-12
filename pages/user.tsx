@@ -55,6 +55,7 @@ const USER_GAMES_QUERY = gql`
       id
       ladder_rung
       name
+      streak
     }
   }
 `;
@@ -140,7 +141,7 @@ const UserPage: React.FC = () => {
           </p>
           <p>
             {/* TODO: Add streaks */}
-            <strong>Current Streak:</strong> 0
+            <strong>Current Streak:</strong> ${user.streak}
           </p>
         </div>
         <h3>Games:</h3>
