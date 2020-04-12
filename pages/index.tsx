@@ -38,7 +38,7 @@ const Home: React.FC = () => {
           css={css`
             position: absolute;
             top: calc(100% - 6rem);
-            right: 3rem;
+            right: 2rem;
             transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
 
             @media only screen and (min-width: 1000px) {
