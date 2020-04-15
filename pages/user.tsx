@@ -8,7 +8,7 @@ import {
   Header,
   Content,
 } from "../components/PageContent/PageContent";
-import { UserWithGames, Game } from "../api/User";
+import { UserWithGames, Game } from "../apiTypes/User";
 import { rungToRating } from "../ladder/ratings";
 import { Theme } from "../styles/theme";
 import gql from "graphql-tag";

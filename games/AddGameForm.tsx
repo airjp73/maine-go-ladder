@@ -4,7 +4,7 @@ import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
 import UserList, { USERS } from "../users/UserList";
-import { User, UserWithStreak } from "../api/User";
+import { User, UserWithStreak } from "../apiTypes/User";
 import { Content } from "../components/PageContent/PageContent";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";

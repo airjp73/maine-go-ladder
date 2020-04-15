@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../api/User";
+import { User } from "../apiTypes/User";
 
 export enum UserStates {
   DEFAULT = "DEFAULT",

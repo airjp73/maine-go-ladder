@@ -1,4 +1,6 @@
 {
   "version": 2,
-  "name": "maine-go-ladder"
+  "env": {
+    "DB_CONNECTION": "@database-connection-url"
+  }
 }

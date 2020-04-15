@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { User } from "../api/User";
+import { User } from "../apiTypes/User";
 import { Theme } from "../styles/theme";
 import { css } from "@emotion/core";
 import { rungToRating } from "../ladder/ratings";

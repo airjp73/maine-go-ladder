@@ -1,9 +1,10 @@
 // @ts-ignore
+require("dotenv").config();
 require("ts-node/register");
 
 module.exports = {
   client: "pg",
-  connection: "postgresql://localhost:5432/maine_go_ladder",
+  connection: process.env.DB_CONNECTION,
   migrations: {
     extension: "ts",
   },

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const knex = configKnex({
   client: "pg",
-  connection: "postgresql://localhost:5432/maine_go_ladder",
+  connection: process.env.DB_CONNECTION,
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

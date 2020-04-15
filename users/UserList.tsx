@@ -1,7 +1,7 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { css } from "@emotion/core";
-import { User } from "../api/User";
+import { User } from "../apiTypes/User";
 import LoadingState from "../loading/LoadingState";
 import { useQuery, gql } from "@apollo/client";
 import { UserItem } from "./UserItem";

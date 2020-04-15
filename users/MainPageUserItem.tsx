@@ -1,5 +1,5 @@
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
-import { User } from "../api/User";
+import { User } from "../apiTypes/User";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { css } from "@emotion/core";
