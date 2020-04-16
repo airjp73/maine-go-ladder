@@ -1,6 +1,6 @@
 {
   "version": 2,
   "env": {
-    "DB_CONNECTION": "@database-connection-url"
+    "DATABASE_CONNECTION_URL": "@database-connection-url"
   }
 }

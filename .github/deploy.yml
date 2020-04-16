@@ -1,0 +1,21 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install and test
+        run: |
+          npm install
+          npm run test
+      - name: Deploy to now
+        run: npx now --token $NOW_TOKEN --target production
+      - name: Migrate database
+        run: npm run migrate
+        env:
+          DATABASE_CONNECTION_URL: ${{ secrets.DATABASE_CONNECTION_URL }}

@@ -4,7 +4,7 @@ require("ts-node/register");
 
 module.exports = {
   client: "pg",
-  connection: process.env.DB_CONNECTION,
+  connection: process.env.DATABASE_CONNECTION_URL,
   migrations: {
     extension: "ts",
   },

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "knex migrate:latest && next dev",
+    "migrate": "knex migrate:latest",
     "build": "next build",
     "start": "next start",
     "test": "jest",
