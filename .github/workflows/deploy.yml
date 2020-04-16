@@ -14,7 +14,7 @@ jobs:
           npm install
           npm run test
       - name: Deploy to now
-        run: npx now --token $NOW_TOKEN --target production
+        run: npx now --token ${{ secrets.NOW_TOKEN }} --target production
       - name: Migrate database
         run: npm run migrate
         env:
