@@ -3,7 +3,7 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { User } from "../apiTypes/User";
+import { User, NewUser } from "../apiTypes/User";
 import fetch from "isomorphic-fetch";
 import { AppState } from "../store/store";
 
@@ -20,6 +20,20 @@ export const fetchUsers = createAsyncThunk<User[]>(
   "users/get-all",
   async () => {
     const response = await fetch("/api/users");
+    return response.json();
+  }
+);
+
+export const postUser = createAsyncThunk<User, NewUser>(
+  "users/post",
+  async (payload) => {
+    const response = await fetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
     return response.json();
   }
 );

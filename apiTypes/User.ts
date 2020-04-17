@@ -8,7 +8,7 @@ export interface UserWithGames {
 }
 
 export type User = Pick<UserWithGames, "id" | "name" | "ladder_rung">;
-
+export type NewUser = Pick<UserWithGames, "name" | "ladder_rung">;
 export type UserWithStreak = Pick<UserWithGames, "id" | "streak">;
 
 export interface Game {
