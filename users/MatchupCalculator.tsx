@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState, AppDispatch } from "../store/store";
-import userSlice, { UserStates } from "./userSlice";
+import mainPageSlice, { UserStates } from "./mainPageSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import UserItem from "./UserItem";
 import { css } from "@emotion/core";
@@ -55,9 +55,9 @@ const matchupStyle = css`
 
 const MatchupCalculator: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const mode = useSelector((state: AppState) => state.users.currentState);
-  const user1 = useSelector((state: AppState) => state.users.selectedUser);
-  const user2 = useSelector((state: AppState) => state.users.matchup);
+  const mode = useSelector((state: AppState) => state.mainPage.currentState);
+  const user1 = useSelector((state: AppState) => state.mainPage.selectedUser);
+  const user2 = useSelector((state: AppState) => state.mainPage.matchup);
   const matchup: Matchup | null =
     user1 && user2 ? calculateMatchup(user1, user2) : null;
 
@@ -131,7 +131,7 @@ const MatchupCalculator: React.FC = () => {
             </AnimatePresence>
             <button
               css={buttonStyle}
-              onClick={() => dispatch(userSlice.actions.cancelMatchup())}
+              onClick={() => dispatch(mainPageSlice.actions.cancelMatchup())}
             >
               Close Matchup Calculator
             </button>

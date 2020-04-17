@@ -1,8 +1,8 @@
-import { configureStore, Store, combineReducers } from "@reduxjs/toolkit";
-import userSlice from "../users/userSlice";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import mainPageSlice from "../users/mainPageSlice";
 
 const rootReducer = combineReducers({
-  users: userSlice.reducer,
+  mainPage: mainPageSlice.reducer,
 });
 
 const store = configureStore({

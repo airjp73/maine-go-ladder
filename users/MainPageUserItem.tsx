@@ -6,7 +6,7 @@ import { css } from "@emotion/core";
 import { rungToRating } from "../ladder/ratings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState, AppDispatch } from "../store/store";
-import userSlice from "./userSlice";
+import mainPageSlice from "./mainPageSlice";
 import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
 import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
@@ -56,7 +56,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
   ...rest
 }) => {
   const isSelected = useSelector(
-    (state: AppState) => state.users.selectedUser?.id === user.id
+    (state: AppState) => state.mainPage.selectedUser?.id === user.id
   );
   const dispatch = useDispatch<AppDispatch>();
   const controls = useAnimation();
@@ -84,8 +84,8 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
       exit="exit"
       positionTransition
       onClick={() => {
-        if (isSelected) dispatch(userSlice.actions.deselectUser(user));
-        else dispatch(userSlice.actions.selectUser(user));
+        if (isSelected) dispatch(mainPageSlice.actions.deselectUser(user));
+        else dispatch(mainPageSlice.actions.selectUser(user));
       }}
       {...rest}
     >
@@ -135,7 +135,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
                 css={buttonStyle}
                 onClick={(event) => {
                   event.stopPropagation();
-                  dispatch(userSlice.actions.calculateMatchup());
+                  dispatch(mainPageSlice.actions.calculateMatchup());
                 }}
               >
                 Calculate Matchup

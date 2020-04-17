@@ -7,7 +7,7 @@ import { useQuery, gql } from "@apollo/client";
 import MainPageUserItem from "./MainPageUserItem";
 import { useSelector } from "react-redux";
 import { AppState } from "../store/store";
-import { UserStates } from "./userSlice";
+import { UserStates } from "./mainPageSlice";
 
 export const USERS = gql`
   query {
@@ -24,11 +24,11 @@ const MainPageUserList: React.FC = () => {
   const { loading, data: { users } = {} } = useQuery<UsersResponse>(USERS, {
     pollInterval: 10000,
   });
-  const mode = useSelector((state: AppState) => state.users.currentState);
+  const mode = useSelector((state: AppState) => state.mainPage.currentState);
   const selectedUser = useSelector(
-    (state: AppState) => state.users.selectedUser
+    (state: AppState) => state.mainPage.selectedUser
   );
-  const matchupUser = useSelector((state: AppState) => state.users.matchup);
+  const matchupUser = useSelector((state: AppState) => state.mainPage.matchup);
 
   const userIsInMatchup = (user: User) =>
     user.id === selectedUser?.id || user.id === matchupUser?.id;
