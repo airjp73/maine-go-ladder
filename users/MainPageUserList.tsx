@@ -22,7 +22,7 @@ const MainPageUserList: React.FC = () => {
 
   return (
     <>
-      {!!users.length && <LoadingState />}
+      {!users.length && <LoadingState />}
       <motion.ul
         css={css`
           list-style: none;
