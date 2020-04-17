@@ -7,16 +7,19 @@ import {
   Header,
   Content,
 } from "../components/PageContent/PageContent";
+import { fetchUsers } from "../users/userSlice";
 import GoIcon from "../components/SpeedDial/GoIcon";
 import SpeedDial from "../components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../components/SpeedDial/SpeedDialOption";
 import useWindowDimensions from "../util/useWindowDimensions";
 import MainPageUserList from "../users/MainPageUserList";
 import MatchupCalculator from "../users/MatchupCalculator";
+import useDispatchEffect from "../util/useDispatchEffect";
 
 const Home: React.FC = () => {
   const router = useRouter();
   const dimensions = useWindowDimensions();
+  useDispatchEffect(() => fetchUsers(), []);
 
   return (
     <Wrapper

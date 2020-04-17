@@ -3,27 +3,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import { css } from "@emotion/core";
 import { User } from "../apiTypes/User";
 import LoadingState from "../loading/LoadingState";
-import { useQuery, gql } from "@apollo/client";
 import MainPageUserItem from "./MainPageUserItem";
 import { useSelector } from "react-redux";
 import { AppState } from "../store/store";
 import { UserStates } from "./mainPageSlice";
-
-export const USERS = gql`
-  query {
-    users(order_by: { ladder_rung: desc, name: asc }) {
-      id
-      name
-      ladder_rung
-    }
-  }
-`;
-type UsersResponse = { users: User[] };
+import { userSelectors } from "./userSlice";
 
 const MainPageUserList: React.FC = () => {
-  const { loading, data: { users } = {} } = useQuery<UsersResponse>(USERS, {
-    pollInterval: 10000,
-  });
+  const users = useSelector(userSelectors.selectAll);
   const mode = useSelector((state: AppState) => state.mainPage.currentState);
   const selectedUser = useSelector(
     (state: AppState) => state.mainPage.selectedUser
@@ -35,7 +22,7 @@ const MainPageUserList: React.FC = () => {
 
   return (
     <>
-      {loading && <LoadingState />}
+      {!!users.length && <LoadingState />}
       <motion.ul
         css={css`
           list-style: none;
