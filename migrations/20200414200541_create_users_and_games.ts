@@ -12,7 +12,7 @@ exports.up = async function up(knex: Knex) {
     table.string("name").notNullable();
     table.integer("ladder_rung").notNullable();
     table.integer("streak").notNullable();
-    table.timestamps();
+    table.timestamps(false, true);
   });
 
   await knex.schema.createTable("games", (table) => {
@@ -29,7 +29,7 @@ exports.up = async function up(knex: Knex) {
       .references("id")
       .inTable("users");
     table.string("sgf").notNullable();
-    table.timestamps();
+    table.timestamps(false, true);
   });
 };
 
