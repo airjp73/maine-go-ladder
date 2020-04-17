@@ -18,3 +18,5 @@ export interface Game {
   winner: string;
   created_at: string;
 }
+
+export type NewGame = Pick<Game, "black" | "white" | "winner">;

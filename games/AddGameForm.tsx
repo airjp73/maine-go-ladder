@@ -4,78 +4,19 @@ import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
 import UserList, { USERS } from "../users/UserList";
-import { User, UserWithStreak } from "../apiTypes/User";
+import { User } from "../apiTypes/User";
 import { Content } from "../components/PageContent/PageContent";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
 import GoIcon from "../components/SpeedDial/GoIcon";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import UserItem from "../users/UserItem";
-
-const ADD_GAME = gql`
-  mutation AddGame($black: uuid!, $white: uuid!, $winner: uuid) {
-    insert_games(
-      objects: { black_player: $black, white_player: $white, winner: $winner }
-    ) {
-      returning {
-        id
-      }
-    }
-  }
-`;
-
-const UPDATE_WINNER = gql`
-  mutation UpdateWinner($winner: uuid!) {
-    update_users(
-      where: { id: { _eq: $winner } }
-      _inc: { ladder_rung: 1, streak: 1 }
-    ) {
-      returning {
-        id
-        streak
-      }
-    }
-  }
-`;
-interface UpdateWinnerReturnValue {
-  returning: UserWithStreak;
-}
-
-const UPDATE_WINNER_FROM_STREAK = gql`
-  mutation UpdateWinnerFromStreak($winner: uuid!) {
-    update_users(
-      where: { id: { _eq: $winner } }
-      _inc: { ladder_rung: 1, streak: -3 }
-    ) {
-      returning {
-        id
-      }
-    }
-  }
-`;
-
-const UPDATE_LOSER = gql`
-  mutation UpdateLoser($loser: uuid!) {
-    update_users(
-      where: { id: { _eq: $loser } }
-      _inc: { ladder_rung: -1 }
-      _set: { streak: 0 }
-    ) {
-      returning {
-        id
-        ladder_rung
-        name
-      }
-    }
-  }
-`;
 
 interface AddGameFormProps {
   onAfterSubmit: (black: string, white: string) => void;
 }
 
-const field = (theme: Theme) => css`
+const field = css`
   > * + * {
     margin-left: 0.5rem;
   }
@@ -125,10 +66,6 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
   const error = getErrors(blackPlayer, whitePlayer, winner);
-  const [addGame] = useMutation(ADD_GAME);
-  const [updateWinner] = useMutation(UPDATE_WINNER);
-  const [updateWinnerFromStreak] = useMutation(UPDATE_WINNER_FROM_STREAK);
-  const [updateLoser] = useMutation(UPDATE_LOSER);
 
   const variants = {
     initial: {

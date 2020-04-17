@@ -1,11 +1,7 @@
 import React from "react";
 import AddGameForm from "../games/AddGameForm";
 import { useRouter } from "next/router";
-import {
-  Wrapper,
-  Header,
-  Content,
-} from "../components/PageContent/PageContent";
+import { Wrapper, Header } from "../components/PageContent/PageContent";
 import buttonStyle from "../styles/buttonStyle";
 import Link from "next/link";
 

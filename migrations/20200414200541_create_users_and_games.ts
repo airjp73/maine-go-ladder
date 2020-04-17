@@ -28,7 +28,7 @@ exports.up = async function up(knex: Knex) {
       .notNullable()
       .references("id")
       .inTable("users");
-    table.string("sgf").notNullable();
+    table.string("sgf").nullable();
     table.timestamps(false, true);
   });
 };
