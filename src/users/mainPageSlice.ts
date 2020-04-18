@@ -3,7 +3,7 @@ import {
   PayloadAction,
   createEntityAdapter,
 } from "@reduxjs/toolkit";
-import { User } from "../apiTypes/User";
+import { User } from "../resources/users/User";
 
 export enum UserStates {
   DEFAULT = "DEFAULT",

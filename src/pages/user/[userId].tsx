@@ -1,21 +1,23 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import buttonStyle from "../common/styles/buttonStyle";
+import buttonStyle from "../../common/styles/buttonStyle";
 import { css } from "@emotion/core";
 import Link from "next/link";
 import {
   Wrapper,
   Header,
   Content,
-} from "../common/components/PageContent/PageContent";
-import { Game } from "../resources/games/Game";
-import { rungToRating } from "../ladder/ratings";
-import { Theme } from "../common/styles/theme";
-import LoadingState from "../common/components/LoadingState/LoadingState";
-import useDispatchEffect from "../common/util/useDispatchEffect";
-import { fetchUser, userSelectors } from "../resources/users/userSlice";
+} from "../../common/components/PageContent/PageContent";
+import { Game } from "../../resources/games/Game";
+import { rungToRating } from "../../ladder/ratings";
+import { Theme } from "../../common/styles/theme";
+import LoadingState from "../../common/components/LoadingState/LoadingState";
+import useDispatchEffect from "../../common/util/useDispatchEffect";
+import { userSelectors, fetchUsers } from "../../resources/users/userSlice";
 import { useSelector } from "react-redux";
-import { AppState } from "../core/store";
+import { AppState } from "../../core/store";
+import { fetchGames, gameSelectors } from "../../resources/games/gameSlice";
+import { User } from "../../resources/users/User";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
@@ -42,25 +44,57 @@ const dateFormat = new Intl.DateTimeFormat("en", {
 });
 const formatDate = (dateStr: string) => dateFormat.format(new Date(dateStr));
 
+const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => {
+  const black = useSelector((state: AppState) =>
+    userSelectors.selectById(state, game.black)
+  );
+  const white = useSelector((state: AppState) =>
+    userSelectors.selectById(state, game.white)
+  );
+  return (
+    <div css={userItemStyle}>
+      <div>
+        <p>
+          <strong>Black:</strong> {black?.name ?? "Unkown"}
+        </p>
+        <p>
+          <strong>White:</strong> {white?.name ?? "Unkown"}
+        </p>
+        <p>
+          <strong>Uploaded:</strong> {formatDate(game.created_at)}
+        </p>
+      </div>
+      <span
+        css={(theme: Theme) => css`
+          margin-left: auto;
+          font-size: 1.5rem;
+          color: ${game.winner === user.id
+            ? theme.colors.highlight
+            : theme.colors.green[60].hex};
+        `}
+      >
+        {game.winner === user.id ? "Won" : "Lost"}
+      </span>
+    </div>
+  );
+};
+
 const UserPage: React.FC = () => {
   const { query } = useRouter();
   const userId = Array.isArray(query.userId) ? query.userId[0] : query.userId;
-  useDispatchEffect(() => fetchUser(userId), [userId]);
+  useDispatchEffect(() => userId && fetchGames(userId), [userId]);
+  useDispatchEffect(() => fetchUsers(), []);
   const user = useSelector((state: AppState) =>
     userSelectors.selectById(state, userId)
   );
-  const games: Game[] =
-    useMemo(
-      () =>
-        user?.games &&
-        [...user.games].sort(
-          (a, b) =>
-            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-        ),
-      [user]
-    ) ?? [];
+  const games: Game[] = useSelector((state: AppState) =>
+    gameSelectors
+      .selectAll(state)
+      .filter((game) => game.black === user?.id || game.white === user?.id)
+  );
 
-  if (!user) return <LoadingState />;
+  if (false) return <LoadingState />;
+  if (!user) return <h1>User not found</h1>;
 
   return (
     <Wrapper
@@ -95,7 +129,6 @@ const UserPage: React.FC = () => {
             <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
           </p>
           <p>
-            {/* TODO: Add streaks */}
             <strong>Current Streak:</strong> {user.streak}
           </p>
         </div>
@@ -111,30 +144,7 @@ const UserPage: React.FC = () => {
           `}
         >
           {games.map((game) => (
-            <div css={userItemStyle}>
-              <div>
-                <p>
-                  <strong>Black:</strong> {game.black.name}
-                </p>
-                <p>
-                  <strong>White:</strong> {game.white.name}
-                </p>
-                <p>
-                  <strong>Uploaded:</strong> {formatDate(game.created_at)}
-                </p>
-              </div>
-              <span
-                css={(theme: Theme) => css`
-                  margin-left: auto;
-                  font-size: 1.5rem;
-                  color: ${game.winner === user.id
-                    ? theme.colors.highlight
-                    : theme.colors.green[60].hex};
-                `}
-              >
-                {game.winner === user.id ? "Won" : "Lost"}
-              </span>
-            </div>
+            <GameItem game={game} user={user} />
           ))}
         </div>
       </Content>

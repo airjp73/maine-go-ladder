@@ -7,7 +7,7 @@ import {
   Header,
   Content,
 } from "../common/components/PageContent/PageContent";
-import { fetchUsers } from "../users/userSlice";
+import { fetchUsers } from "../resources/users/userSlice";
 import GoIcon from "../common/components/SpeedDial/GoIcon";
 import SpeedDial from "../common/components/SpeedDial/SpeedDial";
 import SpeedDialOption from "../common/components/SpeedDial/SpeedDialOption";

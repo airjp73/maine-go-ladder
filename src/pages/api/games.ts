@@ -12,11 +12,13 @@ export default createRequestHandler({
       .or.where("white_player", userId);
 
     // TODO: Change this in the database
-    return data.map((game) => ({
-      ...game,
-      black: game.black_player,
-      white: game.white_player,
-      winner: game.winning_player,
-    }));
+    return res.json(
+      data.map((game) => ({
+        ...game,
+        black: game.black_player,
+        white: game.white_player,
+        winner: game.winning_player,
+      }))
+    );
   },
 });

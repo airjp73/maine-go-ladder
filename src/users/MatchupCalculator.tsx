@@ -8,7 +8,7 @@ import { css } from "@emotion/core";
 import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
-import type { User } from "../apiTypes/User";
+import type { User } from "../resources/users/User";
 import { rungToRating } from "../ladder/ratings";
 import matchupValues from "./matchupValues";
 

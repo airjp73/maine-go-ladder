@@ -5,7 +5,7 @@ import { Wrapper, Header } from "../common/components/PageContent/PageContent";
 import buttonStyle from "../common/styles/buttonStyle";
 import Link from "next/link";
 import useDispatchEffect from "../common/util/useDispatchEffect";
-import { fetchUsers, userSelectors } from "../users/userSlice";
+import { fetchUsers, userSelectors } from "../resources/users/userSlice";
 import { useSelector } from "react-redux";
 import LoadingState from "../common/components/LoadingState/LoadingState";
 

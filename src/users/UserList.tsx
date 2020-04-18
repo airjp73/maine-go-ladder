@@ -1,10 +1,10 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { css } from "@emotion/core";
-import { User } from "../apiTypes/User";
+import { User } from "../resources/users/User";
 import { UserItem } from "./UserItem";
 import { useSelector } from "react-redux";
-import { userSelectors } from "./userSlice";
+import { userSelectors } from "../resources/users/userSlice";
 
 interface UserListProps extends React.ComponentProps<typeof motion.ul> {
   userEnterDelay?: number;

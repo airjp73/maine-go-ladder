@@ -1,5 +1,5 @@
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
-import { User } from "../apiTypes/User";
+import { User } from "../resources/users/User";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { css } from "@emotion/core";
@@ -144,7 +144,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
                 css={buttonStyle}
                 onClick={(event) => {
                   event.stopPropagation();
-                  push(`/user?userId=${user.id}`);
+                  push(`/user/${user.id}`);
                 }}
               >
                 View Game History
