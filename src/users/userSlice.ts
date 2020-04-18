@@ -3,9 +3,10 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { User, NewUser, NewGame } from "../apiTypes/User";
+import { User, NewUser } from "../resources/users/User";
 import fetch from "isomorphic-fetch";
 import { AppState } from "../core/store";
+import { NewGame } from "../resources/games/Game";
 
 const userAdapter = createEntityAdapter<User>({
   selectId: (user) => user.id,
