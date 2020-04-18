@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { css } from "@emotion/core";
-import { Theme } from "../styles/theme";
-import buttonStyle from "../styles/buttonStyle";
+import { Theme } from "../common/styles/theme";
+import buttonStyle from "../common/styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
 import UserList from "../users/UserList";
 import { User } from "../apiTypes/User";
-import { Content } from "../components/PageContent/PageContent";
+import { Content } from "../common/components/PageContent/PageContent";
 import { ArrowRight, UserCheck, Check } from "react-feather";
-import Fab from "../components/SpeedDial/Fab";
-import GoIcon from "../components/SpeedDial/GoIcon";
+import Fab from "../common/components/SpeedDial/Fab";
+import GoIcon from "../common/components/SpeedDial/GoIcon";
 import UserItem from "../users/UserItem";
 import { useDispatch } from "react-redux";
 import { postGame } from "../users/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { AppDispatch } from "../store/store";
+import { AppDispatch } from "../core/store";
 
 interface AddGameFormProps {
   onAfterSubmit: (black: string, white: string) => void;

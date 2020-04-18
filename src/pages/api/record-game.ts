@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import knex from "../../server/knex";
+import knex from "../../common/server/knex";
 import { NewGame } from "../../apiTypes/User";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

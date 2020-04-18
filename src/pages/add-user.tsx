@@ -2,12 +2,12 @@ import React from "react";
 import AddUserForm from "../users/AddUserForm";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import buttonStyle from "../styles/buttonStyle";
+import buttonStyle from "../common/styles/buttonStyle";
 import {
   Wrapper,
   Header,
   Content,
-} from "../components/PageContent/PageContent";
+} from "../common/components/PageContent/PageContent";
 import { css } from "@emotion/core";
 
 const AddUser: React.FC = () => {

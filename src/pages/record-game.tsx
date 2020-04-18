@@ -1,13 +1,13 @@
 import React from "react";
 import AddGameForm from "../games/AddGameForm";
 import { useRouter } from "next/router";
-import { Wrapper, Header } from "../components/PageContent/PageContent";
-import buttonStyle from "../styles/buttonStyle";
+import { Wrapper, Header } from "../common/components/PageContent/PageContent";
+import buttonStyle from "../common/styles/buttonStyle";
 import Link from "next/link";
-import useDispatchEffect from "../util/useDispatchEffect";
+import useDispatchEffect from "../common/util/useDispatchEffect";
 import { fetchUsers, userSelectors } from "../users/userSlice";
 import { useSelector } from "react-redux";
-import LoadingState from "../loading/LoadingState";
+import LoadingState from "../common/components/LoadingState/LoadingState";
 
 const RecordGame: React.FC = () => {
   const router = useRouter();

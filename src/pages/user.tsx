@@ -1,21 +1,21 @@
 import React, { useMemo } from "react";
 import { useRouter } from "next/router";
-import buttonStyle from "../styles/buttonStyle";
+import buttonStyle from "../common/styles/buttonStyle";
 import { css } from "@emotion/core";
 import Link from "next/link";
 import {
   Wrapper,
   Header,
   Content,
-} from "../components/PageContent/PageContent";
+} from "../common/components/PageContent/PageContent";
 import { Game } from "../apiTypes/User";
 import { rungToRating } from "../ladder/ratings";
-import { Theme } from "../styles/theme";
-import LoadingState from "../loading/LoadingState";
-import useDispatchEffect from "../util/useDispatchEffect";
+import { Theme } from "../common/styles/theme";
+import LoadingState from "../common/components/LoadingState/LoadingState";
+import useDispatchEffect from "../common/util/useDispatchEffect";
 import { fetchUser, userSelectors } from "../users/userSlice";
 import { useSelector } from "react-redux";
-import { AppState } from "../store/store";
+import { AppState } from "../core/store";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
