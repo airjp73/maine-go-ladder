@@ -24,6 +24,14 @@ export const fetchUsers = createAsyncThunk<User[]>(
   }
 );
 
+export const fetchUser = createAsyncThunk<User, string>(
+  "users/get-one",
+  async (userId) => {
+    const response = await fetch(`/api/users/${userId}`);
+    return response.json();
+  }
+);
+
 export const postUser = createAsyncThunk<User, NewUser>(
   "users/post",
   async (payload) => {
@@ -58,6 +66,10 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       userAdapter.setAll(state, action.payload);
+    });
+
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      userAdapter.upsertOne(state, action.payload);
     });
   },
 });

@@ -8,57 +8,16 @@ import {
   Header,
   Content,
 } from "../components/PageContent/PageContent";
-import { UserWithGames, Game } from "../apiTypes/User";
+import { User, Game } from "../apiTypes/User";
 import { rungToRating } from "../ladder/ratings";
 import { Theme } from "../styles/theme";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import LoadingState from "../loading/LoadingState";
-
-const USER_GAMES_QUERY = gql`
-  query UserWithGames($user: uuid!) {
-    users_by_pk(id: $user) {
-      games_as_black {
-        id
-        black {
-          id
-          name
-        }
-        white {
-          id
-          name
-        }
-        winning_user {
-          id
-          name
-        }
-        created_at
-        winner
-      }
-      games_as_white {
-        id
-        black {
-          id
-          name
-        }
-        white {
-          id
-          name
-        }
-        winning_user {
-          id
-          name
-        }
-        created_at
-        winner
-      }
-      id
-      ladder_rung
-      name
-      streak
-    }
-  }
-`;
+import useDispatchEffect from "../util/useDispatchEffect";
+import { fetchUser, userSelectors } from "../users/userSlice";
+import { useSelector } from "react-redux";
+import { AppState } from "../store/store";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
@@ -87,22 +46,21 @@ const formatDate = (dateStr: string) => dateFormat.format(new Date(dateStr));
 
 const UserPage: React.FC = () => {
   const { query } = useRouter();
-  const { loading, data, error } = useQuery<{ users_by_pk: UserWithGames }>(
-    USER_GAMES_QUERY,
-    { variables: { user: query.userId } }
+  const userId = Array.isArray(query.userId) ? query.userId[0] : query.userId;
+  useDispatchEffect(() => fetchUser(userId), [userId]);
+  const user = useSelector((state: AppState) =>
+    userSelectors.selectById(state, userId)
   );
-
-  const user = data?.users_by_pk!;
-  const games: Game[] = useMemo(
-    () =>
-      user?.games_as_black
-        .concat(user.games_as_white)
-        .sort(
+  const games: Game[] =
+    useMemo(
+      () =>
+        user?.games &&
+        [...user.games].sort(
           (a, b) =>
             new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
         ),
-    [user]
-  );
+      [user]
+    ) ?? [];
 
   if (!user) return <LoadingState />;
 
@@ -124,7 +82,6 @@ const UserPage: React.FC = () => {
           padding: 1rem;
         `}
       >
-        {loading && <LoadingState />}
         <div
           css={(theme: Theme) => css`
             ${theme.styles.raisedBox};
