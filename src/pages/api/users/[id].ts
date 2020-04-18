@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import knex from "../../../server/knex";
+import knex from "../../../common/server/knex";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!req.query.id) res.status(400).json({ message: "Missing id" });

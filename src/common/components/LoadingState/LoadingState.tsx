@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "emotion-theming";
-import { Theme } from "../styles/theme";
+import { Theme } from "../../styles/theme";
 import { css, keyframes } from "@emotion/core";
 
 const delayedEntrance = keyframes`

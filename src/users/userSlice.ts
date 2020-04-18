@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { User, NewUser, NewGame } from "../apiTypes/User";
 import fetch from "isomorphic-fetch";
-import { AppState } from "../store/store";
+import { AppState } from "../core/store";
 
 const userAdapter = createEntityAdapter<User>({
   selectId: (user) => user.id,

@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { css } from "@emotion/core";
-import { Theme } from "../../styles/theme";
+import { Theme } from "../../common/styles/theme";
 
 export const useModal = (): [boolean, () => void, () => void] => {
   const [isOpen, setOpen] = useState(false);

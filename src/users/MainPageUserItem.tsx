@@ -5,11 +5,11 @@ import { useEffect } from "react";
 import { css } from "@emotion/core";
 import { rungToRating } from "../ladder/ratings";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState, AppDispatch } from "../store/store";
+import { AppState, AppDispatch } from "../core/store";
 import mainPageSlice from "./mainPageSlice";
-import { Theme } from "../styles/theme";
-import buttonStyle from "../styles/buttonStyle";
-import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
+import { Theme } from "../common/styles/theme";
+import buttonStyle from "../common/styles/buttonStyle";
+import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;

@@ -5,7 +5,7 @@ import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import { ratingtoRung } from "../ladder/ratings";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
+import { AppDispatch } from "../core/store";
 import { postUser } from "./userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 

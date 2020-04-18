@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState, AppDispatch } from "../store/store";
+import { AppState, AppDispatch } from "../core/store";
 import mainPageSlice, { UserStates } from "./mainPageSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import UserItem from "./UserItem";
 import { css } from "@emotion/core";
-import { Theme } from "../styles/theme";
-import buttonStyle from "../styles/buttonStyle";
-import AnimateHeight from "../components/AnimateHeight/AnimateHeight";
+import { Theme } from "../common/styles/theme";
+import buttonStyle from "../common/styles/buttonStyle";
+import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import type { User } from "../apiTypes/User";
 import { rungToRating } from "../ladder/ratings";
 import matchupValues from "./matchupValues";

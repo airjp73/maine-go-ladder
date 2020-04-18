@@ -2,10 +2,10 @@ import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { css } from "@emotion/core";
 import { User } from "../apiTypes/User";
-import LoadingState from "../loading/LoadingState";
+import LoadingState from "../common/components/LoadingState/LoadingState";
 import MainPageUserItem from "./MainPageUserItem";
 import { useSelector } from "react-redux";
-import { AppState } from "../store/store";
+import { AppState } from "../core/store";
 import { UserStates } from "./mainPageSlice";
 import { userSelectors } from "./userSlice";
 
