@@ -4,14 +4,14 @@ import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
 import UserList from "../users/UserList";
-import { User } from "../apiTypes/User";
+import { User } from "../resources/users/User";
 import { Content } from "../common/components/PageContent/PageContent";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../common/components/SpeedDial/Fab";
 import GoIcon from "../common/components/SpeedDial/GoIcon";
 import UserItem from "../users/UserItem";
 import { useDispatch } from "react-redux";
-import { postGame } from "../users/userSlice";
+import { postGame } from "../resources/games/gameSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { AppDispatch } from "../core/store";
 

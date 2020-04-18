@@ -8,12 +8,12 @@ import {
   Header,
   Content,
 } from "../common/components/PageContent/PageContent";
-import { Game } from "../apiTypes/User";
+import { Game } from "../resources/games/Game";
 import { rungToRating } from "../ladder/ratings";
 import { Theme } from "../common/styles/theme";
 import LoadingState from "../common/components/LoadingState/LoadingState";
 import useDispatchEffect from "../common/util/useDispatchEffect";
-import { fetchUser, userSelectors } from "../users/userSlice";
+import { fetchUser, userSelectors } from "../resources/users/userSlice";
 import { useSelector } from "react-redux";
 import { AppState } from "../core/store";
 

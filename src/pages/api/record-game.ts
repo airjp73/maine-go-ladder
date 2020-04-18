@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import knex from "../../common/server/knex";
-import { NewGame } from "../../apiTypes/User";
+import { NewGame } from "../../resources/games/Game";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") return res.status(400);

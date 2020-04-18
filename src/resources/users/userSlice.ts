@@ -3,19 +3,10 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { User, NewUser } from "../resources/users/User";
+import { User, NewUser } from "./User";
 import fetch from "isomorphic-fetch";
-import { AppState } from "../core/store";
-import { NewGame } from "../resources/games/Game";
-
-const userAdapter = createEntityAdapter<User>({
-  selectId: (user) => user.id,
-  sortComparer: (a, b) => b.ladder_rung - a.ladder_rung,
-});
-
-export const userSelectors = userAdapter.getSelectors(
-  (state: AppState) => state.users
-);
+import { AppState } from "../../core/store";
+import { NewGame } from "../games/Game";
 
 export const fetchUsers = createAsyncThunk<User[]>(
   "users/get-all",
@@ -58,6 +49,15 @@ export const postGame = createAsyncThunk<void, NewGame>(
       },
     });
   }
+);
+
+const userAdapter = createEntityAdapter<User>({
+  selectId: (user) => user.id,
+  sortComparer: (a, b) => b.ladder_rung - a.ladder_rung,
+});
+
+export const userSelectors = userAdapter.getSelectors(
+  (state: AppState) => state.users
 );
 
 const userSlice = createSlice({
