@@ -11,8 +11,6 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.43",
-    "@apollo/link-batch-http": "^2.0.0-beta.3",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
     "@reach/dialog": "^0.9.1",
@@ -23,8 +21,6 @@
     "@types/react-redux": "^7.1.7",
     "emotion-theming": "^10.0.27",
     "framer-motion": "^1.10.3",
-    "graphql": "^15.0.0",
-    "graphql-tag": "^2.10.3",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^25.2.7",
     "knex": "^0.20.13",

@@ -8,11 +8,9 @@ import {
   Header,
   Content,
 } from "../components/PageContent/PageContent";
-import { User, Game } from "../apiTypes/User";
+import { Game } from "../apiTypes/User";
 import { rungToRating } from "../ladder/ratings";
 import { Theme } from "../styles/theme";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
 import LoadingState from "../loading/LoadingState";
 import useDispatchEffect from "../util/useDispatchEffect";
 import { fetchUser, userSelectors } from "../users/userSlice";

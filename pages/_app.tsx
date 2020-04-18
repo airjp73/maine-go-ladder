@@ -8,48 +8,44 @@ import { ThemeProvider } from "emotion-theming";
 import theme, { Theme } from "../styles/theme";
 import "@reach/dialog/styles.css";
 import { AnimatePresence } from "framer-motion";
-import { ApolloProvider } from "@apollo/client";
-import client from "../apollo/client";
 
 const App = ({ Component, pageProps, router }: AppPropsType) => {
   return (
     <ThemeProvider theme={theme}>
-      <ApolloProvider client={client}>
-        <Provider store={store}>
-          <Head>
-            <link
-              href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
-              rel="stylesheet"
-            />
-          </Head>
-          <Global
-            styles={(theme: Theme) => css`
-              html {
-                background-color: ${theme.colors.green[80].hex};
-              }
-              html,
-              body,
-              #__next {
-                font-family: Roboto, sans-serif;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-              }
-            `}
+      <Provider store={store}>
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+            rel="stylesheet"
           />
-          <div
-            css={css`
+        </Head>
+        <Global
+          styles={(theme: Theme) => css`
+            html {
+              background-color: ${theme.colors.green[80].hex};
+            }
+            html,
+            body,
+            #__next {
+              font-family: Roboto, sans-serif;
               height: 100%;
-              position: relative;
-              overflow: hidden;
-            `}
-          >
-            <AnimatePresence initial={false}>
-              <Component {...pageProps} key={router.route} />
-            </AnimatePresence>
-          </div>
-        </Provider>
-      </ApolloProvider>
+              margin: 0;
+              padding: 0;
+            }
+          `}
+        />
+        <div
+          css={css`
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+          `}
+        >
+          <AnimatePresence initial={false}>
+            <Component {...pageProps} key={router.route} />
+          </AnimatePresence>
+        </div>
+      </Provider>
     </ThemeProvider>
   );
 };
