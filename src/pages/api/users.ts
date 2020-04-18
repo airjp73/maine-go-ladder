@@ -1,7 +1,7 @@
 import knex from "../../common/server/knex";
-import createRequetHandler from "../../common/server/createRequestHandler";
+import createRequestHandler from "../../common/server/createRequestHandler";
 
-export default createRequetHandler({
+export default createRequestHandler({
   GET: async (req, res) => {
     const result = await knex.select("*").from("users");
     return res.json(result);

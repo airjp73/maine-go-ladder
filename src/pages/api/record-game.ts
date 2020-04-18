@@ -1,8 +1,8 @@
 import knex from "../../common/server/knex";
 import { NewGame } from "../../resources/games/Game";
-import createRequetHandler from "../../common/server/createRequestHandler";
+import createRequestHandler from "../../common/server/createRequestHandler";
 
-export default createRequetHandler({
+export default createRequestHandler({
   POST: async (req, res) => {
     const body = req.body as NewGame;
     const winner = body.winner;

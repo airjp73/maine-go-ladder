@@ -4,7 +4,7 @@ export interface RequestHandlers {
   [method: string]: NextApiHandler;
 }
 
-const createRequetHandler = (handlers: RequestHandlers) => (
+const createRequestHandler = (handlers: RequestHandlers) => (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
@@ -16,4 +16,4 @@ const createRequetHandler = (handlers: RequestHandlers) => (
   return handler(req, res);
 };
 
-export default createRequetHandler;
+export default createRequestHandler;

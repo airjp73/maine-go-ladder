@@ -1,7 +1,7 @@
 import knex from "../../../common/server/knex";
-import createRequetHandler from "../../../common/server/createRequestHandler";
+import createRequestHandler from "../../../common/server/createRequestHandler";
 
-export default createRequetHandler({
+export default createRequestHandler({
   GET: async (req, res) => {
     if (!req.query.id) res.status(400).json({ message: "Missing id" });
 
