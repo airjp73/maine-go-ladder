@@ -3,24 +3,21 @@ import { css } from "@emotion/core";
 import { Theme } from "../styles/theme";
 import buttonStyle from "../styles/buttonStyle";
 import { AnimatePresence, motion } from "framer-motion";
-import UserList, { USERS } from "../users/UserList";
+import UserList from "../users/UserList";
 import { User } from "../apiTypes/User";
 import { Content } from "../components/PageContent/PageContent";
 import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../components/SpeedDial/Fab";
 import GoIcon from "../components/SpeedDial/GoIcon";
-import { useMutation } from "@apollo/client";
 import UserItem from "../users/UserItem";
+import { useDispatch } from "react-redux";
+import { postGame } from "../users/userSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { AppDispatch } from "../store/store";
 
 interface AddGameFormProps {
   onAfterSubmit: (black: string, white: string) => void;
 }
-
-const field = css`
-  > * + * {
-    margin-left: 0.5rem;
-  }
-`;
 
 type TabCustomProp = { prev: number; current: number };
 
@@ -65,6 +62,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const [winner, setWinner] = useState<User | null>(null);
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
+  const dispatch = useDispatch<AppDispatch>();
   const error = getErrors(blackPlayer, whitePlayer, winner);
 
   const variants = {
@@ -82,31 +80,19 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
     setTab(nextTab);
   };
 
-  const submit = async () => {
+  const submit = () => {
     const black = blackPlayer!.id;
     const white = whitePlayer!.id;
     const loser = black === winner!.id ? white : black;
-    const [winnerData] = await Promise.all([
-      updateWinner({ variables: { winner: winner!.id } }),
-      addGame({
-        variables: { black, white, winner: winner!.id },
-        refetchQueries: [{ query: USERS }],
-      }),
-      updateLoser({ variables: { loser } }),
-    ]);
-    if (winnerData.data.update_users.returning[0].streak >= 3) {
-      await updateWinnerFromStreak({
-        variables: { winner: winner!.id },
-        // update(cache, { data: { update_users } }) {
-        //   const { users } = cache.readQuery({ query: USERS });
-        //   cache.writeQuery({
-        //     query: USERS,
-        //     data: { users: users.map()}
-        //   })
-        // }
-      });
-    }
-    onAfterSubmit(black, white);
+    dispatch(
+      postGame({
+        black,
+        white,
+        winner: winner!.id,
+      })
+    )
+      .then(unwrapResult)
+      .then(() => onAfterSubmit(black, white));
   };
 
   return (

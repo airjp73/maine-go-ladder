@@ -7,7 +7,10 @@ export interface UserWithGames {
   games_as_black: Game[];
 }
 
-export type User = Pick<UserWithGames, "id" | "name" | "ladder_rung">;
+export type User = Pick<
+  UserWithGames,
+  "id" | "name" | "ladder_rung" | "streak"
+>;
 export type NewUser = Pick<UserWithGames, "name" | "ladder_rung">;
 export type UserWithStreak = Pick<UserWithGames, "id" | "streak">;
 
@@ -19,4 +22,8 @@ export interface Game {
   created_at: string;
 }
 
-export type NewGame = Pick<Game, "black" | "white" | "winner">;
+export interface NewGame {
+  black: string;
+  white: string;
+  winner: string;
+}

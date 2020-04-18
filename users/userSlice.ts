@@ -3,13 +3,13 @@ import {
   createEntityAdapter,
   createAsyncThunk,
 } from "@reduxjs/toolkit";
-import { User, NewUser } from "../apiTypes/User";
+import { User, NewUser, NewGame } from "../apiTypes/User";
 import fetch from "isomorphic-fetch";
 import { AppState } from "../store/store";
 
 const userAdapter = createEntityAdapter<User>({
   selectId: (user) => user.id,
-  sortComparer: (a, b) => a.ladder_rung - b.ladder_rung,
+  sortComparer: (a, b) => b.ladder_rung - a.ladder_rung,
 });
 
 export const userSelectors = userAdapter.getSelectors(
@@ -35,6 +35,19 @@ export const postUser = createAsyncThunk<User, NewUser>(
       },
     });
     return response.json();
+  }
+);
+
+export const postGame = createAsyncThunk<void, NewGame>(
+  "users/post",
+  async (payload) => {
+    await fetch("/api/record-game", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 );
 
