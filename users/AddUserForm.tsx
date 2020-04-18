@@ -1,10 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
-import { Theme } from "../styles/theme";
-import buttonStyle from "../styles/buttonStyle";
+import { Theme } from "../common/styles/theme";
+import buttonStyle from "../common/styles/buttonStyle";
 import { ratingtoRung } from "../ladder/ratings";
-import gql from "graphql-tag";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { postUser } from "./userSlice";
