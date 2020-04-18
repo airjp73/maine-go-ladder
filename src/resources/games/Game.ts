@@ -2,10 +2,11 @@ import { User } from "../users/User";
 
 export interface Game {
   id: string;
-  black: User;
-  white: User;
+  black: string;
+  white: string;
   winner: string;
   created_at: string;
+  updated_at: string;
 }
 
 export interface NewGame {
