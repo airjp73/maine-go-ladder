@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../core/store";
 import { fetchGames, gameSelectors } from "../../resources/games/gameSlice";
 import { User } from "../../resources/users/User";
+import LoadingStates from "../../common/enum/LoadingStates";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
@@ -93,8 +94,13 @@ const UserPage: React.FC = () => {
       .filter((game) => game.black === user?.id || game.white === user?.id)
   );
 
-  if (false) return <LoadingState />;
-  if (!user) return <h1>User not found</h1>;
+  const isLoading = useSelector(
+    (state: AppState) =>
+      state.users.loading !== LoadingStates.COMPLETE ||
+      state.games.loading !== LoadingStates.COMPLETE
+  );
+
+  if (isLoading) return <LoadingState />;
 
   return (
     <Wrapper
@@ -102,52 +108,54 @@ const UserPage: React.FC = () => {
       animate={{ x: "0" }}
       exit={{ x: "100%", zIndex: 1 }}
     >
-      <Header header={user.name ?? "User"}>
+      <Header header={user ? user.name : "User not found"}>
         <Link href="/">
           <a css={buttonStyle}>Back</a>
         </Link>
       </Header>
-      <Content
-        css={css`
-          display: flex;
-          flex-direction: column;
-          padding: 1rem;
-        `}
-      >
-        <div
-          css={(theme: Theme) => css`
-            ${theme.styles.raisedBox};
-            border-radius: 3px;
-            margin: 0.5rem 0;
-
-            p {
-              margin: 0;
-            }
-          `}
-        >
-          <p>
-            <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
-          </p>
-          <p>
-            <strong>Current Streak:</strong> {user.streak}
-          </p>
-        </div>
-        <h3>Games:</h3>
-        <div
+      {user && (
+        <Content
           css={css`
-            overflow: auto;
-            flex: 1;
-            height: 200px;
-            > * + * {
-              margin-top: 1rem;
-            }
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
           `}
         >
-          {games.map((game) => (
-            <GameItem game={game} user={user} />
-          ))}
-        </div>
-      </Content>
+          <div
+            css={(theme: Theme) => css`
+              ${theme.styles.raisedBox};
+              border-radius: 3px;
+              margin: 0.5rem 0;
+
+              p {
+                margin: 0;
+              }
+            `}
+          >
+            <p>
+              <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
+            </p>
+            <p>
+              <strong>Current Streak:</strong> {user.streak}
+            </p>
+          </div>
+          <h3>Games:</h3>
+          <div
+            css={css`
+              overflow: auto;
+              flex: 1;
+              height: 200px;
+              > * + * {
+                margin-top: 1rem;
+              }
+            `}
+          >
+            {games.map((game) => (
+              <GameItem game={game} user={user} />
+            ))}
+          </div>
+        </Content>
+      )}
     </Wrapper>
   );
 };

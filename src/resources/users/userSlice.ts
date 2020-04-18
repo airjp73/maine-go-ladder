@@ -6,6 +6,7 @@ import {
 import { User, NewUser } from "./User";
 import fetch from "isomorphic-fetch";
 import { AppState } from "../../core/store";
+import LoadingStates from "../../common/enum/LoadingStates";
 
 export const fetchUsers = createAsyncThunk<User[]>(
   "users/get-all",
@@ -40,11 +41,22 @@ export const userSelectors = userAdapter.getSelectors(
 
 const userSlice = createSlice({
   name: "users",
-  initialState: userAdapter.getInitialState(),
+  initialState: userAdapter.getInitialState({
+    loading: LoadingStates.IDLE,
+  }),
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchUsers.pending, (state) => {
+      state.loading = LoadingStates.LOADING;
+    });
+
+    builder.addCase(fetchUsers.rejected, (state) => {
+      state.loading = LoadingStates.COMPLETE;
+    });
+
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       userAdapter.setAll(state, action.payload);
+      state.loading = LoadingStates.COMPLETE;
     });
   },
 });

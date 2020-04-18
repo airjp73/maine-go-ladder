@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { NewGame, Game } from "./Game";
 import { AppState } from "../../core/store";
+import LoadingStates from "../../common/enum/LoadingStates";
 
 export const fetchGames = createAsyncThunk<Game[], string>(
   "games/get-all",
@@ -39,11 +40,22 @@ export const gameSelectors = gameAdapter.getSelectors(
 
 const gameSlice = createSlice({
   name: "users",
-  initialState: gameAdapter.getInitialState(),
+  initialState: gameAdapter.getInitialState({
+    loading: LoadingStates.IDLE,
+  }),
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchGames.pending, (state) => {
+      state.loading = LoadingStates.LOADING;
+    });
+
+    builder.addCase(fetchGames.rejected, (state) => {
+      state.loading = LoadingStates.COMPLETE;
+    });
+
     builder.addCase(fetchGames.fulfilled, (state, action) => {
       gameAdapter.setAll(state, action.payload);
+      state.loading = LoadingStates.COMPLETE;
     });
   },
 });
