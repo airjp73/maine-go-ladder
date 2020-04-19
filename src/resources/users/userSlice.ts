@@ -30,6 +30,16 @@ export const postUser = createAsyncThunk<User, NewUser>(
   }
 );
 
+export const deleteUser = createAsyncThunk<{}, string>(
+  "users/delete",
+  async (userId) => {
+    const response = await fetch(`/api/users/${userId}`, {
+      method: "DELETE",
+    });
+    return response.json();
+  }
+);
+
 const userAdapter = createEntityAdapter<User>({
   selectId: (user) => user.id,
   sortComparer: (a, b) => b.ladder_rung - a.ladder_rung,
@@ -57,6 +67,10 @@ const userSlice = createSlice({
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
       userAdapter.setAll(state, action.payload);
       state.loading = LoadingStates.COMPLETE;
+    });
+
+    builder.addCase(deleteUser.fulfilled, (state, action) => {
+      userAdapter.removeOne(state, action.meta.arg);
     });
   },
 });

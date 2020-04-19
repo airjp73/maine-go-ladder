@@ -10,17 +10,17 @@ import mainPageSlice from "./mainPageSlice";
 import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
-import ModalButton from "../common/components/Modal/ModalButton";
+import DeleteUserButton from "./DeleteUserButton";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
 }
 
 const containerVariants = {
-  initial: { scale: 0.8, opacity: 0, x: 0 },
-  entered: { scale: 1, opacity: 1, x: 0 },
+  initial: { scale: 0.8, opacity: 0 },
+  entered: { scale: 1, opacity: 1 },
   selected: { scale: 1 },
-  exit: { scale: 1, opacity: 0, x: 10 },
+  exit: { scale: 0.8, opacity: 0 },
 };
 
 const nameVariants = {
@@ -150,53 +150,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
               >
                 View Game History
               </button>
-              <ModalButton
-                title={`Delete ${user.name}`}
-                buttonLabel="Delete User"
-              >
-                {({ close }) => (
-                  <>
-                    <p>Are you sure you want to delete {user.name}?</p>
-                    <div
-                      css={css`
-                        display: flex;
-                        justify-content: flex-end;
-                        > * + * {
-                          margin-left: 1rem;
-                        }
-                      `}
-                    >
-                      <button
-                        css={(theme: Theme) =>
-                          buttonStyle({
-                            ...theme,
-                            colors: {
-                              ...theme.colors,
-                              green: theme.colors.blue,
-                            },
-                          })
-                        }
-                        onClick={close}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        css={(theme: Theme) =>
-                          buttonStyle({
-                            ...theme,
-                            colors: {
-                              ...theme.colors,
-                              green: theme.colors.blue,
-                            },
-                          })
-                        }
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </>
-                )}
-              </ModalButton>
+              <DeleteUserButton user={user} />
             </div>
           </AnimateHeight>
         )}

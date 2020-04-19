@@ -3,7 +3,10 @@ import createRequestHandler from "../../common/server/createRequestHandler";
 
 export default createRequestHandler({
   GET: async (req, res) => {
-    const result = await knex.select("*").from("users");
+    const result = await knex
+      .select("*")
+      .from("users")
+      .where({ archived: false });
     return res.json(result);
   },
   POST: async (req, res) => {
