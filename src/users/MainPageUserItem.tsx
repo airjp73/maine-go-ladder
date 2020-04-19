@@ -144,7 +144,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
                 css={buttonStyle}
                 onClick={(event) => {
                   event.stopPropagation();
-                  push(`/user/${user.id}`);
+                  push(`/user?userId=${user.id}`);
                 }}
               >
                 View Game History

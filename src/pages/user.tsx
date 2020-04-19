@@ -1,24 +1,25 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import buttonStyle from "../../common/styles/buttonStyle";
+import buttonStyle from "../common/styles/buttonStyle";
 import { css } from "@emotion/core";
 import Link from "next/link";
 import {
   Wrapper,
   Header,
   Content,
-} from "../../common/components/PageContent/PageContent";
-import { Game } from "../../resources/games/Game";
-import { rungToRating } from "../../ladder/ratings";
-import { Theme } from "../../common/styles/theme";
-import LoadingState from "../../common/components/LoadingState/LoadingState";
-import useDispatchEffect from "../../common/util/useDispatchEffect";
-import { userSelectors, fetchUsers } from "../../resources/users/userSlice";
+} from "../common/components/PageContent/PageContent";
+import { Game } from "../resources/games/Game";
+import { rungToRating } from "../ladder/ratings";
+import { Theme } from "../common/styles/theme";
+import LoadingState from "../common/components/LoadingState/LoadingState";
+import useDispatchEffect from "../common/util/useDispatchEffect";
+import { userSelectors, fetchUsers } from "../resources/users/userSlice";
 import { useSelector } from "react-redux";
-import { AppState } from "../../core/store";
-import { fetchGames, gameSelectors } from "../../resources/games/gameSlice";
-import { User } from "../../resources/users/User";
-import LoadingStates from "../../common/enum/LoadingStates";
+import { AppState } from "../core/store";
+import { fetchGames, gameSelectors } from "../resources/games/gameSlice";
+import { User } from "../resources/users/User";
+import LoadingStates from "../common/enum/LoadingStates";
+import { usePresence } from "framer-motion";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
@@ -80,9 +81,24 @@ const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => {
   );
 };
 
-const UserPage: React.FC = () => {
+/**
+ * The values of the query params are always for the current page.
+ * When we transition to another page, we want to keep the old ones around.
+ * @param paramName the name of the query param
+ */
+const useQueryParam = (paramName: string) => {
   const { query } = useRouter();
-  const userId = Array.isArray(query.userId) ? query.userId[0] : query.userId;
+  const param = query[paramName];
+  const paramRef = useRef<string | string[]>(param);
+  useEffect(() => {
+    if (param) paramRef.current = param;
+  }, [param]);
+  return paramRef.current;
+};
+
+const UserPage: React.FC = () => {
+  const userIdParam = useQueryParam("userId");
+  const userId = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
   useDispatchEffect(() => userId && fetchGames(userId), [userId]);
   useDispatchEffect(() => fetchUsers(), []);
   const user = useSelector((state: AppState) =>
@@ -96,8 +112,8 @@ const UserPage: React.FC = () => {
 
   const isLoading = useSelector(
     (state: AppState) =>
-      state.users.loading !== LoadingStates.COMPLETE ||
-      state.games.loading !== LoadingStates.COMPLETE
+      state.users.loading === LoadingStates.IDLE ||
+      state.games.loading === LoadingStates.IDLE
   );
 
   if (isLoading) return <LoadingState />;
@@ -151,7 +167,7 @@ const UserPage: React.FC = () => {
             `}
           >
             {games.map((game) => (
-              <GameItem game={game} user={user} />
+              <GameItem key={game.id} game={game} user={user} />
             ))}
           </div>
         </Content>
