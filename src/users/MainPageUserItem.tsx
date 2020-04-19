@@ -10,6 +10,7 @@ import mainPageSlice from "./mainPageSlice";
 import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
+import ModalButton from "../common/components/Modal/ModalButton";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -115,7 +116,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
               css={css`
                 display: flex;
                 justify-content: center;
-                padding: 0.5rem;
+                padding: 1rem 0.5rem;
 
                 @media only screen and (min-width: 750px) {
                   > * + * {
@@ -149,6 +150,53 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
               >
                 View Game History
               </button>
+              <ModalButton
+                title={`Delete ${user.name}`}
+                buttonLabel="Delete User"
+              >
+                {({ close }) => (
+                  <>
+                    <p>Are you sure you want to delete {user.name}?</p>
+                    <div
+                      css={css`
+                        display: flex;
+                        justify-content: flex-end;
+                        > * + * {
+                          margin-left: 1rem;
+                        }
+                      `}
+                    >
+                      <button
+                        css={(theme: Theme) =>
+                          buttonStyle({
+                            ...theme,
+                            colors: {
+                              ...theme.colors,
+                              green: theme.colors.blue,
+                            },
+                          })
+                        }
+                        onClick={close}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        css={(theme: Theme) =>
+                          buttonStyle({
+                            ...theme,
+                            colors: {
+                              ...theme.colors,
+                              green: theme.colors.blue,
+                            },
+                          })
+                        }
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                )}
+              </ModalButton>
             </div>
           </AnimateHeight>
         )}

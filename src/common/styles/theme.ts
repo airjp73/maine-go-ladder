@@ -8,7 +8,7 @@ const theme = {
     blue,
     green,
     background: green[50].hex,
-    modalBackground: blue[10].hex,
+    modalBackground: blue[80].hex,
     dark: blue[90].hex,
     medDark: blue[80].hex,
     highlight: blue[20].hex,

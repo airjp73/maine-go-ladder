@@ -65,6 +65,7 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, title, children }) => {
               position: relative;
               border-radius: 3px;
               padding: 1rem;
+              color: ${theme.colors.blue[30].hex};
             `}
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,8 +74,8 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, title, children }) => {
             <header
               css={(theme: Theme) => css`
                 display: flex;
-                color: ${theme.colors.blue[60].hex};
                 font-weight: bold;
+                color: ${theme.colors.blue[20].hex};
               `}
             >
               <span>{title}</span>
@@ -84,7 +85,7 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, title, children }) => {
                   border: none;
                   margin-left: auto;
                   font-size: 1rem;
-                  color: ${theme.colors.blue[60].hex};
+                  color: ${theme.colors.blue[30].hex};
                 `}
                 onClick={onClose}
               >

@@ -18,7 +18,13 @@ const ModalButton: React.FC<ModalButtonProps> = ({
   const [active, open, close] = useModal();
   return (
     <>
-      <button css={buttonStyle} onClick={open}>
+      <button
+        css={buttonStyle}
+        onClick={(event) => {
+          event.stopPropagation();
+          open();
+        }}
+      >
         {buttonLabel}
       </button>
       <Modal title={title} active={active} onClose={close}>
