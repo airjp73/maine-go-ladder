@@ -19,7 +19,6 @@ import { AppState } from "../core/store";
 import { fetchGames, gameSelectors } from "../resources/games/gameSlice";
 import { User } from "../resources/users/User";
 import LoadingStates from "../common/enum/LoadingStates";
-import { usePresence } from "framer-motion";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
@@ -46,40 +45,32 @@ const dateFormat = new Intl.DateTimeFormat("en", {
 });
 const formatDate = (dateStr: string) => dateFormat.format(new Date(dateStr));
 
-const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => {
-  const black = useSelector((state: AppState) =>
-    userSelectors.selectById(state, game.black)
-  );
-  const white = useSelector((state: AppState) =>
-    userSelectors.selectById(state, game.white)
-  );
-  return (
-    <div css={userItemStyle}>
-      <div>
-        <p>
-          <strong>Black:</strong> {black?.name ?? "Unkown"}
-        </p>
-        <p>
-          <strong>White:</strong> {white?.name ?? "Unkown"}
-        </p>
-        <p>
-          <strong>Uploaded:</strong> {formatDate(game.created_at)}
-        </p>
-      </div>
-      <span
-        css={(theme: Theme) => css`
-          margin-left: auto;
-          font-size: 1.5rem;
-          color: ${game.winner === user.id
-            ? theme.colors.highlight
-            : theme.colors.green[60].hex};
-        `}
-      >
-        {game.winner === user.id ? "Won" : "Lost"}
-      </span>
+const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => (
+  <div css={userItemStyle}>
+    <div>
+      <p>
+        <strong>Black:</strong> {game.black.name}
+      </p>
+      <p>
+        <strong>White:</strong> {game.white.name}
+      </p>
+      <p>
+        <strong>Uploaded:</strong> {formatDate(game.created_at)}
+      </p>
     </div>
-  );
-};
+    <span
+      css={(theme: Theme) => css`
+        margin-left: auto;
+        font-size: 1.5rem;
+        color: ${game.winner === user.id
+          ? theme.colors.highlight
+          : theme.colors.green[60].hex};
+      `}
+    >
+      {game.winner === user.id ? "Won" : "Lost"}
+    </span>
+  </div>
+);
 
 /**
  * The values of the query params are always for the current page.
@@ -107,7 +98,9 @@ const UserPage: React.FC = () => {
   const games: Game[] = useSelector((state: AppState) =>
     gameSelectors
       .selectAll(state)
-      .filter((game) => game.black === user?.id || game.white === user?.id)
+      .filter(
+        (game) => game.black.id === user?.id || game.white.id === user?.id
+      )
   );
 
   const isLoading = useSelector(

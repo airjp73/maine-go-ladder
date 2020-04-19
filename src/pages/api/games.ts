@@ -5,11 +5,26 @@ export default createRequestHandler({
   GET: async (req, res) => {
     const { userId } = req.query;
     if (!userId) return res.status(400).send("Missing userId param");
-    const data = await knex
-      .select("*")
+    const games = await knex
+      .select("games.*")
+      .select("b.name as blackName")
+      .select("w.name as whiteName")
       .from("games")
+      .leftJoin("users as b", "games.black", "b.id")
+      .leftJoin("users as w", "games.white", "w.id")
       .where("black", userId)
       .or.where("white", userId);
-    return res.json(data);
+    const gamesWithPlayers = games.map((game) => ({
+      ...game,
+      black: {
+        id: game.black,
+        name: game.blackName,
+      },
+      white: {
+        id: game.white,
+        name: game.whiteName,
+      },
+    }));
+    return res.json(gamesWithPlayers);
   },
 });

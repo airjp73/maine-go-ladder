@@ -1,9 +1,10 @@
 import { User } from "../users/User";
 
+export type GamePlayer = Pick<User, "id" | "name">;
 export interface Game {
   id: string;
-  black: string;
-  white: string;
+  black: GamePlayer;
+  white: GamePlayer;
   winner: string;
   created_at: string;
   updated_at: string;
