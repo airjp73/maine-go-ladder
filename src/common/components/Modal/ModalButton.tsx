@@ -1,8 +1,6 @@
 import React from "react";
 import Modal, { useModal } from "./Modal";
-import { css } from "@emotion/core";
-import { Theme } from "../../common/styles/theme";
-import buttonStyle from "../../common/styles/buttonStyle";
+import buttonStyle from "../../styles/buttonStyle";
 
 type RenderPropApi = { close: () => void };
 
