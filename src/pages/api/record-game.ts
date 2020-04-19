@@ -10,9 +10,9 @@ export default createRequestHandler({
 
     await knex.transaction(async (trx) => {
       await trx("games").insert({
-        black_player: body.black,
-        white_player: body.white,
-        winning_player: winner,
+        black: body.black,
+        white: body.white,
+        winner,
       });
 
       await trx("users")

@@ -8,17 +8,8 @@ export default createRequestHandler({
     const data = await knex
       .select("*")
       .from("games")
-      .where("black_player", userId)
-      .or.where("white_player", userId);
-
-    // TODO: Change this in the database
-    return res.json(
-      data.map((game) => ({
-        ...game,
-        black: game.black_player,
-        white: game.white_player,
-        winner: game.winning_player,
-      }))
-    );
+      .where("black", userId)
+      .or.where("white", userId);
+    return res.json(data);
   },
 });

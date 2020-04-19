@@ -21,13 +21,9 @@ exports.up = async function up(knex: Knex) {
       .primary()
       .notNullable()
       .defaultTo(knex.raw("uuid_generate_v4()"));
-    table.uuid("white_player").notNullable().references("id").inTable("users");
-    table.uuid("black_player").notNullable().references("id").inTable("users");
-    table
-      .uuid("winning_player")
-      .notNullable()
-      .references("id")
-      .inTable("users");
+    table.uuid("white").notNullable().references("id").inTable("users");
+    table.uuid("black").notNullable().references("id").inTable("users");
+    table.uuid("winner").notNullable().references("id").inTable("users");
     table.string("sgf").nullable();
     table.timestamps(false, true);
   });
