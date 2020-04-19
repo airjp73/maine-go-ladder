@@ -11,6 +11,9 @@ import { userSelectors } from "../resources/users/userSlice";
 
 const MainPageUserList: React.FC = () => {
   const users = useSelector(userSelectors.selectAll);
+  const isLoading = useSelector(
+    (state: AppState) => state.users.loading === "IDLE"
+  );
   const mode = useSelector((state: AppState) => state.mainPage.currentState);
   const selectedUser = useSelector(
     (state: AppState) => state.mainPage.selectedUser
@@ -22,7 +25,7 @@ const MainPageUserList: React.FC = () => {
 
   return (
     <>
-      {!users.length && <LoadingState />}
+      {isLoading && <LoadingState />}
       <motion.ul
         css={css`
           list-style: none;
