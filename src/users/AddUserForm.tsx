@@ -75,7 +75,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
       <div css={field}>
         <label>Name</label>
 
-        <input name="name" ref={register({ required: true })} />
+        <input name="name" ref={register({ required: true })} required />
         {errors.name && <span css={error}>{errors.name.message}</span>}
       </div>
 
@@ -85,6 +85,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
           name="rating"
           type="number"
           step="0.1"
+          required
           ref={register({ required: true })}
           onChange={(event) => {
             const target = event.target as HTMLInputElement;
