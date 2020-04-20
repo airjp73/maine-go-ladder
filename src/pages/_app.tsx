@@ -8,6 +8,8 @@ import { ThemeProvider } from "emotion-theming";
 import theme, { Theme } from "../common/styles/theme";
 import "@reach/dialog/styles.css";
 import { AnimatePresence } from "framer-motion";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = ({ Component, pageProps, router }: AppPropsType) => {
   return (
@@ -45,6 +47,7 @@ const App = ({ Component, pageProps, router }: AppPropsType) => {
             <Component {...pageProps} key={router.route} />
           </AnimatePresence>
         </div>
+        <ToastContainer />
       </Provider>
     </ThemeProvider>
   );

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../core/store";
 import { postUser } from "../resources/users/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
+import reportError from "../common/util/reportError";
 
 interface AddUserFormProps {
   onAfterSubmit: () => void;
@@ -55,7 +56,8 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
         const ladder_rung = ratingtoRung(parseFloat(values.rating));
         dispatch(postUser({ name: values.name, ladder_rung }))
           .then(unwrapResult)
-          .then(() => onAfterSubmit());
+          .then(() => onAfterSubmit())
+          .catch(() => reportError("Failed to create user"));
       })}
       css={css`
         display: flex;
