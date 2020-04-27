@@ -23,7 +23,6 @@ export default createRequestHandler({
     return res.json(result);
   },
   POST: async (req, res) => {
-    console.log(req.body);
     const { ladder_rung, ...rest } = req.body;
 
     const finalResult = await knex.transaction(async (trx) => {
@@ -38,8 +37,6 @@ export default createRequestHandler({
         .returning<number[]>("ladder_rung");
       return { user, insertedRung };
     });
-
-    console.log(finalResult);
 
     return res.json({
       ...finalResult.user,
