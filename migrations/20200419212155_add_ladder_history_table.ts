@@ -5,8 +5,8 @@ import type Knex from "knex";
  * Just wipe it all.
  */
 async function wipeUsersAndGames(knex: Knex) {
-  await knex("games").where(1, 1).del();
-  await knex("users").where(1, 1).del();
+  await knex("games").del();
+  await knex("users").del();
 }
 
 exports.up = async function up(knex: Knex): Promise<any> {
