@@ -1,4 +1,4 @@
-name: Build and deploy
+name: Test and build
 
 on:
   push:
@@ -21,3 +21,4 @@ jobs:
         run: |
           npm install
           npm run test
+          npm run build
