@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "knex migrate:latest && next dev",
     "migrate": "knex migrate:latest",
+    "migrate:test": "TEST=true && knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "build": "next build",
     "start": "next start",
