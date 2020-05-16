@@ -31,7 +31,7 @@ export default createRequestHandler({
       await updateRung(trx, winner, winnerGain);
       await updateRung(trx, loser, -1);
 
-      await trx("users").where("id", "=", winner).update("streak", 0);
+      await trx("users").where("id", "=", loser).update("streak", 0);
     });
 
     return res.send(200);
