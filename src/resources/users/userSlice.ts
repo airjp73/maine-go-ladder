@@ -4,14 +4,14 @@ import {
   createAsyncThunk,
 } from "@reduxjs/toolkit";
 import { User, NewUser } from "./User";
-import fetch from "isomorphic-fetch";
 import { AppState } from "../../core/store";
 import LoadingStates from "../../common/enum/LoadingStates";
+import performFetch from "../../common/api/performFetch";
 
 export const fetchUsers = createAsyncThunk<User[]>(
   "users/get-all",
   async () => {
-    const response = await fetch("/api/users");
+    const response = await performFetch("/api/users");
     return response.json();
   }
 );
@@ -19,7 +19,7 @@ export const fetchUsers = createAsyncThunk<User[]>(
 export const postUser = createAsyncThunk<User, NewUser>(
   "users/post",
   async (payload) => {
-    const response = await fetch("/api/users", {
+    const response = await performFetch("/api/users", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
@@ -33,7 +33,7 @@ export const postUser = createAsyncThunk<User, NewUser>(
 export const deleteUser = createAsyncThunk<{}, string>(
   "users/delete",
   async (userId) => {
-    const response = await fetch(`/api/users/${userId}`, {
+    const response = await performFetch(`/api/users/${userId}`, {
       method: "DELETE",
     });
     return response.json();

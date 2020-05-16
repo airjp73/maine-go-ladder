@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { postGame } from "../resources/games/gameSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { AppDispatch } from "../core/store";
+import reportError from "../common/util/reportError";
 
 interface AddGameFormProps {
   onAfterSubmit: (black: string, white: string) => void;
@@ -92,7 +93,8 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
       })
     )
       .then(unwrapResult)
-      .then(() => onAfterSubmit(black, white));
+      .then(() => onAfterSubmit(black, white))
+      .catch(() => reportError("Failed to update ladder"));
   };
 
   return (
