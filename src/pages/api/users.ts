@@ -5,16 +5,16 @@ import { User } from "../../resources/users/User";
 export default createRequestHandler({
   GET: async (req, res) => {
     const result = await knex
-      .distinct("users.id")
       .select("users.*")
+      .distinctOn("users.id")
       .select("ladder_history.ladder_rung")
       .select("ladder_history.created_at as ladder_date")
       .from("users")
       .leftJoin("ladder_history", "users.id", "ladder_history.user")
       .where({ archived: false })
       .orderBy([
-        { column: "ladder_history.created_at", order: "desc" },
         { column: "users.id", order: "desc" },
+        { column: "ladder_history.created_at", order: "desc" },
       ]);
     return res.json(result);
   },
