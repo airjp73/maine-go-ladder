@@ -11,13 +11,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # runs all of the steps inside the specified container rather than on the VM host.
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image: node:10.16-jessie
+
     services:
       postgres:
-        image: postgres
+        image: postgres:10.8
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         ports:
-          - 5432/tcp
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
@@ -29,12 +37,12 @@ jobs:
       - name: Migrate DB
         run: npm run migrate
         env:
-          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@localhost:5432
+          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}
 
       - name: Test
         run: npm run test
         env:
-          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@localhost:5432
+          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}
 
       - name: Build
         run: npm run build
