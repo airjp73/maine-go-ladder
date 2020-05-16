@@ -2,22 +2,23 @@ import knex from "../../common/server/knex";
 import createRequestHandler from "../../common/server/createRequestHandler";
 import { User } from "../../resources/users/User";
 
+export function getUsers(): Promise<User[]> {
+  return knex
+    .select("users.*")
+    .distinctOn("users.id")
+    .select("ladder_history.ladder_rung")
+    .select("ladder_history.created_at as ladder_date")
+    .from("users")
+    .leftJoin("ladder_history", "users.id", "ladder_history.user")
+    .where({ archived: false })
+    .orderBy([
+      { column: "users.id", order: "desc" },
+      { column: "ladder_history.created_at", order: "desc" },
+    ]);
+}
+
 export default createRequestHandler({
-  GET: async (req, res) => {
-    const result = await knex
-      .select("users.*")
-      .distinctOn("users.id")
-      .select("ladder_history.ladder_rung")
-      .select("ladder_history.created_at as ladder_date")
-      .from("users")
-      .leftJoin("ladder_history", "users.id", "ladder_history.user")
-      .where({ archived: false })
-      .orderBy([
-        { column: "users.id", order: "desc" },
-        { column: "ladder_history.created_at", order: "desc" },
-      ]);
-    return res.json(result);
-  },
+  GET: async (req, res) => res.json(await getUsers()),
   POST: async (req, res) => {
     const { ladder_rung, ...rest } = req.body;
 
