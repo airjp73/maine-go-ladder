@@ -21,6 +21,12 @@ function randomDate() {
   return new Date(random(new Date(2012, 1, 1).getTime(), Date.now()));
 }
 
+const sortByDate = (fieldName: string) => (a: any, b: any) => {
+  const dateA = new Date(a[fieldName]);
+  const dateB = new Date(b[fieldName]);
+  return dateB.getTime() - dateA.getTime();
+};
+
 function generateCollection<T>(
   supplier: () => Promise<T>,
   num?: number
@@ -73,11 +79,7 @@ describe("get users", () => {
         const ladderEntries = await generateCollection(() =>
           randomLadderEntry(user)
         );
-        const latestEntry = ladderEntries.sort((a, b) => {
-          const dateA = new Date(a.created_at);
-          const dateB = new Date(b.created_at);
-          return dateB.getTime() - dateA.getTime();
-        })[0];
+        const latestEntry = ladderEntries.sort(sortByDate("created_at"))[0];
         return { ...user, ladder_rung: latestEntry.ladder_rung };
       })
     );
