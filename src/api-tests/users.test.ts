@@ -41,6 +41,8 @@ describe("get users", () => {
     const expected = users.filter((user) => !user.archived);
     const actual = await getUsers();
 
+    // TODO: Test ladder rung, too
+
     expect(actual).toHaveLength(expected.length);
     actual.forEach((user) => {
       const match = expected.find(
