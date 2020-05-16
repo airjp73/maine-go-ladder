@@ -8,7 +8,7 @@
     "rollback": "knex migrate:rollback",
     "build": "next build",
     "start": "next start",
-    "test": "DATABASE_CONNECTION_URL=postgresql://localhost:5432/maine_go_ladder_test npm run migrate && jest",
+    "test": "DATABASE_CONNECTION_URL=postgresql://postgres:postgres@localhost:5432 npm run migrate && jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
