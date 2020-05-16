@@ -18,8 +18,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install and test
-        run: |
-          npm install
-          npm run test
-          npm run build
+      - name: Install Deps
+        run: npm install
+
+      - name: Migrate DB
+        run: npm run migrate
+        env:
+          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@localhost:5432
+
+      - name: Test
+        run: npm run test
+        env:
+          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@localhost:5432
+
+      - name: Build
+        run: npm run build
