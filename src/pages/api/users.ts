@@ -5,21 +5,17 @@ import { User } from "../../resources/users/User";
 export default createRequestHandler({
   GET: async (req, res) => {
     const result = await knex
+      .distinct("users.id")
       .select("users.*")
-      .select("ladder.ladder_rung")
-      .leftJoin(
-        knex("ladder_history")
-          .select("*")
-          .where("user", "users.id")
-          .orderBy("created_at")
-          .first()
-          .as("ladder"),
-        function () {
-          this.on("ladder.user", "=", "users.id");
-        }
-      )
+      .select("ladder_history.ladder_rung")
+      .select("ladder_history.created_at as ladder_date")
       .from("users")
-      .where({ archived: false });
+      .leftJoin("ladder_history", "users.id", "ladder_history.user")
+      .where({ archived: false })
+      .orderBy([
+        { column: "ladder_history.created_at", order: "desc" },
+        { column: "users.id", order: "desc" },
+      ]);
     return res.json(result);
   },
   POST: async (req, res) => {
