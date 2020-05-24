@@ -1,6 +1,6 @@
 import knex from "../../common/server/knex";
 import createRequestHandler from "../../common/server/createRequestHandler";
-import { User } from "../../resources/users/User";
+import { User, NewUser } from "../../resources/users/User";
 
 export function getUsers(): Promise<User[]> {
   return knex
@@ -17,27 +17,26 @@ export function getUsers(): Promise<User[]> {
     ]);
 }
 
+export async function createNewUser({
+  ladder_rung,
+  ...rest
+}: NewUser): Promise<User> {
+  return knex.transaction(async (trx) => {
+    const [user] = await trx("users")
+      .insert({ ...rest, streak: 0 })
+      .returning<User[]>("*");
+    const [insertedRung] = await trx("ladder_history")
+      .insert({
+        ladder_rung,
+        user: user.id,
+      })
+
+      .returning<number[]>("ladder_rung");
+    return { ...user, ladder_rung: insertedRung };
+  });
+}
+
 export default createRequestHandler({
   GET: async (req, res) => res.json(await getUsers()),
-  POST: async (req, res) => {
-    const { ladder_rung, ...rest } = req.body;
-
-    const finalResult = await knex.transaction(async (trx) => {
-      const [user] = await trx("users")
-        .insert({ ...rest, streak: 0 })
-        .returning<User[]>("*");
-      const [insertedRung] = await trx("ladder_history")
-        .insert({
-          ladder_rung,
-          user: user.id,
-        })
-        .returning<number[]>("ladder_rung");
-      return { user, insertedRung };
-    });
-
-    return res.json({
-      ...finalResult.user,
-      ladder_rung: finalResult.insertedRung,
-    });
-  },
+  POST: async (req, res) => res.json(createNewUser(req.body)),
 });
