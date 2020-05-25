@@ -9,10 +9,8 @@
     "rollback": "knex migrate:rollback",
     "build": "next build",
     "start": "next start",
-    "test": "jest --testPathIgnorePatterns=src/api-tests",
-    "test:watch": "npm run test -- --watch",
-    "test:integration": "jest src/api-tests --runInBand",
-    "test:integration:watch": "npm run test:integration -- --watch"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.27",

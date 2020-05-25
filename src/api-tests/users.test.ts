@@ -1,3 +1,6 @@
+/**
+ * @jest-environment ./test/testEnv.js
+ */
 import random from "lodash/random";
 import knex from "../common/server/knex";
 import { User, NewUser } from "../resources/users/User";
@@ -9,6 +12,7 @@ import {
   randomLadderEntry,
   generateCollection,
 } from "./randomUtils";
+import { cleanupDB } from "./dbUtil";
 
 const sortByDate = (fieldName: string) => (a: any, b: any) => {
   const dateA = new Date(a[fieldName]);
@@ -18,8 +22,7 @@ const sortByDate = (fieldName: string) => (a: any, b: any) => {
 
 describe("user endpoints", () => {
   beforeEach(async () => {
-    await knex("ladder_history").del();
-    await knex("users").del();
+    await cleanupDB();
   });
 
   describe("get users", () => {
