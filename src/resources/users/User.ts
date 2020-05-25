@@ -10,3 +10,4 @@ export interface User {
 }
 
 export type NewUser = Pick<User, "name" | "ladder_rung">;
+export type UnsavedUser = Pick<User, "name" | "archived" | "streak">;
