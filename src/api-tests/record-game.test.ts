@@ -46,5 +46,34 @@ describe("record-game", () => {
     expect(games[0].black).toEqual(winner.id);
     expect(games[0].white).toEqual(loser.id);
     expect(games[0].winner).toEqual(winner.id);
+
+    // Mke sure the ranks are correct after one game
+    const updatedUsers = await getUsers();
+    expect(updatedUsers).toHaveLength(2);
+
+    const winnerBefore = usersWithLadder.find((user) => user.id === winner.id);
+    const winnerAfter = updatedUsers.find((user) => user.id === winner.id);
+    expect(winnerAfter!.ladder_rung).toEqual(winnerBefore!.ladder_rung + 1);
+    expect(winnerAfter!.streak).toEqual(1);
+
+    const loserBefore = usersWithLadder.find((user) => user.id === loser.id);
+    const loserAfter = updatedUsers.find((user) => user.id === loser.id);
+    expect(loserAfter!.ladder_rung).toEqual(loserBefore!.ladder_rung - 1);
+    expect(loserAfter!.streak).toEqual(0);
+
+    // Record the same result two more times to test streaks
+    await recordGame(newGame);
+    await recordGame(newGame);
+
+    const finalUsers = await getUsers();
+    expect(finalUsers).toHaveLength(2);
+
+    const finalWinner = finalUsers.find((user) => user.id === winner.id);
+    expect(finalWinner!.ladder_rung).toEqual(winnerBefore!.ladder_rung + 4); // 3 games + 1 for streak
+    expect(finalWinner!.streak).toEqual(0);
+
+    const finalLoser = finalUsers.find((user) => user.id === loser.id);
+    expect(finalLoser!.ladder_rung).toEqual(loserBefore!.ladder_rung - 3);
+    expect(finalLoser!.streak).toEqual(0);
   });
 });
