@@ -4,39 +4,34 @@ import createRequestHandler from "../../common/server/createRequestHandler";
 import Knex from "knex";
 import { LadderHistoryItem } from "../../resources/users/LadderHistoryItem";
 
-export default createRequestHandler({
-  POST: async (req, res) => {
-    const body = req.body as NewGame;
-    const winner = body.winner;
-    const loser = body.black === body.winner ? body.white : body.black;
+export async function recordGame(game: NewGame): Promise<void> {
+  const winner = game.winner;
+  const loser = game.black === game.winner ? game.white : game.black;
 
-    await knex.transaction(async (trx) => {
-      await trx("games").insert({
-        black: body.black,
-        white: body.white,
-        winner,
-      });
-
-      const streak: number = await trx("users")
-        .where("id", "=", winner)
-        .increment("streak", 1)
-        .returning("streak");
-
-      let winnerGain = 1;
-      if (streak >= 3) {
-        winnerGain = 2;
-        await trx("users").where("id", "=", winner).decrement("streak", 3);
-      }
-
-      await updateRung(trx, winner, winnerGain);
-      await updateRung(trx, loser, -1);
-
-      await trx("users").where("id", "=", loser).update("streak", 0);
+  await knex.transaction(async (trx) => {
+    await trx("games").insert({
+      black: game.black,
+      white: game.white,
+      winner,
     });
 
-    return res.send(200);
-  },
-});
+    const streak: number = await trx("users")
+      .where("id", "=", winner)
+      .increment("streak", 1)
+      .returning("streak");
+
+    let winnerGain = 1;
+    if (streak >= 3) {
+      winnerGain = 2;
+      await trx("users").where("id", "=", winner).decrement("streak", 3);
+    }
+
+    await updateRung(trx, winner, winnerGain);
+    await updateRung(trx, loser, -1);
+
+    await trx("users").where("id", "=", loser).update("streak", 0);
+  });
+}
 
 async function updateRung(
   trx: Knex.Transaction,
@@ -56,3 +51,10 @@ async function updateRung(
     user,
   });
 }
+
+export default createRequestHandler({
+  POST: async (req, res) => {
+    await recordGame(req.body);
+    return res.send(200);
+  },
+});
