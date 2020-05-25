@@ -34,11 +34,6 @@ jobs:
       - name: Install Deps
         run: npm install
 
-      - name: Migrate DB
-        run: npm run migrate
-        env:
-          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}
-
       - name: Test
         run: npm run test
         env:
