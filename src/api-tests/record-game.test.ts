@@ -39,7 +39,7 @@ describe("record-game", () => {
       white: loser.id,
       winner: winner.id,
     };
-    recordGame(newGame);
+    await recordGame(newGame);
 
     const games: Game[] = await knex("games").select("*");
     expect(games).toHaveLength(1);
