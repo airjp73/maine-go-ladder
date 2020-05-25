@@ -5,7 +5,7 @@ const configKnex = require("knex");
 
 const workerId = process.env.JEST_WORKER_ID;
 const defaultUrl = `postgresql://localhost:5432`;
-const connectionUrl = process.env.DATABASE_CONNECTION_URL ?? defaultUrl;
+const connectionUrl = process.env.DATABASE_CONNECTION_URL || defaultUrl;
 const dbName = `maine_go_ladder_test${workerId}`;
 
 // These were taken from stack overflow
