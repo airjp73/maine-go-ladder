@@ -7,6 +7,7 @@ import { User, NewUser } from "./User";
 import { AppState } from "../../core/store";
 import LoadingStates from "../../common/enum/LoadingStates";
 import performFetch from "../../common/api/performFetch";
+import { postGame } from "../games/gameSlice";
 
 export const fetchUsers = createAsyncThunk<User[]>(
   "users/get-all",
@@ -53,6 +54,7 @@ const userSlice = createSlice({
   name: "users",
   initialState: userAdapter.getInitialState({
     loading: LoadingStates.IDLE,
+    updatedUsers: [] as string[],
   }),
   reducers: {},
   extraReducers: (builder) => {
@@ -71,6 +73,10 @@ const userSlice = createSlice({
 
     builder.addCase(deleteUser.fulfilled, (state, action) => {
       userAdapter.removeOne(state, action.meta.arg);
+    });
+
+    builder.addCase(postGame.fulfilled, (state, action) => {
+      state.updatedUsers = [action.meta.arg.black, action.meta.arg.white];
     });
   },
 });

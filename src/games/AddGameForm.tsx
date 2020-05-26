@@ -84,7 +84,6 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const submit = () => {
     const black = blackPlayer!.id;
     const white = whitePlayer!.id;
-    const loser = black === winner!.id ? white : black;
     dispatch(
       postGame({
         black,

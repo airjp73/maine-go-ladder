@@ -59,19 +59,22 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
   const isSelected = useSelector(
     (state: AppState) => state.mainPage.selectedUser?.id === user.id
   );
+  const isUpdated = useSelector((state: AppState) =>
+    state.users.updatedUsers.includes(user.id)
+  );
   const dispatch = useDispatch<AppDispatch>();
   const controls = useAnimation();
-  const { query, push } = useRouter();
+  const { push } = useRouter();
 
   useEffect(() => {
     async function animate() {
       await controls.start({ scale: 2, transition: { delay: 1 } });
       await controls.start({ scale: 1 });
     }
-    if (query.updated?.includes(user.id)) {
+    if (isUpdated) {
       animate();
     }
-  }, []);
+  }, [isUpdated]);
 
   return (
     <motion.li
