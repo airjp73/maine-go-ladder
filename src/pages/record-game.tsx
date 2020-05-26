@@ -27,11 +27,7 @@ const RecordGame: React.FC = () => {
         </Link>
       </Header>
       {loading && <LoadingState />}
-      <AddGameForm
-        onAfterSubmit={(black, white) =>
-          router.push(`/?updated=${black}&updated=${white}`)
-        }
-      />
+      <AddGameForm onAfterSubmit={() => router.push("/")} />
     </Wrapper>
   );
 };

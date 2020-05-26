@@ -6,11 +6,12 @@ import {
 import { NewGame, Game } from "./Game";
 import { AppState } from "../../core/store";
 import LoadingStates from "../../common/enum/LoadingStates";
+import performFetch from "../../common/api/performFetch";
 
 export const fetchGames = createAsyncThunk<Game[], string>(
   "games/get-all",
   async (userId) => {
-    const response = await fetch(`/api/games?userId=${userId}`);
+    const response = await performFetch(`/api/games?userId=${userId}`);
     return response.json();
   }
 );
@@ -18,7 +19,7 @@ export const fetchGames = createAsyncThunk<Game[], string>(
 export const postGame = createAsyncThunk<void, NewGame>(
   "games/post",
   async (payload) => {
-    await fetch("/api/record-game", {
+    await performFetch("/api/record-game", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {

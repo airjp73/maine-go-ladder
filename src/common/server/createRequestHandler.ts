@@ -4,7 +4,7 @@ export interface RequestHandlers {
   [method: string]: NextApiHandler;
 }
 
-const createRequestHandler = (handlers: RequestHandlers) => (
+const createRequestHandler = (handlers: RequestHandlers) => async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
@@ -13,7 +13,15 @@ const createRequestHandler = (handlers: RequestHandlers) => (
     return res
       .status(405)
       .json({ message: `Method ${req.method} not supported` });
-  return handler(req, res);
+  try {
+    return await handler(req, res);
+  } catch (err) {
+    if (err.status) {
+      return res.status(err.status).send(err.message);
+    }
+
+    return res.status(500).send("Unkown Error");
+  }
 };
 
 export default createRequestHandler;
