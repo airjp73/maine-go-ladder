@@ -37,7 +37,7 @@ jobs:
           DATABASE_CONNECTION_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}
 
       - name: Deploy to now
-        run: DEPLOYMENT=`npx now --token ${{ secrets.NOW_TOKEN }} --confirm`
+        run: DEPLOYMENT=`npx vercel --token ${{ secrets.NOW_TOKEN }} --confirm`
 
       - name: Migrate database
         run: npm run migrate
@@ -46,5 +46,5 @@ jobs:
 
       - name: Alias Deployment
         run: |
-          now alias set $DEPLOYMENT maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
-          now alias set $DEPLOYMENT www.maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
+          npx vercel alias set $DEPLOYMENT maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
+          npx vercel alias set $DEPLOYMENT www.maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
