@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
 import { Theme } from "../common/styles/theme";
@@ -45,16 +45,16 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
     handleSubmit,
     register,
     errors,
-    formState,
+    formState: { isSubmitting },
     setError,
     clearError,
   } = useForm<FormData>();
   const dispatch = useDispatch<AppDispatch>();
   return (
     <form
-      onSubmit={handleSubmit((values) => {
+      onSubmit={handleSubmit(async (values) => {
         const ladder_rung = ratingtoRung(parseFloat(values.rating));
-        dispatch(postUser({ name: values.name, ladder_rung }))
+        await dispatch(postUser({ name: values.name, ladder_rung }))
           .then(unwrapResult)
           .then(() => onAfterSubmit())
           .catch(() => reportError("Failed to create user"));
@@ -102,8 +102,8 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
         {errors.rating && <span css={error}>{errors.rating.message}</span>}
       </div>
 
-      <button css={buttonStyle} disabled={formState.isSubmitting}>
-        Submit
+      <button css={buttonStyle} disabled={isSubmitting}>
+        {isSubmitting ? "Creating User..." : "Submit"}
       </button>
     </form>
   );

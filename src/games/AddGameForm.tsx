@@ -63,6 +63,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const [winner, setWinner] = useState<User | null>(null);
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const error = getErrors(blackPlayer, whitePlayer, winner);
 
@@ -81,10 +82,11 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
     setTab(nextTab);
   };
 
-  const submit = () => {
+  const submit = async () => {
     const black = blackPlayer!.id;
     const white = whitePlayer!.id;
-    dispatch(
+    setIsSubmitting(true);
+    await dispatch(
       postGame({
         black,
         white,
@@ -94,6 +96,7 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
       .then(unwrapResult)
       .then(() => onAfterSubmit(black, white))
       .catch(() => reportError("Failed to update ladder"));
+    setIsSubmitting(false);
   };
 
   return (
@@ -246,9 +249,9 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
                     ${buttonStyle(theme)}
                     margin: auto 0 2rem 0;
                   `}
-                  disabled={!!error}
+                  disabled={isSubmitting || !!error}
                 >
-                  {error || "Yep!"}
+                  {isSubmitting ? "Recording Game" : error || "Yep!"}
                 </button>
               </TabContent>
             )}
