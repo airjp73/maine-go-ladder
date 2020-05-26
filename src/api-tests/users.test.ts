@@ -11,8 +11,10 @@ import {
   randomUser,
   randomLadderEntry,
   generateCollection,
+  withArchived,
 } from "./randomUtils";
 import { cleanupDB } from "./dbUtil";
+import { archiveUser } from "../pages/api/users/[userId]";
 
 const sortByDate = (fieldName: string) => (a: any, b: any) => {
   const dateA = new Date(a[fieldName]);
@@ -91,6 +93,19 @@ describe("user endpoints", () => {
       expect(resultFromGet).toHaveLength(1);
       expect(resultFromGet[0].name).toEqual(newUser.name);
       expect(resultFromGet[0].ladder_rung).toEqual(newUser.ladder_rung);
+    });
+  });
+
+  describe("delete user", () => {
+    it("should archive the specified user", async () => {
+      const user = await randomUser(withArchived(false));
+      expect(user.archived).toBe(false);
+
+      await archiveUser(user.id);
+      const result = (
+        await knex("users").select("*").where({ id: user.id })
+      )[0];
+      expect(result.archived).toBe(true);
     });
   });
 });
