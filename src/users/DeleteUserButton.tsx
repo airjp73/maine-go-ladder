@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../core/store";
 import { deleteUser } from "../resources/users/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
+import reportError from "../common/util/reportError";
 
 interface DeleteUserbuttonProps {
   user: User;
@@ -64,6 +65,7 @@ const DeleteUserButton: React.FC<DeleteUserbuttonProps> = ({ user }) => {
                     dispatch(deleteUser(user.id))
                       .then(unwrapResult)
                       .then(close)
+                      .catch(() => reportError("Failed to delete user"))
                       .finally(() => setDeleting(false));
                   }}
                 >
