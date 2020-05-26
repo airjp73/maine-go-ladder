@@ -21,15 +21,11 @@ const LoadingState: React.FC = () => {
         color: ${theme.colors.green[10].hex};
         text-align: center;
 
-        h4 {
-          animation: ${delayedEntrance} 2.5s linear;
-        }
         svg {
           animation: ${delayedEntrance} 0.5s linear;
         }
       `}
     >
-      <h4>This could take a second if nobody has used the app in awhile.</h4>
       <svg
         width="105"
         height="105"
