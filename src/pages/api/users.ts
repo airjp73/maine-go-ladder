@@ -38,5 +38,5 @@ export async function createNewUser({
 
 export default createRequestHandler({
   GET: async (req, res) => res.json(await getUsers()),
-  POST: async (req, res) => res.json(createNewUser(req.body)),
+  POST: async (req, res) => res.json(await createNewUser(req.body)),
 });
