@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState, AppDispatch } from "../core/store";
 import mainPageSlice, { UserStates } from "./mainPageSlice";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import UserItem from "./UserItem";
 import { css } from "@emotion/core";
 import { Theme } from "../common/styles/theme";

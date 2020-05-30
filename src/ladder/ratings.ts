@@ -11,7 +11,7 @@ const RUNG_1 = -80;
  *
  * @param ladderRung the rung of the ladder the user is on
  */
-export function rungToRating(ladderRung: number) {
+export function rungToRating(ladderRung: number): number {
   if (ladderRung > 0) return ladderRung / 10;
 
   let currentRung = ladderRung;
@@ -44,7 +44,7 @@ const RATING_0_2 = -2;
 const RATING_0_5 = -10;
 const RATING_1 = -20;
 
-export function ratingtoRung(rating: number) {
+export function ratingtoRung(rating: number): number {
   if (rating > 0) return rating * 10;
 
   let currentRating = rating;

@@ -40,7 +40,7 @@ const mainPageSlice = createSlice({
           break;
       }
     },
-    deselectUser: (state, action: PayloadAction<User>) => {
+    deselectUser: (state) => {
       switch (state.currentState) {
         case UserStates.DEFAULT:
           state.selectedUser = null;

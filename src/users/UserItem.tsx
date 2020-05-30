@@ -2,14 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { User } from "../resources/users/User";
 import { Theme } from "../common/styles/theme";
-import { css } from "@emotion/core";
+import { css, SerializedStyles } from "@emotion/core";
 import { rungToRating } from "../ladder/ratings";
 
 interface UserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
 }
 
-export const userItemStyle = (theme: Theme) => css`
+export const userItemStyle = (theme: Theme): SerializedStyles => css`
   padding: 0.5rem 1rem;
   box-shadow: 1px 2px 4px ${theme.colors.blue[80].hex};
   border-radius: 3px;

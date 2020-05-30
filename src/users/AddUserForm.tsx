@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { css } from "@emotion/core";
-import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import { ratingtoRung } from "../ladder/ratings";
 import { useDispatch } from "react-redux";
@@ -19,7 +18,7 @@ interface FormData {
   rating: string;
 }
 
-const field = (theme: Theme) => css`
+const field = css`
   label {
     font-weight: bold;
   }
@@ -35,7 +34,7 @@ const field = (theme: Theme) => css`
   }
 `;
 
-const error = (theme: Theme) => css`
+const error = css`
   font-size: 1rem;
   font-weight: bold;
 `;
