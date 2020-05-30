@@ -6,8 +6,11 @@ import { getLadderHistoryForUser } from "../resources/ladder-history/ladderSlice
 import { css } from "@emotion/core";
 import { useRect } from "@reach/rect";
 import { rungToRating } from "./ratings";
+import { useTheme } from "emotion-theming";
+import { Theme } from "../common/styles/theme";
 
 const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
+  const theme = useTheme<Theme>();
   const history = useSelector((state: AppState) =>
     getLadderHistoryForUser(state, userId)
   );
@@ -16,6 +19,10 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
 
   useEffect(() => {
     if (!rect) return;
+
+    const backgroundColor = theme.colors.blue[10].hex;
+    const lineColor = theme.colors.blue[70].hex;
+    const dotColor = theme.colors.blue[70].hex;
 
     const container = ref.current!;
     const margin = { top: 10, right: 20, bottom: 30, left: 30 };
@@ -28,7 +35,7 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
       .append("svg")
       .attr("height", rect.height)
       .attr("width", rect.width)
-      .style("background-color", "white")
+      .style("background-color", backgroundColor)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -56,7 +63,7 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
       .append("path")
       .datum(points)
       .attr("fill", "none")
-      .attr("stroke", "steelblue")
+      .attr("stroke", lineColor)
       .attr("stroke-width", 1.5)
       .attr("d", line);
 
@@ -65,7 +72,7 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
       .data(points)
       .enter()
       .append("circle")
-      .attr("fill", "steelblue")
+      .attr("fill", dotColor)
       .attr("r", 3)
       .attr("cx", (d, index) => x(index))
       .attr("cy", (d) => y(d));
@@ -88,6 +95,8 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
         height: 300px;
         width: 100%;
         overflow: hidden;
+        box-sizing: border-box;
+        ${theme.styles.raisedBox}
 
         svg {
           position: absolute;
