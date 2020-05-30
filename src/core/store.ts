@@ -2,11 +2,13 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import mainPageSlice from "../users/mainPageSlice";
 import userSlice from "../resources/users/userSlice";
 import gameSlice from "../resources/games/gameSlice";
+import ladderSlice from "../resources/ladder-history/ladderSlice";
 
 const rootReducer = combineReducers({
   mainPage: mainPageSlice.reducer,
   users: userSlice.reducer,
   games: gameSlice.reducer,
+  ladderHistory: ladderSlice.reducer,
 });
 
 const store = configureStore({

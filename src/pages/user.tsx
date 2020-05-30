@@ -20,6 +20,7 @@ import { fetchGames, gameSelectors } from "../resources/games/gameSlice";
 import { User } from "../resources/users/User";
 import LoadingStates from "../common/enum/LoadingStates";
 import RatingHistory from "../ladder/RatingHistory";
+import { fetchLadderHistory } from "../resources/ladder-history/ladderSlice";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
@@ -93,8 +94,7 @@ const UserPage: React.FC = () => {
   const userId = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
   useDispatchEffect(() => userId && fetchGames(userId), [userId]);
   useDispatchEffect(() => fetchUsers(), []);
-  // fetch ladder history
-  // useDispatchEffect(() => fetchUsers(), []);
+  useDispatchEffect(() => fetchLadderHistory(userId), [userId]);
   const user = useSelector((state: AppState) =>
     userSelectors.selectById(state, userId)
   );
