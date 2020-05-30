@@ -1,6 +1,18 @@
 import { Theme } from "./theme";
 import { css } from "@emotion/core";
 
+export const disabledStyle = (theme: Theme) => css`
+  background-color: ${theme.colors.green[70].hex};
+  box-shadow: 1px 1px 2px ${theme.colors.green[90].hex};
+  cursor: default;
+
+  :hover,
+  :focus {
+    background-color: ${theme.colors.green[70].hex};
+    box-shadow: 1px 1px 2px ${theme.colors.green[90].hex};
+  }
+`;
+
 const buttonStyle = (theme: Theme) => css`
   font-family: Roboto, sans-serif;
   background-color: ${theme.colors.green[20].hex};
@@ -25,9 +37,7 @@ const buttonStyle = (theme: Theme) => css`
   }
 
   &:disabled {
-    background-color: ${theme.colors.green[70].hex};
-    box-shadow: 1px 1px 2px ${theme.colors.green[90].hex};
-    cursor: default;
+    ${disabledStyle(theme)}
   }
 `;
 

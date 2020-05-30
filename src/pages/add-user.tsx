@@ -1,14 +1,13 @@
 import React from "react";
 import AddUserForm from "../users/AddUserForm";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import buttonStyle from "../common/styles/buttonStyle";
 import {
   Wrapper,
   Header,
   Content,
 } from "../common/components/PageContent/PageContent";
 import { css } from "@emotion/core";
+import LinkButton from "../common/components/LinkButton/LinkButton";
 
 const AddUser: React.FC = () => {
   const router = useRouter();
@@ -19,9 +18,7 @@ const AddUser: React.FC = () => {
       exit={{ x: "100%", zIndex: 1 }}
     >
       <Header header="Add User">
-        <Link href="/">
-          <a css={buttonStyle}>Back</a>
-        </Link>
+        <LinkButton href="/">Back</LinkButton>
       </Header>
       <Content
         css={css`

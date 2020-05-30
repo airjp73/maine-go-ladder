@@ -1,8 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import buttonStyle from "../common/styles/buttonStyle";
 import { css } from "@emotion/core";
-import Link from "next/link";
 import {
   Wrapper,
   Header,
@@ -21,6 +19,7 @@ import { User } from "../resources/users/User";
 import LoadingStates from "../common/enum/LoadingStates";
 import RatingHistory from "../ladder/RatingHistory";
 import { fetchLadderHistory } from "../resources/ladder-history/ladderSlice";
+import LinkButton from "../common/components/LinkButton/LinkButton";
 
 export const userItemStyle = (theme: Theme) => css`
   padding: 0.5rem 1rem;
@@ -123,9 +122,7 @@ const UserPage: React.FC = () => {
       exit={{ x: "100%", zIndex: 1 }}
     >
       <Header header={user ? user.name : "User not found"}>
-        <Link href="/">
-          <a css={buttonStyle}>Back</a>
-        </Link>
+        <LinkButton href="/">Back</LinkButton>
       </Header>
       {user && (
         <Content

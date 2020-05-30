@@ -13,6 +13,7 @@ import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import DeleteUserButton from "./DeleteUserButton";
 import Link from "next/link";
 import userSlice from "../resources/users/userSlice";
+import LinkButton from "../common/components/LinkButton/LinkButton";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -146,16 +147,9 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
               >
                 Calculate Matchup
               </button>
-              <Link href={`/user?userId=${user.id}`}>
-                <a
-                  css={buttonStyle}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                >
-                  View Profile
-                </a>
-              </Link>
+              <LinkButton href={`/user?userId=${user.id}`}>
+                View Profile
+              </LinkButton>
               <DeleteUserButton user={user} />
             </div>
           </AnimateHeight>

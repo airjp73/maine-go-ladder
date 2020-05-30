@@ -2,12 +2,11 @@ import React from "react";
 import AddGameForm from "../games/AddGameForm";
 import { useRouter } from "next/router";
 import { Wrapper, Header } from "../common/components/PageContent/PageContent";
-import buttonStyle from "../common/styles/buttonStyle";
-import Link from "next/link";
 import useDispatchEffect from "../common/util/useDispatchEffect";
 import { fetchUsers, userSelectors } from "../resources/users/userSlice";
 import { useSelector } from "react-redux";
 import LoadingState from "../common/components/LoadingState/LoadingState";
+import LinkButton from "../common/components/LinkButton/LinkButton";
 
 const RecordGame: React.FC = () => {
   const router = useRouter();
@@ -22,9 +21,7 @@ const RecordGame: React.FC = () => {
       exit={{ x: "100%", zIndex: 1 }}
     >
       <Header header="Record Game">
-        <Link href="/">
-          <a css={buttonStyle}>Back</a>
-        </Link>
+        <LinkButton href="/">Back</LinkButton>
       </Header>
       {loading && <LoadingState />}
       <AddGameForm onAfterSubmit={() => router.push("/")} />
