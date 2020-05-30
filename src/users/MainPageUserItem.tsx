@@ -11,6 +11,7 @@ import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import DeleteUserButton from "./DeleteUserButton";
+import Link from "next/link";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -144,15 +145,16 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
               >
                 Calculate Matchup
               </button>
-              <button
-                css={buttonStyle}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  push(`/user?userId=${user.id}`);
-                }}
-              >
-                View Game History
-              </button>
+              <Link href={`/user?userId=${user.id}`}>
+                <a
+                  css={buttonStyle}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                >
+                  View Game History
+                </a>
+              </Link>
               <DeleteUserButton user={user} />
             </div>
           </AnimateHeight>
