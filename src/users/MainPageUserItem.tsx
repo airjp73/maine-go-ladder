@@ -90,7 +90,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
       exit="exit"
       positionTransition
       onClick={() => {
-        if (isSelected) dispatch(mainPageSlice.actions.deselectUser(user));
+        if (isSelected) dispatch(mainPageSlice.actions.deselectUser());
         else dispatch(mainPageSlice.actions.selectUser(user));
       }}
       {...rest}
