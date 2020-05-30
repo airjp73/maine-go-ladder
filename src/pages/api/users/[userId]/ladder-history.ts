@@ -2,7 +2,7 @@ import * as yup from "yup";
 import createRequestHandler from "../../../../common/server/createRequestHandler";
 import knex from "../../../../common/server/knex";
 import BadRequestError from "../../../../common/server/BadRequestError";
-import { LadderHistoryItem } from "../../../../resources/users/LadderHistoryItem";
+import { LadderHistoryItem } from "../../../../resources/ladder-history/LadderHistoryItem";
 
 export async function getLadderHistory(
   userId: string

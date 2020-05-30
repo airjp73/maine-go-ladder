@@ -2,7 +2,7 @@ import range from "lodash/range";
 import random from "lodash/random";
 import knex from "../common/server/knex";
 import { User, UnsavedUser } from "../resources/users/User";
-import { LadderHistoryItem } from "../resources/users/LadderHistoryItem";
+import { LadderHistoryItem } from "../resources/ladder-history/LadderHistoryItem";
 import { Game, NewGame } from "../resources/games/Game";
 
 export function randomString() {

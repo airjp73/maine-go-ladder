@@ -5,7 +5,7 @@ import random from "lodash/random";
 import knex from "../common/server/knex";
 import { User, NewUser } from "../resources/users/User";
 import { getUsers, createNewUser } from "../pages/api/users";
-import { LadderHistoryItem } from "../resources/users/LadderHistoryItem";
+import { LadderHistoryItem } from "../resources/ladder-history/LadderHistoryItem";
 import {
   randomString,
   randomUser,

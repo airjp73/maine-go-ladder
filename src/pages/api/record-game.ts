@@ -2,7 +2,7 @@ import knex from "../../common/server/knex";
 import { NewGame } from "../../resources/games/Game";
 import createRequestHandler from "../../common/server/createRequestHandler";
 import Knex from "knex";
-import { LadderHistoryItem } from "../../resources/users/LadderHistoryItem";
+import { LadderHistoryItem } from "../../resources/ladder-history/LadderHistoryItem";
 
 export async function recordGame(game: NewGame): Promise<void> {
   const winner = game.winner;
