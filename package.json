@@ -11,7 +11,7 @@
     "start": "next start",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint src/**/*.{ts,tsx}"
+    "lint": "eslint 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@emotion/babel-preset-css-prop": "^10.0.27",
