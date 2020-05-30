@@ -21,6 +21,7 @@
     "@types/jest": "^25.2.1",
     "@types/reach__dialog": "^0.1.0",
     "@types/react-redux": "^7.1.7",
+    "d3": "^5.16.0",
     "emotion-theming": "^10.0.27",
     "framer-motion": "^1.10.3",
     "isomorphic-fetch": "^2.2.1",
