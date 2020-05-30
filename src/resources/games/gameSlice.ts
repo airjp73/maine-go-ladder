@@ -5,7 +5,9 @@ import {
 } from "@reduxjs/toolkit";
 import { NewGame, Game } from "./Game";
 import { AppState } from "../../core/store";
-import LoadingStates from "../../common/enum/LoadingStates";
+import LoadingStates, {
+  UserLoadingState,
+} from "../../common/enum/LoadingStates";
 import performFetch from "../../common/api/performFetch";
 
 export const fetchGames = createAsyncThunk<Game[], string>(
@@ -42,22 +44,22 @@ export const gameSelectors = gameAdapter.getSelectors(
 const gameSlice = createSlice({
   name: "users",
   initialState: gameAdapter.getInitialState({
-    loading: LoadingStates.IDLE,
+    loading: {} as UserLoadingState,
   }),
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchGames.pending, (state) => {
-      if (state.loading === LoadingStates.IDLE)
-        state.loading = LoadingStates.LOADING;
+    builder.addCase(fetchGames.pending, (state, action) => {
+      if (state.loading[action.meta.arg] !== LoadingStates.COMPLETE)
+        state.loading[action.meta.arg] = LoadingStates.LOADING;
     });
 
-    builder.addCase(fetchGames.rejected, (state) => {
-      state.loading = LoadingStates.COMPLETE;
+    builder.addCase(fetchGames.rejected, (state, action) => {
+      state.loading[action.meta.arg] = LoadingStates.COMPLETE;
     });
 
     builder.addCase(fetchGames.fulfilled, (state, action) => {
       gameAdapter.setAll(state, action.payload);
-      state.loading = LoadingStates.COMPLETE;
+      state.loading[action.meta.arg] = LoadingStates.COMPLETE;
     });
   },
 });

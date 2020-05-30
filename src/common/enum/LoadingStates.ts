@@ -4,4 +4,8 @@ enum LoadingStates {
   "COMPLETE" = "COMPLETE",
 }
 
+export interface UserLoadingState {
+  [userId: string]: LoadingStates | undefined;
+}
+
 export default LoadingStates;

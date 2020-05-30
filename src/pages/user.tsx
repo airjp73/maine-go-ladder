@@ -110,8 +110,8 @@ const UserPage: React.FC = () => {
   const isLoading = useSelector(
     (state: AppState) =>
       state.users.loading !== LoadingStates.COMPLETE ||
-      state.games.loading !== LoadingStates.COMPLETE ||
-      state.ladderHistory.loading !== LoadingStates.COMPLETE
+      state.games.loading[userId] !== LoadingStates.COMPLETE ||
+      state.ladderHistory.loading[userId] !== LoadingStates.COMPLETE
   );
 
   if (isLoading) return <LoadingState />;
