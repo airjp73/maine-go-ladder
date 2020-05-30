@@ -106,10 +106,12 @@ const UserPage: React.FC = () => {
       )
   );
 
+  // TODO: keep loading states per user
   const isLoading = useSelector(
     (state: AppState) =>
       state.users.loading !== LoadingStates.COMPLETE ||
-      state.games.loading !== LoadingStates.COMPLETE
+      state.games.loading !== LoadingStates.COMPLETE ||
+      state.ladderHistory.loading !== LoadingStates.COMPLETE
   );
 
   if (isLoading) return <LoadingState />;
