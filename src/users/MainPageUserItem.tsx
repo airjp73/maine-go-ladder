@@ -12,6 +12,7 @@ import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import DeleteUserButton from "./DeleteUserButton";
 import Link from "next/link";
+import userSlice from "../resources/users/userSlice";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -65,17 +66,17 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
   );
   const dispatch = useDispatch<AppDispatch>();
   const controls = useAnimation();
-  const { push } = useRouter();
 
   useEffect(() => {
     async function animate() {
       await controls.start({ scale: 2, transition: { delay: 1 } });
       await controls.start({ scale: 1 });
+      dispatch(userSlice.actions.userUpdateCommunicated(user.id));
     }
     if (isUpdated) {
       animate();
     }
-  }, [isUpdated]);
+  }, [isUpdated, user, dispatch, controls]);
 
   return (
     <motion.li

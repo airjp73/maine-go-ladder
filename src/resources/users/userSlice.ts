@@ -2,6 +2,7 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
+  PayloadAction,
 } from "@reduxjs/toolkit";
 import { User, NewUser } from "./User";
 import { AppState } from "../../core/store";
@@ -56,7 +57,13 @@ const userSlice = createSlice({
     loading: LoadingStates.IDLE,
     updatedUsers: [] as string[],
   }),
-  reducers: {},
+  reducers: {
+    userUpdateCommunicated: (state, action: PayloadAction<string>) => {
+      state.updatedUsers = state.updatedUsers.filter(
+        (userId) => userId === action.payload
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {
       if (state.loading === LoadingStates.IDLE)
