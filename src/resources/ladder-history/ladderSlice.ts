@@ -2,6 +2,7 @@ import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk,
+  createSelector,
 } from "@reduxjs/toolkit";
 import { AppState } from "../../core/store";
 import LoadingStates from "../../common/enum/LoadingStates";
@@ -24,6 +25,11 @@ const ladderAdapter = createEntityAdapter<LadderHistoryItem>({
 
 export const ladderSelectors = ladderAdapter.getSelectors(
   (state: AppState) => state.ladderHistory
+);
+
+export const getLadderHistoryForUser = createSelector(
+  [ladderSelectors.selectAll, (s: AppState, userId: string) => userId],
+  (items, userId) => items.filter((item) => item.user === userId)
 );
 
 const ladderSlice = createSlice({
