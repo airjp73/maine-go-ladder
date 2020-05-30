@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { useSelector } from "react-redux";
 import { AppState } from "../core/store";
-import {
-  ladderSelectors,
-  getLadderHistoryForUser,
-} from "../resources/ladder-history/ladderSlice";
-import { appendFile } from "fs";
+import { getLadderHistoryForUser } from "../resources/ladder-history/ladderSlice";
 import { css } from "@emotion/core";
 import { useRect } from "@reach/rect";
 import { rungToRating } from "./ratings";
@@ -56,13 +52,23 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
       .x((rung, index) => x(index))
       .y((rung) => y(rung));
 
-    const el = svg
+    svg
       .append("path")
       .datum(points)
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
       .attr("d", line);
+
+    svg
+      .selectAll("dots")
+      .data(points)
+      .enter()
+      .append("circle")
+      .attr("fill", "steelblue")
+      .attr("r", 3)
+      .attr("cx", (d, index) => x(index))
+      .attr("cy", (d) => y(d));
 
     return () => {
       // TODO make this cleaner when the effect is nailed down
