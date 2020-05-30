@@ -20,7 +20,7 @@ const createRequestHandler = (handlers: RequestHandlers) => async (
       return res.status(err.status).send(err.message);
     }
 
-    return res.status(500).send("Unkown Error");
+    return res.status(500).send("Unknown Error");
   }
 };
 
