@@ -32,7 +32,7 @@ export const postUser = createAsyncThunk<User, NewUser>(
   }
 );
 
-export const deleteUser = createAsyncThunk<{}, string>(
+export const deleteUser = createAsyncThunk<Record<string, unknown>, string>(
   "users/delete",
   async (userId) => {
     const response = await performFetch(`/api/users/${userId}`, {

@@ -1,3 +1,4 @@
+import React from "react";
 import buttonStyle, { disabledStyle } from "../../styles/buttonStyle";
 import Link from "next/link";
 import { useState } from "react";

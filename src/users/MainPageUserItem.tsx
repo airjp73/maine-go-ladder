@@ -1,6 +1,6 @@
+import React from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { User } from "../resources/users/User";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { css } from "@emotion/core";
 import { rungToRating } from "../ladder/ratings";
@@ -11,7 +11,6 @@ import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import DeleteUserButton from "./DeleteUserButton";
-import Link from "next/link";
 import userSlice from "../resources/users/userSlice";
 import LinkButton from "../common/components/LinkButton/LinkButton";
 

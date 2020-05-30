@@ -49,7 +49,7 @@ export const Content: React.FC<React.HTMLProps<HTMLDivElement>> = ({
 );
 
 interface HeaderProps {
-  header: String;
+  header: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({ header, children }) => (
