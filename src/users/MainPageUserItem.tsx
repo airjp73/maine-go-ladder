@@ -152,7 +152,7 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
                     event.stopPropagation();
                   }}
                 >
-                  View Game History
+                  View Profile
                 </a>
               </Link>
               <DeleteUserButton user={user} />
