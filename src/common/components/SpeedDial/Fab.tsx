@@ -1,3 +1,4 @@
+import React from "react";
 import { keyframes, css } from "@emotion/core";
 import { motion } from "framer-motion";
 import { Theme } from "../../styles/theme";
@@ -80,5 +81,7 @@ const Fab: React.FC<FabProps> = forwardRef(
     );
   }
 );
+
+Fab.displayName = "Fab";
 
 export default Fab;

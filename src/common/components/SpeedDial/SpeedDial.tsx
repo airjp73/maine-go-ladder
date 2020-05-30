@@ -4,7 +4,7 @@ import { MoreHorizontal } from "react-feather";
 import { labelDirections } from "./SpeedDialOption";
 import useClickOutside from "./useClickOutside";
 import Fab from "./Fab";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 interface SpeedDialProps {
   className?: string;
@@ -20,7 +20,7 @@ const flowMargins: { [key: string]: string } = {
   "row-reverse": "margin-right",
 };
 const directionStyles = {
-  UP: (flowDirection: string = "column-reverse") => css`
+  UP: (flowDirection = "column-reverse") => css`
     bottom: calc(100% + 1rem);
     flex-direction: ${flowDirection};
 
@@ -28,7 +28,7 @@ const directionStyles = {
       ${flowMargins[flowDirection]}: 0.5rem;
     }
   `,
-  DOWN: (flowDirection: string = "column") => css`
+  DOWN: (flowDirection = "column") => css`
     top: calc(100% + 1rem);
     flex-direction: ${flowDirection};
 
@@ -36,7 +36,7 @@ const directionStyles = {
       ${flowMargins[flowDirection]}: 0.5rem;
     }
   `,
-  LEFT: (flowDirection: string = "column-reverse") => css`
+  LEFT: (flowDirection = "column-reverse") => css`
     right: calc(100% + 1rem);
     bottom: 0.25rem;
     flex-direction: ${flowDirection};
@@ -45,7 +45,7 @@ const directionStyles = {
       ${flowMargins[flowDirection]}: 0.5rem;
     }
   `,
-  RIGHT: (flowDirection: string = "column-reverse") => css`
+  RIGHT: (flowDirection = "column-reverse") => css`
     left: calc(100% + 1rem);
     top: 0.25rem;
     flex-direction: ${flowDirection};
