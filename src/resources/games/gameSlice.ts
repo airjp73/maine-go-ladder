@@ -47,7 +47,8 @@ const gameSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchGames.pending, (state) => {
-      state.loading = LoadingStates.LOADING;
+      if (state.loading === LoadingStates.IDLE)
+        state.loading = LoadingStates.LOADING;
     });
 
     builder.addCase(fetchGames.rejected, (state) => {

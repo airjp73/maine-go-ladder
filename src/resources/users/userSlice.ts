@@ -59,7 +59,8 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {
-      state.loading = LoadingStates.LOADING;
+      if (state.loading === LoadingStates.IDLE)
+        state.loading = LoadingStates.LOADING;
     });
 
     builder.addCase(fetchUsers.rejected, (state) => {
