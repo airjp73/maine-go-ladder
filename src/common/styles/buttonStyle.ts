@@ -2,6 +2,7 @@ import { Theme } from "./theme";
 import { css } from "@emotion/core";
 
 const buttonStyle = (theme: Theme) => css`
+  font-family: Roboto, sans-serif;
   background-color: ${theme.colors.green[20].hex};
   color: ${theme.colors.green[90].hex};
   border: none;
