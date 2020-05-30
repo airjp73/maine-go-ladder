@@ -30,12 +30,14 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
     const width = rect.width - margin.left - margin.right;
 
     const points = history.map((item) => item.ladder_rung).map(rungToRating);
-    const svg = d3
+    const baseSvg = d3
       .select(container)
       .append("svg")
       .attr("height", rect.height)
       .attr("width", rect.width)
-      .style("background-color", backgroundColor)
+      .style("background-color", backgroundColor);
+
+    const svg = baseSvg
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -78,12 +80,7 @@ const RatingHistory: React.FC<{ userId: string }> = ({ userId }) => {
       .attr("cy", (d) => y(d));
 
     return () => {
-      // TODO make this cleaner when the effect is nailed down
-      let child = container?.lastChild;
-      while (child) {
-        container?.removeChild(child);
-        child = container?.lastChild;
-      }
+      baseSvg.remove();
     };
   }, [history, rect]);
 
