@@ -15,6 +15,8 @@ import {
 } from "./randomUtils";
 import { cleanupDB } from "./dbUtil";
 import { archiveUser } from "../pages/api/users/[userId]";
+import { AuditEventType } from "../common/server/createAuditRecord";
+import { userInfo } from "os";
 
 const sortByDate = (fieldName: string) => (a: any, b: any) => {
   const dateA = new Date(a[fieldName]);
@@ -93,6 +95,14 @@ describe("user endpoints", () => {
       expect(resultFromGet).toHaveLength(1);
       expect(resultFromGet[0].name).toEqual(newUser.name);
       expect(resultFromGet[0].ladder_rung).toEqual(newUser.ladder_rung);
+
+      const auditRecords = await knex("audit_events").select("*");
+      expect(auditRecords).toHaveLength(1);
+      expect(auditRecords[0].type).toEqual(AuditEventType.USER_CREATED);
+      expect(auditRecords[0].details).toStrictEqual({
+        id: savedUsers[0].id,
+        name: savedUsers[0].name,
+      });
     });
   });
 
