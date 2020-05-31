@@ -31,3 +31,5 @@ export type AuditDetails<
 }
   ? A["details"]
   : never;
+
+export type NewAuditEvent = Pick<AuditEvent, "type" | "details">;

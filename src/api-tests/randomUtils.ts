@@ -4,19 +4,24 @@ import knex from "../common/server/knex";
 import { User, UnsavedUser } from "../resources/users/User";
 import { LadderHistoryItem } from "../resources/ladder-history/LadderHistoryItem";
 import { Game, NewGame } from "../resources/games/Game";
+import {
+  AuditEvent,
+  AuditEventType,
+  NewAuditEvent,
+} from "../resources/audit-events/AuditEvent";
 
-export function randomString() {
+export function randomString(): string {
   return (
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15)
   );
 }
 
-export function randomBoolean() {
+export function randomBoolean(): boolean {
   return Math.random() >= 0.5;
 }
 
-export function randomDate() {
+export function randomDate(): Date {
   return new Date(random(new Date(2012, 1, 1).getTime(), Date.now()));
 }
 
@@ -81,6 +86,15 @@ export async function randomGame(users: User[]): Promise<Game> {
   };
   const gameRecord = (await knex("games").insert(newGame).returning("*"))[0];
   return { ...gameRecord, black, white };
+}
+
+export async function randomAuditEvent(): Promise<AuditEvent> {
+  const type = randomItem(Object.values(AuditEventType));
+  const event: NewAuditEvent = {
+    type,
+    details: { detail1: "123", detail2: "123" } as any,
+  };
+  return (await knex("audit_events").insert(event).returning("*"))[0];
 }
 
 export function generateCollection<T>(

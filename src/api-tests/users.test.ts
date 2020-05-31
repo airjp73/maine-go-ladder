@@ -15,7 +15,7 @@ import {
 } from "./randomUtils";
 import { cleanupDB } from "./dbUtil";
 import { archiveUser } from "../pages/api/users/[userId]";
-import { AuditEventType } from "../common/server/createAuditRecord";
+import { AuditEventType } from "../resources/audit-events/AuditEvent";
 
 const sortByDate = <TObj extends Record<TKey, string>, TKey extends keyof TObj>(
   fieldName: TKey
