@@ -1,6 +1,9 @@
 import knex from "../../common/server/knex";
 import createRequestHandler from "../../common/server/createRequestHandler";
 import { User, NewUser } from "../../resources/users/User";
+import createAuditRecord, {
+  AuditEventType,
+} from "../../common/server/createAuditRecord";
 
 export function getUsers(): Promise<User[]> {
   return knex
@@ -32,6 +35,10 @@ export async function createNewUser({
       })
 
       .returning<number[]>("ladder_rung");
+    await createAuditRecord(trx, AuditEventType.USER_CREATED, {
+      id: user.id,
+      name: user.name,
+    });
     return { ...user, ladder_rung: insertedRung };
   });
 }
