@@ -1,5 +1,4 @@
 import React from "react";
-import "styled-components/macro";
 import Portal from "./Portal";
 import { css } from "@emotion/core";
 import { Theme } from "../../styles/theme";
@@ -20,12 +19,13 @@ const SlideOutPanel: React.FC<SidePanelProps> = ({
       <AnimatePresence>
         {active && (
           <div
-            css={`
+            css={css`
               position: absolute;
               right: 0;
               top: 0;
               left: 0;
               bottom: 0;
+              z-index: 2;
             `}
             key="side-panel"
           >
@@ -41,7 +41,7 @@ const SlideOutPanel: React.FC<SidePanelProps> = ({
               data-testid="slide-out-panel-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
             />
             <motion.header
               css={(theme: Theme) => css`
@@ -52,10 +52,12 @@ const SlideOutPanel: React.FC<SidePanelProps> = ({
                 width: 175px;
                 color: ${theme.colors.blue[30].hex};
                 transition: 0.25s width ease;
+                z-index: 2;
               `}
               initial={{ x: "-100%" }}
               animate={{ x: "0" }}
               exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.2 }}
             >
               {children}
             </motion.header>

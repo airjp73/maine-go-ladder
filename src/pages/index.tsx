@@ -1,6 +1,6 @@
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { Plus, User } from "react-feather";
 import {
   Wrapper,
@@ -15,12 +15,13 @@ import useWindowDimensions from "../common/util/useWindowDimensions";
 import MainPageUserList from "../users/MainPageUserList";
 import MatchupCalculator from "../users/MatchupCalculator";
 import useDispatchEffect from "../common/util/useDispatchEffect";
-import LinkButton from "../common/components/LinkButton/LinkButton";
+import SlideOutPanel from "../common/components/Nav/SlideOutPanel";
 
 const Home: React.FC = () => {
   const router = useRouter();
   const dimensions = useWindowDimensions();
   useDispatchEffect(() => fetchUsers(), []);
+  const [active, setActive] = useState(false);
 
   return (
     <Wrapper
@@ -29,7 +30,10 @@ const Home: React.FC = () => {
       exit={{ scale: 0.9, opacity: 0 }}
     >
       <Header header="Maine Go Ladder">
-        <LinkButton href="/audit-events">Change History</LinkButton>
+        <button onClick={() => setActive(true)}>Test</button>
+        <SlideOutPanel active={active} onClose={() => setActive(false)}>
+          <h1>Test</h1>
+        </SlideOutPanel>
       </Header>
       <MatchupCalculator />
       <Content
