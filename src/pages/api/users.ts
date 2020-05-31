@@ -1,9 +1,8 @@
 import knex from "../../common/server/knex";
 import createRequestHandler from "../../common/server/createRequestHandler";
 import { User, NewUser } from "../../resources/users/User";
-import createAuditRecord, {
-  AuditEventType,
-} from "../../common/server/createAuditRecord";
+import createAuditRecord from "../../common/server/createAuditRecord";
+import { AuditEventType } from "../../resources/audit-events/AuditEvent";
 
 export function getUsers(): Promise<User[]> {
   return knex

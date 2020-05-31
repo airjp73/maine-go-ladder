@@ -1,13 +1,13 @@
 import Knex from "knex";
+import {
+  AuditEventType,
+  AuditDetails,
+} from "../../resources/audit-events/AuditEvent";
 
-export enum AuditEventType {
-  USER_CREATED = "USER_CREATED",
-}
-
-async function createAuditRecord(
+async function createAuditRecord<T extends AuditEventType>(
   trx: Knex.Transaction,
-  type: AuditEventType,
-  details: Record<string, unknown>
+  type: T,
+  details: AuditDetails<T>
 ): Promise<void> {
   await trx("audit_events").insert({
     type,
