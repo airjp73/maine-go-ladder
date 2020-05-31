@@ -14,17 +14,21 @@ export async function getGamesForUser(userId: string): Promise<Game[]> {
     .leftJoin("users as w", "games.white", "w.id")
     .where("black", userId)
     .or.where("white", userId);
-  return games.map((game) => ({
-    ...game,
-    black: {
-      id: game.black,
-      name: game.blackName,
-    },
-    white: {
-      id: game.white,
-      name: game.whiteName,
-    },
-  }));
+
+  return games.map((game) => {
+    const { black, blackName, white, whiteName, ...gameData } = game;
+    return {
+      ...gameData,
+      black: {
+        id: black,
+        name: blackName,
+      },
+      white: {
+        id: white,
+        name: whiteName,
+      },
+    };
+  });
 }
 
 const querySchema = yup

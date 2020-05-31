@@ -7,6 +7,7 @@ import {
   randomGame,
   randomItem,
 } from "./randomUtils";
+import { pick } from "lodash";
 import { getGamesForUser } from "../pages/api/games";
 
 describe("games", () => {
@@ -21,13 +22,14 @@ describe("games", () => {
     const actual = await getGamesForUser(targetUser.id);
     expect(actual).toHaveLength(expected.length);
     actual.forEach((actualGame) => {
-      const expectedGame = expected.find((game) => game.id === actualGame.id)!;
-      expect(expectedGame).toBeDefined();
-      expect(actualGame.black.id).toEqual(expectedGame.black.id);
-      expect(actualGame.black.name).toEqual(expectedGame.black.name);
-      expect(actualGame.white.id).toEqual(expectedGame.white.id);
-      expect(actualGame.white.name).toEqual(expectedGame.white.name);
-      expect(actualGame.winner).toEqual(expectedGame.winner);
+      expect(expected).toContainEqual(
+        expect.objectContaining({
+          id: actualGame.id,
+          black: expect.objectContaining(pick(actualGame.black, "id", "name")),
+          white: expect.objectContaining(pick(actualGame.white, "id", "name")),
+          winner: actualGame.winner,
+        })
+      );
     });
   });
 });
