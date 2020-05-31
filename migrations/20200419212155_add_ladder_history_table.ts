@@ -9,7 +9,7 @@ async function wipeUsersAndGames(knex: Knex) {
   await knex("users").del();
 }
 
-exports.up = async function up(knex: Knex): Promise<any> {
+exports.up = async function up(knex: Knex): Promise<void> {
   await wipeUsersAndGames(knex);
   await knex.schema.table("users", (table) => {
     table.dropColumn("ladder_rung");
@@ -26,7 +26,7 @@ exports.up = async function up(knex: Knex): Promise<any> {
   });
 };
 
-exports.down = async function down(knex: Knex): Promise<any> {
+exports.down = async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTable("ladder_history");
   await wipeUsersAndGames(knex);
   await knex.schema.table("users", (table) => {
