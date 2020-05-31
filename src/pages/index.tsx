@@ -15,6 +15,7 @@ import useWindowDimensions from "../common/util/useWindowDimensions";
 import MainPageUserList from "../users/MainPageUserList";
 import MatchupCalculator from "../users/MatchupCalculator";
 import useDispatchEffect from "../common/util/useDispatchEffect";
+import LinkButton from "../common/components/LinkButton/LinkButton";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -27,7 +28,9 @@ const Home: React.FC = () => {
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.9, opacity: 0 }}
     >
-      <Header header="Maine Go Ladder" />
+      <Header header="Maine Go Ladder">
+        <LinkButton href="/audit-events">Change History</LinkButton>
+      </Header>
       <MatchupCalculator />
       <Content
         css={css`
