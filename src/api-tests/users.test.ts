@@ -16,7 +16,6 @@ import {
 import { cleanupDB } from "./dbUtil";
 import { archiveUser } from "../pages/api/users/[userId]";
 import { AuditEventType } from "../common/server/createAuditRecord";
-import { userInfo } from "os";
 
 const sortByDate = (fieldName: string) => (a: any, b: any) => {
   const dateA = new Date(a[fieldName]);
