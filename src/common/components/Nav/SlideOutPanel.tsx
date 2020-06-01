@@ -49,7 +49,7 @@ const SlideOutPanel: React.FC<SidePanelProps> = ({
                 overflow: hidden;
                 background-color: ${theme.colors.blue[80].hex};
                 height: 100%;
-                width: 175px;
+                width: 250px;
                 color: ${theme.colors.blue[30].hex};
                 transition: 0.25s width ease;
                 z-index: 2;
