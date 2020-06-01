@@ -17,6 +17,8 @@ import MainPageUserList from "../users/MainPageUserList";
 import MatchupCalculator from "../users/MatchupCalculator";
 import useDispatchEffect from "../common/util/useDispatchEffect";
 import SlideOutPanel from "../common/components/Nav/SlideOutPanel";
+import Fab from "../common/components/SpeedDial/Fab";
+import Link from "next/link";
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -70,34 +72,25 @@ const Home: React.FC = () => {
         `}
       >
         <MainPageUserList />
-        <SpeedDial
-          css={css`
-            position: absolute;
-            top: calc(100% - 6rem);
-            right: 2rem;
-            transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
+        <Link href="/record-game">
+          <a>
+            <Fab
+              css={css`
+                position: absolute;
+                top: calc(100% - 6rem);
+                right: 2rem;
+                transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
 
-            @media only screen and (min-width: 1000px) {
-              bottom: unset;
-              top: 2rem;
-            }
-          `}
-          icon={<Plus />}
-          direction={dimensions.width >= 1000 ? "DOWN" : "UP"}
-        >
-          <SpeedDialOption
-            label="Add User"
-            onClick={() => router.push("/add-user")}
-          >
-            <User />
-          </SpeedDialOption>
-          <SpeedDialOption
-            label="Record Game"
-            onClick={() => router.push("/record-game")}
-          >
-            <GoIcon />
-          </SpeedDialOption>
-        </SpeedDial>
+                @media only screen and (min-width: 1000px) {
+                  bottom: unset;
+                  top: 2rem;
+                }
+              `}
+            >
+              <GoIcon />
+            </Fab>
+          </a>
+        </Link>
       </Content>
     </Wrapper>
   );
