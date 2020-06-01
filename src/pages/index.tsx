@@ -1,7 +1,7 @@
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { Plus, User } from "react-feather";
+import { Plus, User, List } from "react-feather";
 import {
   Wrapper,
   Header,
@@ -44,7 +44,19 @@ const Home: React.FC = () => {
               }
               href="/add-user"
             >
-              Add User
+              New User
+            </NavLink>
+            <NavLink
+              icon={
+                <List
+                  width="1.75rem"
+                  height="1.75rem"
+                  style={{ marginRight: "0.5rem" }}
+                />
+              }
+              href="/audit-events"
+            >
+              Changelog
             </NavLink>
           </nav>
         </SlideOutPanel>

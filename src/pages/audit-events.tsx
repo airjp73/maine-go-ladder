@@ -22,7 +22,7 @@ const AuditEvents: React.FC = () => {
           padding: 1rem;
         `}
       >
-        <h1>Stuff</h1>
+        <h1>Coming Soon...</h1>
       </Content>
     </Wrapper>
   );
