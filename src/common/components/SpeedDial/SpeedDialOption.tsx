@@ -30,6 +30,7 @@ const getLabelStyle = (labelDirection: labelDirections) => {
 };
 
 const SpeedDialOption: React.FC<SpeedDialOptionProps> = ({
+  className,
   children,
   label,
   labelDirection = labelDirections.LEFT,
@@ -37,6 +38,7 @@ const SpeedDialOption: React.FC<SpeedDialOptionProps> = ({
   ...rest
 }) => (
   <span
+    className={className}
     css={css`
       position: relative;
     `}
