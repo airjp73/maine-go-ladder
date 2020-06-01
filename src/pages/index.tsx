@@ -90,6 +90,7 @@ const Home: React.FC = () => {
                 top: calc(100% - 6rem);
                 right: 2rem;
                 transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
+                z-index: 1;
 
                 @media only screen and (min-width: 1000px) {
                   bottom: unset;
