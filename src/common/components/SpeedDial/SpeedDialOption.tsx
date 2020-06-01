@@ -2,7 +2,7 @@ import React from "react";
 import Fab from "./Fab";
 import { css } from "@emotion/core";
 import { Theme } from "../../styles/theme";
-import { motion, usePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 export enum labelDirections {
   RIGHT = "RIGHT",
