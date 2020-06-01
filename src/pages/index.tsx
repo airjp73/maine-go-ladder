@@ -60,6 +60,18 @@ const Home: React.FC = () => {
             </NavLink>
             <NavLink
               icon={
+                <GoIcon
+                  width="1.75rem"
+                  height="1.75rem"
+                  style={{ marginRight: "0.5rem" }}
+                />
+              }
+              href="/record-game"
+            >
+              Record Game
+            </NavLink>
+            <NavLink
+              icon={
                 <List
                   width="1.75rem"
                   height="1.75rem"
