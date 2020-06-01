@@ -50,9 +50,14 @@ export const Content: React.FC<React.HTMLProps<HTMLDivElement>> = ({
 
 interface HeaderProps {
   header: string;
+  menuButton?: React.ReactNode;
 }
 
-export const Header: React.FC<HeaderProps> = ({ header, children }) => (
+export const Header: React.FC<HeaderProps> = ({
+  header,
+  children,
+  menuButton,
+}) => (
   <header
     css={(theme: Theme) => css`
       display: flex;
@@ -64,6 +69,7 @@ export const Header: React.FC<HeaderProps> = ({ header, children }) => (
       z-index: 1;
       height: ${theme.headerHeight};
       box-sizing: border-box;
+      align-items: center;
 
       > * + * {
         margin-left: 1rem;
@@ -76,6 +82,7 @@ export const Header: React.FC<HeaderProps> = ({ header, children }) => (
       }
     `}
   >
+    {menuButton}
     <h2>{header}</h2>
     {children}
   </header>

@@ -1,7 +1,6 @@
 import { css } from "@emotion/core";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { Plus, User, List } from "react-feather";
+import { User, List, Menu } from "react-feather";
 import {
   Wrapper,
   Header,
@@ -10,19 +9,15 @@ import {
 import NavLink from "../common/components/Nav/NavLink";
 import { fetchUsers } from "../resources/users/userSlice";
 import GoIcon from "../common/components/SpeedDial/GoIcon";
-import SpeedDial from "../common/components/SpeedDial/SpeedDial";
-import SpeedDialOption from "../common/components/SpeedDial/SpeedDialOption";
-import useWindowDimensions from "../common/util/useWindowDimensions";
 import MainPageUserList from "../users/MainPageUserList";
 import MatchupCalculator from "../users/MatchupCalculator";
 import useDispatchEffect from "../common/util/useDispatchEffect";
 import SlideOutPanel from "../common/components/Nav/SlideOutPanel";
 import Fab from "../common/components/SpeedDial/Fab";
 import Link from "next/link";
+import { Theme } from "../common/styles/theme";
 
 const Home: React.FC = () => {
-  const router = useRouter();
-  const dimensions = useWindowDimensions();
   useDispatchEffect(() => fetchUsers(), []);
   const [active, setActive] = useState(false);
 
@@ -32,8 +27,23 @@ const Home: React.FC = () => {
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0.9, opacity: 0 }}
     >
-      <Header header="Maine Go Ladder">
-        <button onClick={() => setActive(true)}>Test</button>
+      <Header
+        menuButton={
+          <button
+            css={css`
+              border: none;
+              background: none;
+              padding: 0;
+              cursor: pointer;
+              margin-right: 1rem;
+            `}
+            onClick={() => setActive(true)}
+          >
+            <Menu height="2rem" width="2rem" />
+          </button>
+        }
+        header="Maine Go Ladder"
+      >
         <SlideOutPanel active={active} onClose={() => setActive(false)}>
           <nav>
             <NavLink
