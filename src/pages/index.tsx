@@ -7,6 +7,7 @@ import {
   Header,
   Content,
 } from "../common/components/PageContent/PageContent";
+import NavLink from "../common/components/Nav/NavLink";
 import { fetchUsers } from "../resources/users/userSlice";
 import GoIcon from "../common/components/SpeedDial/GoIcon";
 import SpeedDial from "../common/components/SpeedDial/SpeedDial";
@@ -32,7 +33,20 @@ const Home: React.FC = () => {
       <Header header="Maine Go Ladder">
         <button onClick={() => setActive(true)}>Test</button>
         <SlideOutPanel active={active} onClose={() => setActive(false)}>
-          <h1>Test</h1>
+          <nav>
+            <NavLink
+              icon={
+                <User
+                  width="1.75rem"
+                  height="1.75rem"
+                  style={{ marginRight: "0.5rem" }}
+                />
+              }
+              href="/add-user"
+            >
+              Add User
+            </NavLink>
+          </nav>
         </SlideOutPanel>
       </Header>
       <MatchupCalculator />

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { createContext, useMemo } from "react";
 import Portal from "./Portal";
 import { css } from "@emotion/core";
 import { Theme } from "../../styles/theme";
 import { AnimatePresence, motion } from "framer-motion";
+
+interface NavContextValue {
+  closeNav: () => void;
+}
+export const NavContext = createContext<NavContextValue | null>(null);
 
 interface SidePanelProps {
   active: boolean;
@@ -14,6 +19,7 @@ const SlideOutPanel: React.FC<SidePanelProps> = ({
   children,
   onClose,
 }) => {
+  const contextValue = useMemo(() => ({ closeNav: onClose }), [onClose]);
   return (
     <Portal>
       <AnimatePresence>
@@ -59,7 +65,9 @@ const SlideOutPanel: React.FC<SidePanelProps> = ({
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.2 }}
             >
-              {children}
+              <NavContext.Provider value={contextValue}>
+                {children}
+              </NavContext.Provider>
             </motion.header>
           </div>
         )}
