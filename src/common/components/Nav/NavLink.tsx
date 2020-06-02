@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import Link from "next/link";
 import { Theme } from "../../styles/theme";
 import { NavContext } from "./SlideOutPanel";
+import { usePageTransition } from "../LinkButton/LinkButton";
 
 interface NavLinkProps {
   href: string;
@@ -10,6 +11,7 @@ interface NavLinkProps {
 }
 
 export const NavLink: React.FC<NavLinkProps> = ({ icon, href, children }) => {
+  const [isLoading, handleLoading] = usePageTransition();
   const navContext = useContext(NavContext);
 
   return (
@@ -27,12 +29,13 @@ export const NavLink: React.FC<NavLinkProps> = ({ icon, href, children }) => {
             background-color: ${theme.colors.blue[70].hex};
           }
         `}
-        onClick={() => {
+        onClick={async () => {
+          await handleLoading();
           navContext?.closeNav();
         }}
       >
         {icon}
-        <span>{children}</span>
+        <span>{isLoading ? "Loading..." : children}</span>
       </a>
     </Link>
   );
