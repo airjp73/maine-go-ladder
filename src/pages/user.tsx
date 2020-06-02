@@ -83,7 +83,6 @@ const UserPage: React.FC = () => {
       )
   );
 
-  // TODO: keep loading states per user
   const isLoading = useSelector(
     (state: AppState) =>
       state.users.loading !== LoadingStates.COMPLETE ||
