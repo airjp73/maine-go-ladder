@@ -10,7 +10,7 @@ const listItemStyle = (theme: Theme): SerializedStyles => css`
   color: ${theme.colors.green[20].hex};
   outline: none;
   cursor: pointer;
-  /* align-items: center; */
+  align-items: center;
   position: relative;
 
   :hover,
