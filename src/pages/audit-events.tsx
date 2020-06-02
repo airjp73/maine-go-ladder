@@ -112,6 +112,9 @@ const AuditEvents: React.FC = () => {
       <Content
         css={css`
           padding: 1rem;
+          > * + * {
+            margin-top: 1rem;
+          }
         `}
       >
         {auditEvents.map((auditEvent) => (
