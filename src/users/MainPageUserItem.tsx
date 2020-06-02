@@ -7,12 +7,13 @@ import { rungToRating } from "../ladder/ratings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState, AppDispatch } from "../core/store";
 import mainPageSlice from "./mainPageSlice";
-import { Theme } from "../common/styles/theme";
 import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import DeleteUserButton from "./DeleteUserButton";
 import userSlice from "../resources/users/userSlice";
 import LinkButton from "../common/components/LinkButton/LinkButton";
+import listItemStyle from "../common/styles/listItemStyle";
+import { Theme } from "../common/styles/theme";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -31,23 +32,6 @@ const nameVariants = {
   selected: { fontSize: "1.25rem" },
   exit: { fontSize: "1rem" },
 };
-
-const containerStyle = (theme: Theme) => css`
-  padding: 0.5rem 1rem;
-  box-shadow: 1px 2px 4px ${theme.colors.blue[80].hex};
-  border-radius: 3px;
-  background-color: ${theme.colors.blue[90].hex};
-  color: ${theme.colors.green[20].hex};
-  outline: none;
-  cursor: pointer;
-  position: relative;
-
-  :hover,
-  :focus {
-    background-color: ${theme.colors.blue[80].hex};
-    box-shadow: 2px 3px 6px ${theme.colors.blue[80].hex};
-  }
-`;
 
 const headingStyle = css`
   display: flex;
@@ -80,7 +64,10 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
 
   return (
     <motion.li
-      css={containerStyle}
+      css={(theme: Theme) => css`
+        ${listItemStyle(theme)}
+        display: block;
+      `}
       role="button"
       tabIndex={0}
       key={user.id}

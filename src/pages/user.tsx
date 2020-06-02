@@ -20,24 +20,7 @@ import LoadingStates from "../common/enum/LoadingStates";
 import RatingHistory from "../ladder/RatingHistory";
 import { fetchLadderHistory } from "../resources/ladder-history/ladderSlice";
 import LinkButton from "../common/components/LinkButton/LinkButton";
-
-export const userItemStyle = (theme: Theme) => css`
-  padding: 0.5rem 1rem;
-  box-shadow: 1px 2px 4px ${theme.colors.blue[80].hex};
-  border-radius: 3px;
-  display: flex;
-  background-color: ${theme.colors.blue[90].hex};
-  color: ${theme.colors.green[20].hex};
-  outline: none;
-  cursor: pointer;
-  align-items: center;
-
-  :hover,
-  :focus {
-    background-color: ${theme.colors.blue[80].hex};
-    box-shadow: 2px 3px 6px ${theme.colors.blue[80].hex};
-  }
-`;
+import listItemStyle from "../common/styles/listItemStyle";
 
 const dateFormat = new Intl.DateTimeFormat("en", {
   year: "numeric",
@@ -47,7 +30,7 @@ const dateFormat = new Intl.DateTimeFormat("en", {
 const formatDate = (dateStr: string) => dateFormat.format(new Date(dateStr));
 
 const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => (
-  <div css={userItemStyle}>
+  <div css={listItemStyle}>
     <div>
       <p>
         <strong>Black:</strong> {game.black.name}
