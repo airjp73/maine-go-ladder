@@ -16,14 +16,7 @@ import {
 import { cleanupDB } from "./dbUtil";
 import { archiveUser } from "../pages/api/users/[userId]";
 import { AuditEventType } from "../resources/audit-events/AuditEvent";
-
-const sortByDate = <TObj extends Record<TKey, string>, TKey extends keyof TObj>(
-  fieldName: TKey
-) => (a: TObj, b: TObj): number => {
-  const dateA = new Date(a[fieldName]);
-  const dateB = new Date(b[fieldName]);
-  return dateB.getTime() - dateA.getTime();
-};
+import sortByDate from "../common/util/sortBydate";
 
 describe("user endpoints", () => {
   beforeEach(async () => {
