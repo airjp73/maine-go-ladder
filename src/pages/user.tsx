@@ -21,6 +21,7 @@ import RatingHistory from "../ladder/RatingHistory";
 import { fetchLadderHistory } from "../resources/ladder-history/ladderSlice";
 import LinkButton from "../common/components/LinkButton/LinkButton";
 import listItemStyle from "../common/styles/listItemStyle";
+import LabelledValue from "../common/components/LabelledValue/LabelledValue";
 
 const dateFormat = new Intl.DateTimeFormat("en", {
   year: "numeric",
@@ -32,15 +33,9 @@ const formatDate = (dateStr: string) => dateFormat.format(new Date(dateStr));
 const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => (
   <div css={listItemStyle}>
     <div>
-      <p>
-        <strong>Black:</strong> {game.black.name}
-      </p>
-      <p>
-        <strong>White:</strong> {game.white.name}
-      </p>
-      <p>
-        <strong>Uploaded:</strong> {formatDate(game.created_at)}
-      </p>
+      <LabelledValue label="Black" value={game.black.name} />
+      <LabelledValue label="White" value={game.white.name} />
+      <LabelledValue label="Uploaded" value={formatDate(game.created_at)} />
     </div>
     <span
       css={(theme: Theme) => css`
