@@ -21,6 +21,9 @@ import LabelledValue from "../common/components/LabelledValue/LabelledValue";
 import { Theme } from "../common/styles/theme";
 import { AnimatePresence } from "framer-motion";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
+import { AppState } from "../core/store";
+import LoadingStates from "../common/enum/LoadingStates";
+import LoadingState from "../common/components/LoadingState/LoadingState";
 
 const getEventTypeLabel = (type: AuditEventType): string => {
   switch (type) {
@@ -99,6 +102,12 @@ const AuditEvents: React.FC = () => {
   useDispatchEffect(() => fetchAuditEvents(), []);
   const auditEvents = useSelector(auditEventSelectors.selectAll);
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
+
+  const isLoading = useSelector(
+    (state: AppState) => state.auditEvents.loading !== LoadingStates.COMPLETE
+  );
+
+  if (isLoading) return <LoadingState />;
 
   return (
     <Wrapper
