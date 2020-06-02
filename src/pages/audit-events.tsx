@@ -6,8 +6,17 @@ import {
 } from "../common/components/PageContent/PageContent";
 import { css } from "@emotion/core";
 import LinkButton from "../common/components/LinkButton/LinkButton";
+import useDispatchEffect from "../common/util/useDispatchEffect";
+import {
+  fetchAuditEvents,
+  auditEventSelectors,
+} from "../resources/audit-events/auditEventSlice";
+import { useSelector } from "react-redux";
 
 const AuditEvents: React.FC = () => {
+  useDispatchEffect(() => fetchAuditEvents(), []);
+  const auditEvents = useSelector(auditEventSelectors.selectAll);
+
   return (
     <Wrapper
       initial={{ x: "100%" }}
@@ -22,7 +31,11 @@ const AuditEvents: React.FC = () => {
           padding: 1rem;
         `}
       >
-        <h1>Coming Soon...</h1>
+        {auditEvents.map((event) => (
+          <p key={event.id}>
+            {event.type}: {JSON.stringify(event.details)}
+          </p>
+        ))}
       </Content>
     </Wrapper>
   );

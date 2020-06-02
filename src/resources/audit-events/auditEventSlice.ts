@@ -22,7 +22,7 @@ const auditEventAdapter = createEntityAdapter<AuditEvent>({
   sortComparer: sortByDate("created_at"),
 });
 
-export const userSelectors = auditEventAdapter.getSelectors(
+export const auditEventSelectors = auditEventAdapter.getSelectors(
   (state: AppState) => state.auditEvents
 );
 
