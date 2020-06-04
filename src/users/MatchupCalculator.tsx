@@ -35,7 +35,8 @@ export function calculateMatchup(user1: User, user2: User): Matchup {
 
   const blackRating = rungToRating(black.ladder_rung);
   const whiteRating = rungToRating(white.ladder_rung);
-  const difference = whiteRating - blackRating;
+  // Round to the nearest .1
+  const difference = Math.round((whiteRating - blackRating) * 10) / 10;
   const vals = matchupValues.find(([diff]) => diff === difference);
   if (!vals) return { type: "LARGE_DIFF" };
 
