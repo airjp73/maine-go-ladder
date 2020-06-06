@@ -14,6 +14,7 @@ import { NewGame, Game } from "../resources/games/Game";
 import { recordGame } from "../pages/api/record-game";
 import { cleanupDB } from "./dbUtil";
 import { AuditEventType } from "../resources/audit-events/AuditEvent";
+import expectAuditRecord from "../common/server/expectAuditRecord";
 
 describe("record-game", () => {
   beforeEach(async () => {
@@ -62,10 +63,7 @@ describe("record-game", () => {
     expect(loserAfter!.ladder_rung).toEqual(loserBefore!.ladder_rung - 1);
     expect(loserAfter!.streak).toEqual(0);
 
-    const auditRecords = await knex("audit_events").select("*");
-    expect(auditRecords).toHaveLength(1);
-    expect(auditRecords[0].type).toEqual(AuditEventType.GAME_RECORDED);
-    expect(auditRecords[0].details).toStrictEqual({
+    await expectAuditRecord(AuditEventType.GAME_RECORDED, {
       gameId: games[0].id,
       black: newGame.black,
       white: newGame.white,

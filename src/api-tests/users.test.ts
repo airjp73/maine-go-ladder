@@ -17,6 +17,7 @@ import { cleanupDB } from "./dbUtil";
 import { archiveUser } from "../pages/api/users/[userId]";
 import { AuditEventType } from "../resources/audit-events/AuditEvent";
 import sortByDate from "../common/util/sortBydate";
+import expectAuditRecord from "../common/server/expectAuditRecord";
 
 describe("user endpoints", () => {
   beforeEach(async () => {
@@ -90,10 +91,7 @@ describe("user endpoints", () => {
       expect(resultFromGet[0].name).toEqual(newUser.name);
       expect(resultFromGet[0].ladder_rung).toEqual(newUser.ladder_rung);
 
-      const auditRecords = await knex("audit_events").select("*");
-      expect(auditRecords).toHaveLength(1);
-      expect(auditRecords[0].type).toEqual(AuditEventType.USER_CREATED);
-      expect(auditRecords[0].details).toStrictEqual({
+      await expectAuditRecord(AuditEventType.USER_CREATED, {
         id: savedUsers[0].id,
         name: savedUsers[0].name,
       });
@@ -111,10 +109,7 @@ describe("user endpoints", () => {
       )[0];
       expect(result.archived).toBe(true);
 
-      const auditRecords = await knex("audit_events").select("*");
-      expect(auditRecords).toHaveLength(1);
-      expect(auditRecords[0].type).toEqual(AuditEventType.USER_DELETED);
-      expect(auditRecords[0].details).toStrictEqual({
+      await expectAuditRecord(AuditEventType.USER_DELETED, {
         id: user.id,
         name: user.name,
       });
