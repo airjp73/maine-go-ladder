@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import {
   AuditEvent,
   AuditEventType,
+  AuditDetails,
 } from "../resources/audit-events/AuditEvent";
 import listItemStyle from "../common/styles/listItemStyle";
 import LabelledValue from "../common/components/LabelledValue/LabelledValue";
@@ -24,36 +25,88 @@ import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import { AppState } from "../core/store";
 import LoadingStates from "../common/enum/LoadingStates";
 import LoadingState from "../common/components/LoadingState/LoadingState";
+import { userSelectors, fetchUsers } from "../resources/users/userSlice";
 
 const getEventTypeLabel = (type: AuditEventType): string => {
   switch (type) {
     case AuditEventType.USER_CREATED:
       return "User Created";
+    case AuditEventType.USER_DELETED:
+      return "User Deleted";
     case AuditEventType.GAME_RECORDED:
       return "Game Recorded";
   }
 };
 
-const getSummary = (event: AuditEvent): string => {
+const GameRecordedSummary: React.FC<{
+  details: AuditDetails<AuditEventType.GAME_RECORDED>;
+}> = ({ details }) => {
+  const black = useSelector((state: AppState) =>
+    userSelectors.selectById(state, details.black)
+  );
+  const white = useSelector((state: AppState) =>
+    userSelectors.selectById(state, details.white)
+  );
+  if (black && white) return <>{`${black.name} vs ${white.name}`}</>;
+  return null;
+};
+
+const getSummary = (event: AuditEvent): React.ReactNode => {
   switch (event.type) {
     case AuditEventType.USER_CREATED:
+    case AuditEventType.USER_DELETED:
       return event.details.name;
     case AuditEventType.GAME_RECORDED:
-      return "";
+      return <GameRecordedSummary details={event.details} />;
   }
+};
+
+const GameRecordedDetail: React.FC<{
+  details: AuditDetails<AuditEventType.GAME_RECORDED>;
+}> = ({ details }) => {
+  const black = useSelector((state: AppState) =>
+    userSelectors.selectById(state, details.black)
+  );
+  const white = useSelector((state: AppState) =>
+    userSelectors.selectById(state, details.white)
+  );
+  const winner = useSelector((state: AppState) =>
+    userSelectors.selectById(state, details.winner)
+  );
+  return (
+    <div>
+      <LabelledValue label="Id" value={details.gameId} />
+      <LabelledValue
+        label="Black"
+        value={black?.name ?? details.black}
+        href={`/user?userId=${details.black}`}
+      />
+      <LabelledValue
+        label="White"
+        value={white?.name ?? details.white}
+        href={`/user?userId=${details.white}`}
+      />
+      <LabelledValue label="Winner" value={winner?.name ?? details.winner} />
+    </div>
+  );
 };
 
 const getDetails = (event: AuditEvent): Exclude<React.ReactNode, undefined> => {
   switch (event.type) {
     case AuditEventType.USER_CREATED:
+    case AuditEventType.USER_DELETED:
       return (
         <div>
           <LabelledValue label="Id" value={event.details.id} />
-          <LabelledValue label="Name" value={event.details.name} />
+          <LabelledValue
+            label="Name"
+            value={event.details.name}
+            href={`/user?userId=${event.details.id}`}
+          />
         </div>
       );
     case AuditEventType.GAME_RECORDED:
-      return <div />;
+      return <GameRecordedDetail details={event.details} />;
   }
 };
 
@@ -100,6 +153,7 @@ const AuditEventItem: React.FC<{
 
 const AuditEvents: React.FC = () => {
   useDispatchEffect(() => fetchAuditEvents(), []);
+  useDispatchEffect(() => fetchUsers(), []);
   const auditEvents = useSelector(auditEventSelectors.selectAll);
   const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
 
