@@ -3,17 +3,21 @@ import { NewGame } from "../../resources/games/Game";
 import createRequestHandler from "../../common/server/createRequestHandler";
 import Knex from "knex";
 import { LadderHistoryItem } from "../../resources/ladder-history/LadderHistoryItem";
+import createAuditRecord from "../../common/server/createAuditRecord";
+import { AuditEventType } from "../../resources/audit-events/AuditEvent";
 
 export async function recordGame(game: NewGame): Promise<void> {
   const winner = game.winner;
   const loser = game.black === game.winner ? game.white : game.black;
 
   await knex.transaction(async (trx) => {
-    await trx("games").insert({
-      black: game.black,
-      white: game.white,
-      winner,
-    });
+    const gameId = await trx("games")
+      .insert({
+        black: game.black,
+        white: game.white,
+        winner,
+      })
+      .returning("id");
 
     const streak: number = await trx("users")
       .where("id", "=", winner)
@@ -30,6 +34,13 @@ export async function recordGame(game: NewGame): Promise<void> {
     await updateRung(trx, loser, -1);
 
     await trx("users").where("id", "=", loser).update("streak", 0);
+
+    await createAuditRecord(trx, AuditEventType.GAME_RECORDED, {
+      gameId: gameId[0],
+      black: game.black,
+      white: game.white,
+      winner: game.winner,
+    });
   });
 }
 

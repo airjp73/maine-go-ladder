@@ -13,6 +13,7 @@ import random from "lodash/random";
 import { NewGame, Game } from "../resources/games/Game";
 import { recordGame } from "../pages/api/record-game";
 import { cleanupDB } from "./dbUtil";
+import { AuditEventType } from "../resources/audit-events/AuditEvent";
 
 describe("record-game", () => {
   beforeEach(async () => {
@@ -60,6 +61,16 @@ describe("record-game", () => {
     const loserAfter = updatedUsers.find((user) => user.id === loser.id);
     expect(loserAfter!.ladder_rung).toEqual(loserBefore!.ladder_rung - 1);
     expect(loserAfter!.streak).toEqual(0);
+
+    const auditRecords = await knex("audit_events").select("*");
+    expect(auditRecords).toHaveLength(1);
+    expect(auditRecords[0].type).toEqual(AuditEventType.GAME_RECORDED);
+    expect(auditRecords[0].details).toStrictEqual({
+      gameId: games[0].id,
+      black: newGame.black,
+      white: newGame.white,
+      winner: newGame.winner,
+    });
 
     // Record the same result two more times to test streaks
     await recordGame(newGame);

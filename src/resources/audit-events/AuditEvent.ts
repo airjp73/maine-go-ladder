@@ -18,7 +18,12 @@ export interface CreateUserAuditEvent extends BaseAuditEvent {
 
 export interface GameRecordedAuditEvent extends BaseAuditEvent {
   type: AuditEventType.GAME_RECORDED;
-  details: { black: string }; // TODO: add more
+  details: {
+    gameId: string;
+    black: string;
+    white: string;
+    winner: string;
+  };
 }
 
 export type AuditEvent = CreateUserAuditEvent | GameRecordedAuditEvent;
