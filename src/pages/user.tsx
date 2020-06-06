@@ -99,7 +99,7 @@ const UserPage: React.FC = () => {
       exit={{ x: "100%", zIndex: 1 }}
     >
       <Header header={user ? user.name : "User not found"}>
-        <LinkButton href="/">Back</LinkButton>
+        <LinkButton href="/">Home</LinkButton>
       </Header>
       {user && (
         <Content

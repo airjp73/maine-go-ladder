@@ -21,7 +21,7 @@ const RecordGame: React.FC = () => {
       exit={{ x: "100%", zIndex: 1 }}
     >
       <Header header="Record Game">
-        <LinkButton href="/">Back</LinkButton>
+        <LinkButton href="/">Home</LinkButton>
       </Header>
       {loading && <LoadingState />}
       <AddGameForm onAfterSubmit={() => router.push("/")} />

@@ -18,7 +18,7 @@ const AddUser: React.FC = () => {
       exit={{ x: "100%", zIndex: 1 }}
     >
       <Header header="Add User">
-        <LinkButton href="/">Back</LinkButton>
+        <LinkButton href="/">Home</LinkButton>
       </Header>
       <Content
         css={css`
