@@ -184,7 +184,10 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
             position: relative;
           `}
         >
-          <AnimatePresence custom={{ prev: prevTab, current: tab }}>
+          <AnimatePresence
+            custom={{ prev: prevTab, current: tab }}
+            initial={false}
+          >
             {tab === 0 && (
               <TabContent variants={variants} key="choose-black">
                 <h1>Who played black?</h1>
