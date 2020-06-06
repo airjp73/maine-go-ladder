@@ -2,9 +2,20 @@ import * as yup from "yup";
 import createRequestHandler from "../../../common/server/createRequestHandler";
 import knex from "../../../common/server/knex";
 import BadRequestError from "../../../common/server/BadRequestError";
+import createAuditRecord from "../../../common/server/createAuditRecord";
+import { AuditEventType } from "../../../resources/audit-events/AuditEvent";
 
-export async function archiveUser(userId: string) {
-  await knex("users").where("id", userId).update({ archived: true });
+export async function archiveUser(userId: string): Promise<void> {
+  await knex.transaction(async (trx) => {
+    const name = await trx("users")
+      .where("id", userId)
+      .update({ archived: true })
+      .returning("name");
+    await createAuditRecord(trx, AuditEventType.USER_DELETED, {
+      id: userId,
+      name: name[0],
+    });
+  });
 }
 
 const querySchema = yup

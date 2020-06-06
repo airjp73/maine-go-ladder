@@ -110,6 +110,14 @@ describe("user endpoints", () => {
         await knex("users").select("*").where({ id: user.id })
       )[0];
       expect(result.archived).toBe(true);
+
+      const auditRecords = await knex("audit_events").select("*");
+      expect(auditRecords).toHaveLength(1);
+      expect(auditRecords[0].type).toEqual(AuditEventType.USER_DELETED);
+      expect(auditRecords[0].details).toStrictEqual({
+        id: user.id,
+        name: user.name,
+      });
     });
   });
 });
