@@ -27,7 +27,12 @@ export default createRequestHandler({
 
     if (password === PASSWORD) {
       const jwt = jsonwebtoken.sign({}, SECRET);
-      res.setHeader("Set-Cookie", cookie.serialize("jwt", jwt));
+      res.setHeader(
+        "Set-Cookie",
+        cookie.serialize("jwt", jwt, {
+          expires: new Date("3000-01-01"),
+        })
+      );
 
       // Decode to get the iat value
       const decoded = jsonwebtoken.decode(jwt);
