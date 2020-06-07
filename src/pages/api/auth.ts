@@ -26,7 +26,7 @@ export default createRequestHandler({
       return res.status(500).send("Error with app configuration");
 
     if (password === PASSWORD) {
-      const jwt = jsonwebtoken.sign({ loginDate: Date.now() }, SECRET);
+      const jwt = jsonwebtoken.sign({}, SECRET);
       res.setHeader("Set-Cookie", cookie.serialize("jwt", jwt));
       return res.status(200).send("Logged In!");
     } else {
