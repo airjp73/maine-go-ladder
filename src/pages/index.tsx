@@ -15,11 +15,19 @@ import useDispatchEffect from "../common/util/useDispatchEffect";
 import SlideOutPanel from "../common/components/Nav/SlideOutPanel";
 import Fab from "../common/components/SpeedDial/Fab";
 import Link from "next/link";
-import { Theme } from "../common/styles/theme";
+import { fetchSession } from "../resources/session/sessionSlice";
+import { useSelector } from "react-redux";
+import { AppState } from "../core/store";
+import LinkButton from "../common/components/LinkButton/LinkButton";
+import useSessionState, {
+  SessionStates,
+} from "../resources/session/useSessionState";
 
 const Home: React.FC = () => {
   useDispatchEffect(() => fetchUsers(), []);
+  useDispatchEffect(() => fetchSession(), []);
   const [active, setActive] = useState(false);
+  const sessionState = useSessionState();
 
   return (
     <Wrapper
@@ -44,6 +52,9 @@ const Home: React.FC = () => {
         }
         header="Maine Go Ladder"
       >
+        {sessionState === SessionStates.LOGGED_OUT && (
+          <LinkButton href="/login">Log In</LinkButton>
+        )}
         <SlideOutPanel active={active} onClose={() => setActive(false)}>
           <nav>
             <NavLink
@@ -94,26 +105,28 @@ const Home: React.FC = () => {
         `}
       >
         <MainPageUserList />
-        <Link href="/record-game">
-          <a>
-            <Fab
-              css={css`
-                position: absolute;
-                top: calc(100% - 6rem);
-                right: 2rem;
-                transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
-                z-index: 1;
+        {sessionState === SessionStates.LOGGED_IN && (
+          <Link href="/record-game">
+            <a>
+              <Fab
+                css={css`
+                  position: absolute;
+                  top: calc(100% - 6rem);
+                  right: 2rem;
+                  transition: top 0.25s ease 1s, bottom 0.25s ease 1s;
+                  z-index: 1;
 
-                @media only screen and (min-width: 1000px) {
-                  bottom: unset;
-                  top: 2rem;
-                }
-              `}
-            >
-              <GoIcon />
-            </Fab>
-          </a>
-        </Link>
+                  @media only screen and (min-width: 1000px) {
+                    bottom: unset;
+                    top: 2rem;
+                  }
+                `}
+              >
+                <GoIcon />
+              </Fab>
+            </a>
+          </Link>
+        )}
       </Content>
     </Wrapper>
   );
