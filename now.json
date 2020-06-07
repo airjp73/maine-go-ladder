@@ -2,6 +2,8 @@
   "version": 2,
   "alias": ["maine-go-ladder.xyz", "www.maine-go-ladder.xyz"],
   "env": {
-    "DATABASE_CONNECTION_URL": "@database-connection-url"
+    "DATABASE_CONNECTION_URL": "@database-connection-url",
+    "LOGIN_PASSWORD": "@mgl-login-password",
+    "JWT_SECRET": "@mgl-jwt-secret"
   }
 }
