@@ -8,6 +8,7 @@ import { AppDispatch } from "../core/store";
 import { postUser } from "../resources/users/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import reportError from "../common/util/reportError";
+import { fieldStyle, errorStyle } from "../common/styles/fieldStyle";
 
 interface AddUserFormProps {
   onAfterSubmit: () => void;
@@ -17,27 +18,6 @@ interface FormData {
   name: string;
   rating: string;
 }
-
-const field = css`
-  label {
-    font-weight: bold;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.5rem;
-    box-sizing: border-box;
-  }
-
-  > * {
-    display: block;
-  }
-`;
-
-const error = css`
-  font-size: 1rem;
-  font-weight: bold;
-`;
 
 const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
   const {
@@ -71,14 +51,14 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
         }
       `}
     >
-      <div css={field}>
+      <div css={fieldStyle}>
         <label>Name</label>
 
         <input name="name" ref={register({ required: true })} required />
-        {errors.name && <span css={error}>{errors.name.message}</span>}
+        {errors.name && <span css={errorStyle}>{errors.name.message}</span>}
       </div>
 
-      <div css={field}>
+      <div css={fieldStyle}>
         <label>Rating</label>
         <input
           name="rating"
@@ -98,7 +78,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ onAfterSubmit }) => {
             else clearError("rating");
           }}
         />
-        {errors.rating && <span css={error}>{errors.rating.message}</span>}
+        {errors.rating && <span css={errorStyle}>{errors.rating.message}</span>}
       </div>
 
       <button css={buttonStyle} disabled={isSubmitting}>

@@ -14,7 +14,7 @@ export const fetchSession = createAsyncThunk<Session>(
 export const login = createAsyncThunk<Session, { password: string }>(
   "session/login",
   async (payload) => {
-    const response = await performFetch("/api/session", {
+    const response = await performFetch("/api/auth", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
