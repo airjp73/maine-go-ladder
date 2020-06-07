@@ -8,6 +8,7 @@ import {
 } from "../common/components/PageContent/PageContent";
 import { css } from "@emotion/core";
 import LinkButton from "../common/components/LinkButton/LinkButton";
+import requireAuth from "../common/util/requireAuth";
 
 const AddUser: React.FC = () => {
   const router = useRouter();
@@ -31,4 +32,4 @@ const AddUser: React.FC = () => {
   );
 };
 
-export default AddUser;
+export default requireAuth(AddUser);

@@ -7,6 +7,7 @@ import { fetchUsers, userSelectors } from "../resources/users/userSlice";
 import { useSelector } from "react-redux";
 import LoadingState from "../common/components/LoadingState/LoadingState";
 import LinkButton from "../common/components/LinkButton/LinkButton";
+import requireAuth from "../common/util/requireAuth";
 
 const RecordGame: React.FC = () => {
   const router = useRouter();
@@ -29,4 +30,4 @@ const RecordGame: React.FC = () => {
   );
 };
 
-export default RecordGame;
+export default requireAuth(RecordGame);
