@@ -5,6 +5,7 @@ import Knex from "knex";
 import { LadderHistoryItem } from "../../resources/ladder-history/LadderHistoryItem";
 import createAuditRecord from "../../common/server/createAuditRecord";
 import { AuditEventType } from "../../resources/audit-events/AuditEvent";
+import requireSession from "../../common/server/requireSession";
 
 export async function recordGame(game: NewGame): Promise<void> {
   const winner = game.winner;
@@ -65,6 +66,7 @@ async function updateRung(
 
 export default createRequestHandler({
   POST: async (req, res) => {
+    requireSession(req);
     await recordGame(req.body);
     return res.send(200);
   },

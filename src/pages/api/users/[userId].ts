@@ -4,6 +4,7 @@ import knex from "../../../common/server/knex";
 import BadRequestError from "../../../common/server/BadRequestError";
 import createAuditRecord from "../../../common/server/createAuditRecord";
 import { AuditEventType } from "../../../resources/audit-events/AuditEvent";
+import requireSession from "../../../common/server/requireSession";
 
 export async function archiveUser(userId: string): Promise<void> {
   await knex.transaction(async (trx) => {
@@ -26,6 +27,7 @@ const querySchema = yup
 
 export default createRequestHandler({
   DELETE: async (req, res) => {
+    requireSession(req);
     const { userId } = await querySchema
       .validate(req.query)
       .catch(BadRequestError.throw);
