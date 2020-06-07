@@ -3,6 +3,7 @@ import createRequestHandler from "../../common/server/createRequestHandler";
 import { User, NewUser } from "../../resources/users/User";
 import createAuditRecord from "../../common/server/createAuditRecord";
 import { AuditEventType } from "../../resources/audit-events/AuditEvent";
+import requireSession from "../../common/server/requireSession";
 
 export function getUsers(): Promise<User[]> {
   return knex
@@ -44,5 +45,8 @@ export async function createNewUser({
 
 export default createRequestHandler({
   GET: async (req, res) => res.json(await getUsers()),
-  POST: async (req, res) => res.json(await createNewUser(req.body)),
+  POST: async (req, res) => {
+    requireSession(req);
+    return res.json(await createNewUser(req.body));
+  },
 });
