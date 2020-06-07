@@ -16,8 +16,6 @@ import SlideOutPanel from "../common/components/Nav/SlideOutPanel";
 import Fab from "../common/components/SpeedDial/Fab";
 import Link from "next/link";
 import { fetchSession } from "../resources/session/sessionSlice";
-import { useSelector } from "react-redux";
-import { AppState } from "../core/store";
 import LinkButton from "../common/components/LinkButton/LinkButton";
 import useSessionState, {
   SessionStates,
@@ -57,30 +55,34 @@ const Home: React.FC = () => {
         )}
         <SlideOutPanel active={active} onClose={() => setActive(false)}>
           <nav>
-            <NavLink
-              icon={
-                <User
-                  width="1.75rem"
-                  height="1.75rem"
-                  style={{ marginRight: "0.5rem" }}
-                />
-              }
-              href="/add-user"
-            >
-              New User
-            </NavLink>
-            <NavLink
-              icon={
-                <GoIcon
-                  width="1.75rem"
-                  height="1.75rem"
-                  style={{ marginRight: "0.5rem" }}
-                />
-              }
-              href="/record-game"
-            >
-              Record Game
-            </NavLink>
+            {sessionState === SessionStates.LOGGED_IN && (
+              <>
+                <NavLink
+                  icon={
+                    <User
+                      width="1.75rem"
+                      height="1.75rem"
+                      style={{ marginRight: "0.5rem" }}
+                    />
+                  }
+                  href="/add-user"
+                >
+                  New User
+                </NavLink>
+                <NavLink
+                  icon={
+                    <GoIcon
+                      width="1.75rem"
+                      height="1.75rem"
+                      style={{ marginRight: "0.5rem" }}
+                    />
+                  }
+                  href="/record-game"
+                >
+                  Record Game
+                </NavLink>
+              </>
+            )}
             <NavLink
               icon={
                 <List
