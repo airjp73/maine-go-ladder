@@ -4,6 +4,7 @@ import userSlice from "../resources/users/userSlice";
 import gameSlice from "../resources/games/gameSlice";
 import auditEventSlice from "../resources/audit-events/auditEventSlice";
 import ladderSlice from "../resources/ladder-history/ladderSlice";
+import sessionSlice from "../resources/session/sessionSlice";
 
 const rootReducer = combineReducers({
   mainPage: mainPageSlice.reducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   games: gameSlice.reducer,
   ladderHistory: ladderSlice.reducer,
   auditEvents: auditEventSlice.reducer,
+  session: sessionSlice.reducer,
 });
 
 const store = configureStore({
