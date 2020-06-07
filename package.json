@@ -43,7 +43,9 @@
     "yup": "^0.29.0"
   },
   "devDependencies": {
+    "@types/cookie": "^0.4.0",
     "@types/d3": "^5.7.2",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/lodash": "^4.14.151",
     "@types/node": "^13.11.0",
     "@types/reach__rect": "^0.2.0",
