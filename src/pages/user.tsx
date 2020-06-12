@@ -22,6 +22,10 @@ import { fetchLadderHistory } from "../resources/ladder-history/ladderSlice";
 import LinkButton from "../common/components/LinkButton/LinkButton";
 import listItemStyle from "../common/styles/listItemStyle";
 import LabelledValue from "../common/components/LabelledValue/LabelledValue";
+import DeleteUserButton from "../users/DeleteUserButton";
+import useSessionState, {
+  SessionStates,
+} from "../resources/session/useSessionState";
 
 const dateFormat = new Intl.DateTimeFormat("en", {
   year: "numeric",
@@ -67,7 +71,9 @@ const useQueryParam = (paramName: string) => {
 };
 
 const UserPage: React.FC = () => {
+  const sessionState = useSessionState();
   const userIdParam = useQueryParam("userId");
+  const { push } = useRouter();
   const userId = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
   useDispatchEffect(() => userId && fetchGames(userId), [userId]);
   useDispatchEffect(() => fetchUsers(), []);
@@ -114,18 +120,30 @@ const UserPage: React.FC = () => {
               ${theme.styles.raisedBox};
               border-radius: 3px;
               margin: 0.5rem 0;
+              display: flex;
 
               p {
                 margin: 0;
               }
             `}
           >
-            <p>
-              <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
-            </p>
-            <p>
-              <strong>Current Streak:</strong> {user.streak}
-            </p>
+            <div>
+              <p>
+                <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
+              </p>
+              <p>
+                <strong>Current Streak:</strong> {user.streak}
+              </p>
+            </div>
+            <div
+              css={css`
+                margin-left: auto;
+              `}
+            >
+              {sessionState === SessionStates.LOGGED_IN && (
+                <DeleteUserButton user={user} onAfterDelete={() => push("/")} />
+              )}
+            </div>
           </div>
           <h3>Rating History:</h3>
           <RatingHistory userId={user.id} />

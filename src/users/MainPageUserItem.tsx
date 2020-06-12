@@ -9,14 +9,10 @@ import { AppState, AppDispatch } from "../core/store";
 import mainPageSlice from "./mainPageSlice";
 import buttonStyle from "../common/styles/buttonStyle";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
-import DeleteUserButton from "./DeleteUserButton";
 import userSlice from "../resources/users/userSlice";
 import LinkButton from "../common/components/LinkButton/LinkButton";
 import listItemStyle from "../common/styles/listItemStyle";
 import { Theme } from "../common/styles/theme";
-import useSessionState, {
-  SessionStates,
-} from "../resources/session/useSessionState";
 
 interface MainPageUserItemProps extends React.ComponentProps<typeof motion.li> {
   user: User;
@@ -53,7 +49,6 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
   );
   const dispatch = useDispatch<AppDispatch>();
   const controls = useAnimation();
-  const sessionState = useSessionState();
 
   useEffect(() => {
     async function animate() {
@@ -140,9 +135,6 @@ export const MainPageUserItem: React.FC<MainPageUserItemProps> = ({
               <LinkButton href={`/user?userId=${user.id}`}>
                 View Profile
               </LinkButton>
-              {sessionState === SessionStates.LOGGED_IN && (
-                <DeleteUserButton user={user} />
-              )}
             </div>
           </AnimateHeight>
         )}

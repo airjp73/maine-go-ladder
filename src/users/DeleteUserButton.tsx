@@ -12,9 +12,13 @@ import reportError from "../common/util/reportError";
 
 interface DeleteUserbuttonProps {
   user: User;
+  onAfterDelete?: () => void;
 }
 
-const DeleteUserButton: React.FC<DeleteUserbuttonProps> = ({ user }) => {
+const DeleteUserButton: React.FC<DeleteUserbuttonProps> = ({
+  user,
+  onAfterDelete,
+}) => {
   const [isDeleting, setDeleting] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -64,7 +68,10 @@ const DeleteUserButton: React.FC<DeleteUserbuttonProps> = ({ user }) => {
                     setDeleting(true);
                     dispatch(deleteUser(user.id))
                       .then(unwrapResult)
-                      .then(close)
+                      .then(() => {
+                        close();
+                        onAfterDelete?.();
+                      })
                       .catch(() => reportError("Failed to delete user"))
                       .finally(() => setDeleting(false));
                   }}
