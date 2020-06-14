@@ -71,8 +71,34 @@ const MatchupCalculator: React.FC = () => {
       case "HANDICAP":
         return (
           <>
-            <p>{matchup.black.name} is black</p>
-            <p>{matchup.white.name} is white</p>
+            <div
+              css={css`
+                margin: 0.5rem 0;
+                display: flex;
+                align-items: center;
+              `}
+            >
+              <div
+                css={css`
+                  height: 1rem;
+                  width: 1rem;
+                  border-radius: 50%;
+                  background-color: black;
+                  margin-right: 0.5rem;
+                `}
+              />
+              <span>{matchup.black.name}</span>
+              <div
+                css={css`
+                  height: 1rem;
+                  width: 1rem;
+                  border-radius: 50%;
+                  background-color: white;
+                  margin: 0 0.5rem 0 1.5rem;
+                `}
+              />
+              <span>{matchup.white.name}</span>
+            </div>
             <p>{matchup.numStones} handicap stones</p>
             <p>
               {matchup.komi < 0
@@ -117,7 +143,7 @@ const MatchupCalculator: React.FC = () => {
                   text-align: left;
                 `}
               >
-                Choose another player
+                Choose another player below from the list below
               </div>
             )}
             <AnimatePresence initial={false}>
@@ -127,6 +153,9 @@ const MatchupCalculator: React.FC = () => {
                   height={matchup.type === "HANDICAP" ? "9rem" : "1.5rem"}
                 >
                   {getMatchupInfo(matchup)}
+                  <p>
+                    Fischer time: 10 minutes + 10 seconds per move up to 1 hour
+                  </p>
                 </AnimateHeight>
               )}
             </AnimatePresence>
