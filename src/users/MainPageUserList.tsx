@@ -12,7 +12,7 @@ import { userSelectors } from "../resources/users/userSlice";
 const MainPageUserList: React.FC = () => {
   const users = useSelector(userSelectors.selectAll);
   const isLoading = useSelector(
-    (state: AppState) => state.users.loading === "IDLE"
+    (state: AppState) => state.users.loading !== "COMPLETE"
   );
   const mode = useSelector((state: AppState) => state.mainPage.currentState);
   const selectedUser = useSelector(
