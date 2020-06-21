@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 
-function useDispatchEffect(actionCreator: () => any, deps: any[]) {
+function useDispatchEffect(actionCreator: () => any, deps: any[]): void {
   const dispatch = useDispatch();
   const action = useMemo(actionCreator, deps);
   useEffect(() => {
