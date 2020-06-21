@@ -20,9 +20,10 @@ import LinkButton from "../common/components/LinkButton/LinkButton";
 import useSessionState, {
   SessionStates,
 } from "../resources/session/useSessionState";
+import useDispatchInterval from "../common/util/useDispatchInterval";
 
 const Home: React.FC = () => {
-  useDispatchEffect(() => fetchUsers(), []);
+  useDispatchInterval(() => fetchUsers(), 30000);
   useDispatchEffect(() => fetchSession(), []);
   const [active, setActive] = useState(false);
   const sessionState = useSessionState();
