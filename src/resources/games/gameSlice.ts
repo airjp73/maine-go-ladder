@@ -9,6 +9,7 @@ import LoadingStates, {
   UserLoadingState,
 } from "../../common/enum/LoadingStates";
 import performFetch from "../../common/api/performFetch";
+import sortByDate from "../../common/util/sortBydate";
 
 export const fetchGames = createAsyncThunk<Game[], string>(
   "games/get-all",
@@ -32,9 +33,8 @@ export const postGame = createAsyncThunk<void, NewGame>(
 );
 
 const gameAdapter = createEntityAdapter<Game>({
-  selectId: (user) => user.id,
-  sortComparer: (a, b) =>
-    new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+  selectId: (game) => game.id,
+  sortComparer: sortByDate("created_at"),
 });
 
 export const gameSelectors = gameAdapter.getSelectors(
