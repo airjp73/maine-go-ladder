@@ -15,9 +15,12 @@ const rootReducer = combineReducers({
   session: sessionSlice.reducer,
 });
 
-const store = configureStore({
-  reducer: rootReducer,
-});
+export const createStore = (): ReturnType<typeof configureStore> =>
+  configureStore({
+    reducer: rootReducer,
+  });
+
+const store = createStore();
 
 export type AppState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

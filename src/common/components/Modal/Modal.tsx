@@ -31,6 +31,7 @@ const MotionOverlay: React.FC<React.ComponentProps<typeof DialogOverlay>> = ({
       css={css`
         background: none;
       `}
+      data-testid="modal-overlay"
       {...rest}
     >
       <motion.div
@@ -88,6 +89,7 @@ const Modal: React.FC<ModalProps> = ({ active, onClose, title, children }) => {
                   color: ${theme.colors.blue[30].hex};
                 `}
                 onClick={onClose}
+                aria-label="close"
               >
                 X
               </button>
