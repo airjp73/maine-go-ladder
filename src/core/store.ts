@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   session: sessionSlice.reducer,
 });
 
-export const createStore = (): ReturnType<typeof configureStore> =>
+export const createStore = () =>
   configureStore({
     reducer: rootReducer,
   });
