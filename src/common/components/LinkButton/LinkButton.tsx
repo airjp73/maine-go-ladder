@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import buttonStyle, { disabledStyle } from "../../styles/buttonStyle";
 import Link from "next/link";
 import { useState } from "react";
-import { Router } from "next/router";
+import { useRouter } from "next/router";
 import { Theme } from "../../styles/theme";
 import { css } from "@emotion/core";
 
@@ -11,6 +11,7 @@ interface LinkButtonProps {
 }
 
 export function usePageTransition(): [boolean, () => Promise<void>] {
+  const router = useRouter();
   const [isLoading, setLoading] = useState(false);
 
   const handleLoading = useCallback(() => {
@@ -20,11 +21,11 @@ export function usePageTransition(): [boolean, () => Promise<void>] {
         clearTimeout(timeout);
         setLoading(false);
         resolve();
-        Router.events.off("routeChangeComplete", done);
-        Router.events.off("routeChangeError", done);
+        router.events.off("routeChangeComplete", done);
+        router.events.off("routeChangeError", done);
       };
-      Router.events.on("routeChangeComplete", done);
-      Router.events.on("routeChangeError", done);
+      router.events.on("routeChangeComplete", done);
+      router.events.on("routeChangeError", done);
     });
   }, []);
 
