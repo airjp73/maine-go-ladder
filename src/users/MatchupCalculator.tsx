@@ -100,11 +100,7 @@ const MatchupCalculator: React.FC = () => {
               <span>{matchup.white.name}</span>
             </div>
             <p>{matchup.numStones} handicap stones</p>
-            <p>
-              {matchup.komi < 0
-                ? `Black has ${matchup.komi * -1} komi`
-                : `White has ${matchup.komi} komi`}
-            </p>
+            <p>{matchup.komi} komi</p>
           </>
         );
     }
