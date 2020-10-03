@@ -20,7 +20,7 @@ export async function getGamesForUser(
     .leftJoin("users as w", "games.white", "w.id")
     .where("black", userId)
     .or.where("white", userId)
-    .orderBy("created_at")
+    .orderBy("created_at", "desc")
     .offset(page * GAMES_PAGE_SIZE)
     .limit(GAMES_PAGE_SIZE);
 
