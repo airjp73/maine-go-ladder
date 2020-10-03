@@ -12,7 +12,7 @@ import {
   randomLadderEntry,
   generateCollection,
   withArchived,
-} from "./randomUtils";
+} from "./apiTestUtils";
 import { cleanupDB } from "./dbUtil";
 import { archiveUser } from "../pages/api/users/[userId]";
 import { AuditEventType } from "../resources/audit-events/AuditEvent";

@@ -7,7 +7,7 @@ import {
   generateCollection,
   randomAuditEvent,
   wait,
-} from "./randomUtils";
+} from "./apiTestUtils";
 import { AUDIT_PAGE_SIZE, getAuditEvents } from "../pages/api/audit-events";
 
 describe("audit events", () => {

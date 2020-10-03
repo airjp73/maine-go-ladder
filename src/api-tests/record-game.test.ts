@@ -7,7 +7,7 @@ import {
   randomUser,
   randomLadderEntry,
   withArchived,
-} from "./randomUtils";
+} from "./apiTestUtils";
 import { getUsers } from "../pages/api/users";
 import random from "lodash/random";
 import { NewGame, Game } from "../resources/games/Game";

@@ -8,7 +8,7 @@ import {
   randomItem,
   forEachPage,
   wait,
-} from "./randomUtils";
+} from "./apiTestUtils";
 import { pick } from "lodash";
 import { GAMES_PAGE_SIZE, getGamesForUser } from "../pages/api/games";
 
