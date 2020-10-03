@@ -10,11 +10,9 @@ import { ArrowRight, UserCheck, Check } from "react-feather";
 import Fab from "../common/components/SpeedDial/Fab";
 import GoIcon from "../common/components/SpeedDial/GoIcon";
 import UserItem from "../users/UserItem";
-import { useDispatch } from "react-redux";
-import { postGame } from "../resources/games/gameSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { AppDispatch } from "../core/store";
+import { GAMES_QUERY, postGame } from "../resources/games/gameSlice";
 import reportError from "../common/util/reportError";
+import { useMutation, useQueryCache } from "react-query";
 
 interface AddGameFormProps {
   onAfterSubmit: (black: string, white: string) => void;
@@ -64,8 +62,15 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
   const [prevTab, setPrevTab] = useState<number>(-1);
   const [tab, setTab] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
   const error = getErrors(blackPlayer, whitePlayer, winner);
+  const queryCache = useQueryCache();
+  const [saveGame] = useMutation(postGame, {
+    onSuccess: (data, payload) => {
+      queryCache.invalidateQueries(GAMES_QUERY);
+      onAfterSubmit(payload.black, payload.white);
+    },
+    onError: () => reportError("Failed to update ladder"),
+  });
 
   const variants = {
     initial: {
@@ -86,16 +91,11 @@ const AddGameForm: React.FC<AddGameFormProps> = ({ onAfterSubmit }) => {
     const black = blackPlayer!.id;
     const white = whitePlayer!.id;
     setIsSubmitting(true);
-    await dispatch(
-      postGame({
-        black,
-        white,
-        winner: winner!.id,
-      })
-    )
-      .then(unwrapResult)
-      .then(() => onAfterSubmit(black, white))
-      .catch(() => reportError("Failed to update ladder"));
+    await saveGame({
+      black,
+      white,
+      winner: winner!.id,
+    });
     setIsSubmitting(false);
   };
 

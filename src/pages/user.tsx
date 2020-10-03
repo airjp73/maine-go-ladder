@@ -14,7 +14,7 @@ import useDispatchEffect from "../common/util/useDispatchEffect";
 import { userSelectors, fetchUsers } from "../resources/users/userSlice";
 import { useSelector } from "react-redux";
 import { AppState } from "../core/store";
-import { fetchGames } from "../resources/games/gameSlice";
+import { fetchGames, GAMES_QUERY } from "../resources/games/gameSlice";
 import { User } from "../resources/users/User";
 import LoadingStates from "../common/enum/LoadingStates";
 import RatingHistory from "../ladder/RatingHistory";
@@ -95,7 +95,7 @@ const UserPage: React.FC = () => {
     fetchMore,
     isFetching,
     canFetchMore,
-  } = useInfiniteQuery(["games", userId], fetchGames, {
+  } = useInfiniteQuery([GAMES_QUERY, userId], fetchGames, {
     enabled: !!userId,
     getFetchMore: (lastResponse) =>
       lastResponse.hasMore && lastResponse.page + 1,
