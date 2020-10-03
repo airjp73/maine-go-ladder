@@ -103,3 +103,26 @@ export function generateCollection<T>(
 ): Promise<T[]> {
   return Promise.all(range(0, num || random(3, 7)).map(() => supplier()));
 }
+
+export type PageAsserter<T> = (
+  page: number,
+  numItemsOnPage: number,
+  expectedPage: T[]
+) => Promise<void>;
+
+export async function forEachPage<T>(
+  items: T[],
+  pageSize: number,
+  assertPage: PageAsserter<T>
+) {
+  let page = 0;
+  while (page * pageSize < items.length) {
+    const pageStart = page * pageSize;
+    const numItemsOnPage = Math.min(items.length - pageStart, pageSize);
+    const expectedPage = items.slice(pageStart, pageStart + pageSize);
+
+    await assertPage(page, numItemsOnPage, expectedPage);
+
+    page++;
+  }
+}

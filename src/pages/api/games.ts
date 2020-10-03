@@ -4,7 +4,12 @@ import knex from "../../common/server/knex";
 import { Game } from "../../resources/games/Game";
 import BadRequestError from "../../common/server/BadRequestError";
 
-export async function getGamesForUser(userId: string): Promise<Game[]> {
+export const GAMES_PAGE_SIZE = 10;
+
+export async function getGamesForUser(
+  userId: string,
+  page: number
+): Promise<Game[]> {
   const games = await knex
     .select("games.*")
     .select("b.name as blackName")
@@ -13,7 +18,10 @@ export async function getGamesForUser(userId: string): Promise<Game[]> {
     .leftJoin("users as b", "games.black", "b.id")
     .leftJoin("users as w", "games.white", "w.id")
     .where("black", userId)
-    .or.where("white", userId);
+    .or.where("white", userId)
+    .orderBy("created_at")
+    .offset(page * GAMES_PAGE_SIZE)
+    .limit(GAMES_PAGE_SIZE);
 
   return games.map((game) => {
     const { black, blackName, white, whiteName, ...gameData } = game;
@@ -34,14 +42,15 @@ export async function getGamesForUser(userId: string): Promise<Game[]> {
 const querySchema = yup
   .object({
     userId: yup.string().required(),
+    page: yup.number().required(),
   })
   .required();
 
 export default createRequestHandler({
   GET: async (req, res) => {
-    const { userId } = await querySchema
+    const { userId, page } = await querySchema
       .validate(req.query)
       .catch(BadRequestError.throw);
-    return res.json(await getGamesForUser(userId));
+    return res.json(await getGamesForUser(userId, page));
   },
 });
