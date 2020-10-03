@@ -10,6 +10,9 @@ import {
   NewAuditEvent,
 } from "../resources/audit-events/AuditEvent";
 
+export const wait = (time: number) =>
+  new Promise((resolve) => setTimeout(resolve, time));
+
 export function randomString(): string {
   return (
     Math.random().toString(36).substring(2, 15) +
