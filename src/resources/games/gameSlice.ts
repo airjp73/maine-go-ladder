@@ -1,23 +1,19 @@
-import {
-  createAsyncThunk,
-  createEntityAdapter,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { NewGame, Game } from "./Game";
-import { AppState } from "../../core/store";
-import LoadingStates, {
-  UserLoadingState,
-} from "../../common/enum/LoadingStates";
 import performFetch from "../../common/api/performFetch";
-import sortByDate from "../../common/util/sortBydate";
+import { PaginatedResponse } from "../../types/apiTypes";
 
-export const fetchGames = createAsyncThunk<Game[], string>(
-  "games/get-all",
-  async (userId) => {
-    const response = await performFetch(`/api/games?userId=${userId}`);
-    return response.json();
-  }
-);
+export const fetchGames = async (
+  key: string,
+  userId: string,
+  page = 0
+): Promise<PaginatedResponse<Game>> => {
+  console.log(key, userId, page);
+  const response = await performFetch(
+    `/api/games?userId=${userId}&page=${page}`
+  );
+  return response.json();
+};
 
 export const postGame = createAsyncThunk<void, NewGame>(
   "games/post",
@@ -31,37 +27,3 @@ export const postGame = createAsyncThunk<void, NewGame>(
     });
   }
 );
-
-const gameAdapter = createEntityAdapter<Game>({
-  selectId: (game) => game.id,
-  sortComparer: sortByDate("created_at"),
-});
-
-export const gameSelectors = gameAdapter.getSelectors(
-  (state: AppState) => state.games
-);
-
-const gameSlice = createSlice({
-  name: "users",
-  initialState: gameAdapter.getInitialState({
-    loading: {} as UserLoadingState,
-  }),
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(fetchGames.pending, (state, action) => {
-      if (state.loading[action.meta.arg] !== LoadingStates.COMPLETE)
-        state.loading[action.meta.arg] = LoadingStates.LOADING;
-    });
-
-    builder.addCase(fetchGames.rejected, (state, action) => {
-      state.loading[action.meta.arg] = LoadingStates.COMPLETE;
-    });
-
-    builder.addCase(fetchGames.fulfilled, (state, action) => {
-      gameAdapter.setAll(state, action.payload);
-      state.loading[action.meta.arg] = LoadingStates.COMPLETE;
-    });
-  },
-});
-
-export default gameSlice;

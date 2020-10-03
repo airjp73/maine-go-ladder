@@ -3,13 +3,9 @@ import createRequestHandler from "../../common/server/createRequestHandler";
 import knex from "../../common/server/knex";
 import { Game } from "../../resources/games/Game";
 import BadRequestError from "../../common/server/BadRequestError";
+import { PaginatedResponse } from "../../types/apiTypes";
 
 export const GAMES_PAGE_SIZE = 10;
-
-export interface PaginatedResponse<T> {
-  items: T[];
-  page: number;
-}
 
 export async function getGamesForUser(
   userId: string,
@@ -44,6 +40,7 @@ export async function getGamesForUser(
       };
     }),
     page,
+    hasMore: games.length == GAMES_PAGE_SIZE,
   };
 }
 
