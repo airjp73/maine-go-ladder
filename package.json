@@ -8,7 +8,7 @@
     "migrate:test": "NODE_ENV=test && knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "build": "next build",
-    "start": "next start",
+    "start": "vercel dev",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint 'src/**/*.{ts,tsx}'"
@@ -38,6 +38,7 @@
     "react-dom": "16.13.1",
     "react-feather": "^2.0.3",
     "react-hook-form": "^5.7.2",
+    "react-query": "^2.23.0",
     "react-redux": "^7.2.0",
     "react-toastify": "^5.5.0",
     "yup": "^0.29.0"
