@@ -6,10 +6,15 @@ import BadRequestError from "../../common/server/BadRequestError";
 
 export const GAMES_PAGE_SIZE = 10;
 
+export interface PaginatedResponse<T> {
+  items: T[];
+  page: number;
+}
+
 export async function getGamesForUser(
   userId: string,
   page: number
-): Promise<Game[]> {
+): Promise<PaginatedResponse<Game>> {
   const games = await knex
     .select("games.*")
     .select("b.name as blackName")
@@ -23,20 +28,23 @@ export async function getGamesForUser(
     .offset(page * GAMES_PAGE_SIZE)
     .limit(GAMES_PAGE_SIZE);
 
-  return games.map((game) => {
-    const { black, blackName, white, whiteName, ...gameData } = game;
-    return {
-      ...gameData,
-      black: {
-        id: black,
-        name: blackName,
-      },
-      white: {
-        id: white,
-        name: whiteName,
-      },
-    };
-  });
+  return {
+    items: games.map((game) => {
+      const { black, blackName, white, whiteName, ...gameData } = game;
+      return {
+        ...gameData,
+        black: {
+          id: black,
+          name: blackName,
+        },
+        white: {
+          id: white,
+          name: whiteName,
+        },
+      };
+    }),
+    page,
+  };
 }
 
 const querySchema = yup

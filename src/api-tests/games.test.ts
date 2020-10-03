@@ -31,8 +31,9 @@ describe("games", () => {
       GAMES_PAGE_SIZE,
       async (page, numGamesOnPage, expectedGames) => {
         const actual = await getGamesForUser(targetUser.id, page);
-        expect(actual).toHaveLength(numGamesOnPage);
-        actual.forEach((actualGame, index) => {
+        expect(actual.items).toHaveLength(numGamesOnPage);
+        expect(actual.page).toEqual(page);
+        actual.items.forEach((actualGame, index) => {
           expect(expectedGames[index]).toMatchObject({
             id: actualGame.id,
             black: expect.objectContaining(
@@ -52,6 +53,7 @@ describe("games", () => {
     const users = await generateCollection(randomUser, 3);
     await generateCollection(() => randomGame(users), 30);
     const targetUser = randomItem(users);
-    expect(await getGamesForUser(targetUser.id, 5)).toHaveLength(0);
+    const { items } = await getGamesForUser(targetUser.id, 5);
+    expect(items).toHaveLength(0);
   });
 });
