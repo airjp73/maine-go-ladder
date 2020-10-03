@@ -11,10 +11,16 @@ import {
 import { pick } from "lodash";
 import { GAMES_PAGE_SIZE, getGamesForUser } from "../pages/api/games";
 
+const wait = (time: number) =>
+  new Promise((resolve) => setTimeout(resolve, time));
+
 describe("games", () => {
   it("should return 1 page of games (10 games) for a user", async () => {
-    const users = await generateCollection(randomUser, 3);
-    const games = await generateCollection(() => randomGame(users), 30);
+    const users = await generateCollection(() => randomUser(), 3);
+    const games = await generateCollection(async (num) => {
+      await wait(num * 50); // wait to ensure every game has a different time
+      return await randomGame(users);
+    }, 30);
     const targetUser = randomItem(users);
     const expected = games
       .filter(
@@ -33,6 +39,10 @@ describe("games", () => {
         const actual = await getGamesForUser(targetUser.id, page);
         expect(actual.items).toHaveLength(numGamesOnPage);
         expect(actual.page).toEqual(page);
+        expect(actual.hasMore).toEqual(numGamesOnPage === 10);
+        expect(actual.items.map((item) => item.id)).toEqual(
+          expectedGames.map((item) => item.id)
+        );
         actual.items.forEach((actualGame, index) => {
           expect(expectedGames[index]).toMatchObject({
             id: actualGame.id,
@@ -50,7 +60,7 @@ describe("games", () => {
   });
 
   it("should return empty if the page is too large", async () => {
-    const users = await generateCollection(randomUser, 3);
+    const users = await generateCollection(() => randomUser(), 3);
     await generateCollection(() => randomGame(users), 30);
     const targetUser = randomItem(users);
     const { items } = await getGamesForUser(targetUser.id, 5);

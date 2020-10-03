@@ -98,10 +98,10 @@ export async function randomAuditEvent(): Promise<AuditEvent> {
 }
 
 export function generateCollection<T>(
-  supplier: () => Promise<T>,
+  supplier: (num: number) => Promise<T>,
   num?: number
 ): Promise<T[]> {
-  return Promise.all(range(0, num || random(3, 7)).map(() => supplier()));
+  return Promise.all(range(0, num || random(3, 7)).map((num) => supplier(num)));
 }
 
 export type PageAsserter<T> = (
