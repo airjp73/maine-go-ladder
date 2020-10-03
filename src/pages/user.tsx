@@ -195,6 +195,7 @@ const UserPage: React.FC = () => {
             <div
               css={css`
                 display: flex;
+                height: 300px;
               `}
             >
               {canFetchMore ? (
@@ -202,7 +203,8 @@ const UserPage: React.FC = () => {
                   css={(theme) => [
                     buttonStyle(theme),
                     css`
-                      margin: 15px auto 300px auto;
+                      height: min-content;
+                      margin: 15px auto 0 auto;
                     `,
                   ]}
                   disabled={isFetching}
