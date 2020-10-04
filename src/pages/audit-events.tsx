@@ -9,7 +9,7 @@ import LinkButton from "../common/components/LinkButton/LinkButton";
 import useDispatchEffect from "../common/util/useDispatchEffect";
 import {
   fetchAuditEvents,
-  auditEventSelectors,
+  AUDIT_EVENT_QUERY,
 } from "../resources/audit-events/auditEventSlice";
 import { useSelector } from "react-redux";
 import {
@@ -23,9 +23,10 @@ import { Theme } from "../common/styles/theme";
 import { AnimatePresence } from "framer-motion";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import { AppState } from "../core/store";
-import LoadingStates from "../common/enum/LoadingStates";
 import LoadingState from "../common/components/LoadingState/LoadingState";
 import { userSelectors, fetchUsers } from "../resources/users/userSlice";
+import { useInfiniteQuery } from "react-query";
+import buttonStyle from "../common/styles/buttonStyle";
 
 const getEventTypeLabel = (type: AuditEventType): string => {
   switch (type) {
@@ -152,14 +153,19 @@ const AuditEventItem: React.FC<{
 );
 
 const AuditEvents: React.FC = () => {
-  useDispatchEffect(() => fetchAuditEvents(), []);
-  useDispatchEffect(() => fetchUsers(), []);
-  const auditEvents = useSelector(auditEventSelectors.selectAll);
-  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
+  const {
+    isLoading,
+    data: auditEvents,
+    fetchMore,
+    isFetching,
+    canFetchMore,
+  } = useInfiniteQuery(AUDIT_EVENT_QUERY, fetchAuditEvents, {
+    getFetchMore: (lastResponse) =>
+      lastResponse.hasMore && lastResponse.page + 1,
+  });
 
-  const isLoading = useSelector(
-    (state: AppState) => state.auditEvents.loading !== LoadingStates.COMPLETE
-  );
+  useDispatchEffect(() => fetchUsers(), []);
+  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
 
   if (isLoading) return <LoadingState />;
 
@@ -180,17 +186,49 @@ const AuditEvents: React.FC = () => {
           }
         `}
       >
-        {auditEvents.map((auditEvent) => (
-          <AuditEventItem
-            key={auditEvent.id}
-            auditEvent={auditEvent}
-            isSelected={selectedEvent === auditEvent.id}
-            onClick={() => {
-              if (selectedEvent === auditEvent.id) setSelectedEvent(null);
-              else setSelectedEvent(auditEvent.id);
-            }}
-          />
-        ))}
+        {auditEvents?.map((page) =>
+          page.items.map((auditEvent) => (
+            <AuditEventItem
+              key={auditEvent.id}
+              auditEvent={auditEvent}
+              isSelected={selectedEvent === auditEvent.id}
+              onClick={() => {
+                if (selectedEvent === auditEvent.id) setSelectedEvent(null);
+                else setSelectedEvent(auditEvent.id);
+              }}
+            />
+          ))
+        )}
+        <div
+          css={css`
+            display: flex;
+            height: 300px;
+          `}
+        >
+          {canFetchMore ? (
+            <button
+              css={(theme) => [
+                buttonStyle(theme),
+                css`
+                  height: min-content;
+                  margin: 15px auto 0 auto;
+                `,
+              ]}
+              disabled={isFetching}
+              onClick={() => fetchMore()}
+            >
+              {isFetching ? "Loading..." : "Show more"}
+            </button>
+          ) : (
+            <h3
+              css={css`
+                margin: 0 auto;
+              `}
+            >
+              No More Records
+            </h3>
+          )}
+        </div>
       </Content>
     </Wrapper>
   );
