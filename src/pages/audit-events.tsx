@@ -9,7 +9,7 @@ import LinkButton from "../common/components/LinkButton/LinkButton";
 import useDispatchEffect from "../common/util/useDispatchEffect";
 import {
   fetchAuditEvents,
-  auditEventSelectors,
+  AUDIT_EVENT_QUERY,
 } from "../resources/audit-events/auditEventSlice";
 import { useSelector } from "react-redux";
 import {
@@ -17,15 +17,14 @@ import {
   AuditEventType,
   AuditDetails,
 } from "../resources/audit-events/AuditEvent";
-import listItemStyle from "../common/styles/listItemStyle";
 import LabelledValue from "../common/components/LabelledValue/LabelledValue";
-import { Theme } from "../common/styles/theme";
 import { AnimatePresence } from "framer-motion";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import { AppState } from "../core/store";
-import LoadingStates from "../common/enum/LoadingStates";
 import LoadingState from "../common/components/LoadingState/LoadingState";
 import { userSelectors, fetchUsers } from "../resources/users/userSlice";
+import { useInfiniteQuery } from "react-query";
+import InfiniteList from "../common/components/InfiniteList/InfiniteList";
 
 const getEventTypeLabel = (type: AuditEventType): string => {
   switch (type) {
@@ -115,9 +114,8 @@ const AuditEventItem: React.FC<{
   isSelected: boolean;
   onClick: () => void;
 }> = ({ auditEvent, isSelected, onClick }) => (
-  <div
-    css={(theme: Theme) => css`
-      ${listItemStyle(theme)}
+  <InfiniteList.Item
+    css={css`
       display: block;
     `}
     onClick={onClick}
@@ -148,18 +146,23 @@ const AuditEventItem: React.FC<{
         <AnimateHeight key="details">{getDetails(auditEvent)}</AnimateHeight>
       )}
     </AnimatePresence>
-  </div>
+  </InfiniteList.Item>
 );
 
 const AuditEvents: React.FC = () => {
-  useDispatchEffect(() => fetchAuditEvents(), []);
-  useDispatchEffect(() => fetchUsers(), []);
-  const auditEvents = useSelector(auditEventSelectors.selectAll);
-  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
+  const {
+    isLoading,
+    data: auditEvents,
+    fetchMore,
+    isFetching,
+    canFetchMore,
+  } = useInfiniteQuery(AUDIT_EVENT_QUERY, fetchAuditEvents, {
+    getFetchMore: (lastResponse) =>
+      lastResponse.hasMore && lastResponse.page + 1,
+  });
 
-  const isLoading = useSelector(
-    (state: AppState) => state.auditEvents.loading !== LoadingStates.COMPLETE
-  );
+  useDispatchEffect(() => fetchUsers(), []);
+  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
 
   if (isLoading) return <LoadingState />;
 
@@ -175,22 +178,30 @@ const AuditEvents: React.FC = () => {
       <Content
         css={css`
           padding: 1rem;
+          overflow: hidden;
           > * + * {
             margin-top: 1rem;
           }
         `}
       >
-        {auditEvents.map((auditEvent) => (
-          <AuditEventItem
-            key={auditEvent.id}
-            auditEvent={auditEvent}
-            isSelected={selectedEvent === auditEvent.id}
-            onClick={() => {
-              if (selectedEvent === auditEvent.id) setSelectedEvent(null);
-              else setSelectedEvent(auditEvent.id);
-            }}
-          />
-        ))}
+        <InfiniteList
+          items={auditEvents}
+          canFetchMore={canFetchMore}
+          fetchMore={fetchMore}
+          isFetching={isFetching}
+          renderItem={(auditEvent) => (
+            <AuditEventItem
+              key={auditEvent.id}
+              auditEvent={auditEvent}
+              isSelected={selectedEvent === auditEvent.id}
+              onClick={() => {
+                if (selectedEvent === auditEvent.id) setSelectedEvent(null);
+                else setSelectedEvent(auditEvent.id);
+              }}
+            />
+          )}
+          noMoreText="No more games"
+        />
       </Content>
     </Wrapper>
   );

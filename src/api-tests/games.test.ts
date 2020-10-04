@@ -7,12 +7,10 @@ import {
   randomGame,
   randomItem,
   forEachPage,
-} from "./randomUtils";
+  wait,
+} from "./apiTestUtils";
 import { pick } from "lodash";
 import { GAMES_PAGE_SIZE, getGamesForUser } from "../pages/api/games";
-
-const wait = (time: number) =>
-  new Promise((resolve) => setTimeout(resolve, time));
 
 describe("games", () => {
   it("should return 1 page of games (10 games) for a user", async () => {

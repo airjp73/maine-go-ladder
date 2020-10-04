@@ -6,7 +6,7 @@ import {
   randomLadderEntry,
   generateCollection,
   randomItem,
-} from "./randomUtils";
+} from "./apiTestUtils";
 import { cleanupDB } from "./dbUtil";
 import { getLadderHistory } from "../pages/api/users/[userId]/ladder-history";
 
