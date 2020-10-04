@@ -64,7 +64,7 @@ const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => (
 const useQueryParam = (paramName: string) => {
   const { query } = useRouter();
   const param = query[paramName];
-  const paramRef = useRef<string | string[]>(param);
+  const paramRef = useRef<string | string[] | undefined>(param);
   useEffect(() => {
     if (param) paramRef.current = param;
   }, [param]);
@@ -91,15 +91,15 @@ const UserPage: React.FC = () => {
 
   useDispatchEffect(() => fetchUsers(), []);
   useDispatchEffect(() => userId && fetchLadderHistory(userId), [userId]);
-  const user = useSelector((state: AppState) =>
-    userSelectors.selectById(state, userId)
+  const user = useSelector(
+    (state: AppState) => userId && userSelectors.selectById(state, userId)
   );
 
   const isLoading = useSelector(
     (state: AppState) =>
       state.users.loading !== LoadingStates.COMPLETE ||
       areGamesLoading ||
-      state.ladderHistory.loading[userId] !== LoadingStates.COMPLETE
+      (userId && state.ladderHistory.loading[userId] !== LoadingStates.COMPLETE)
   );
 
   if (isLoading) return <LoadingState />;
