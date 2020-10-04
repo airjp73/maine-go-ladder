@@ -17,16 +17,14 @@ import {
   AuditEventType,
   AuditDetails,
 } from "../resources/audit-events/AuditEvent";
-import listItemStyle from "../common/styles/listItemStyle";
 import LabelledValue from "../common/components/LabelledValue/LabelledValue";
-import { Theme } from "../common/styles/theme";
 import { AnimatePresence } from "framer-motion";
 import AnimateHeight from "../common/components/AnimateHeight/AnimateHeight";
 import { AppState } from "../core/store";
 import LoadingState from "../common/components/LoadingState/LoadingState";
 import { userSelectors, fetchUsers } from "../resources/users/userSlice";
 import { useInfiniteQuery } from "react-query";
-import buttonStyle from "../common/styles/buttonStyle";
+import InfiniteList from "../common/components/InfiniteList/InfiniteList";
 
 const getEventTypeLabel = (type: AuditEventType): string => {
   switch (type) {
@@ -116,9 +114,8 @@ const AuditEventItem: React.FC<{
   isSelected: boolean;
   onClick: () => void;
 }> = ({ auditEvent, isSelected, onClick }) => (
-  <div
-    css={(theme: Theme) => css`
-      ${listItemStyle(theme)}
+  <InfiniteList.Item
+    css={css`
       display: block;
     `}
     onClick={onClick}
@@ -149,7 +146,7 @@ const AuditEventItem: React.FC<{
         <AnimateHeight key="details">{getDetails(auditEvent)}</AnimateHeight>
       )}
     </AnimatePresence>
-  </div>
+  </InfiniteList.Item>
 );
 
 const AuditEvents: React.FC = () => {
@@ -186,8 +183,12 @@ const AuditEvents: React.FC = () => {
           }
         `}
       >
-        {auditEvents?.map((page) =>
-          page.items.map((auditEvent) => (
+        <InfiniteList
+          items={auditEvents}
+          canFetchMore={canFetchMore}
+          fetchMore={fetchMore}
+          isFetching={isFetching}
+          renderItem={(auditEvent) => (
             <AuditEventItem
               key={auditEvent.id}
               auditEvent={auditEvent}
@@ -197,38 +198,9 @@ const AuditEvents: React.FC = () => {
                 else setSelectedEvent(auditEvent.id);
               }}
             />
-          ))
-        )}
-        <div
-          css={css`
-            display: flex;
-            height: 300px;
-          `}
-        >
-          {canFetchMore ? (
-            <button
-              css={(theme) => [
-                buttonStyle(theme),
-                css`
-                  height: min-content;
-                  margin: 15px auto 0 auto;
-                `,
-              ]}
-              disabled={isFetching}
-              onClick={() => fetchMore()}
-            >
-              {isFetching ? "Loading..." : "Show more"}
-            </button>
-          ) : (
-            <h3
-              css={css`
-                margin: 0 auto;
-              `}
-            >
-              No More Records
-            </h3>
           )}
-        </div>
+          noMoreText="No more games"
+        />
       </Content>
     </Wrapper>
   );

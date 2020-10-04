@@ -20,15 +20,13 @@ import LoadingStates from "../common/enum/LoadingStates";
 import RatingHistory from "../ladder/RatingHistory";
 import { fetchLadderHistory } from "../resources/ladder-history/ladderSlice";
 import LinkButton from "../common/components/LinkButton/LinkButton";
-import listItemStyle from "../common/styles/listItemStyle";
 import LabelledValue from "../common/components/LabelledValue/LabelledValue";
 import DeleteUserButton from "../users/DeleteUserButton";
+import InfiniteList from "../common/components/InfiniteList/InfiniteList";
 import useSessionState, {
   SessionStates,
 } from "../resources/session/useSessionState";
 import { useInfiniteQuery } from "react-query";
-import buttonStyle from "../common/styles/buttonStyle";
-import { motion } from "framer-motion";
 
 const dateFormat = new Intl.DateTimeFormat("en", {
   year: "numeric",
@@ -37,18 +35,8 @@ const dateFormat = new Intl.DateTimeFormat("en", {
 });
 const formatDate = (dateStr: string) => dateFormat.format(new Date(dateStr));
 
-const gameListVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const gameItemVariants = {
-  hidden: { x: 50, opacity: 0 },
-  visible: { x: 0, opacity: 1 },
-};
-
 const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => (
-  <motion.div css={listItemStyle} variants={gameItemVariants}>
+  <InfiniteList.Item>
     <div>
       <LabelledValue label="Black" value={game.black.name} />
       <LabelledValue label="White" value={game.white.name} />
@@ -65,7 +53,7 @@ const GameItem: React.FC<{ game: Game; user: User }> = ({ user, game }) => (
     >
       {game.winner === user.id ? "Won" : "Lost"}
     </span>
-  </motion.div>
+  </InfiniteList.Item>
 );
 
 /**
@@ -166,63 +154,16 @@ const UserPage: React.FC = () => {
           <h3>Rating History:</h3>
           <RatingHistory userId={user.id} />
           <h3>Games:</h3>
-          <div
-            css={css`
-              overflow: auto;
-              flex: 1;
-              > * + * {
-                margin-top: 1rem;
-              }
-            `}
-          >
-            {games?.map((response) => (
-              <motion.div
-                key={response.page}
-                css={css`
-                  > * + * {
-                    margin-top: 1rem;
-                  }
-                `}
-                variants={gameListVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {response.items.map((game) => (
-                  <GameItem key={game.id} game={game} user={user} />
-                ))}
-              </motion.div>
-            ))}
-            <div
-              css={css`
-                display: flex;
-                height: 300px;
-              `}
-            >
-              {canFetchMore ? (
-                <button
-                  css={(theme) => [
-                    buttonStyle(theme),
-                    css`
-                      height: min-content;
-                      margin: 15px auto 0 auto;
-                    `,
-                  ]}
-                  disabled={isFetching}
-                  onClick={() => fetchMore()}
-                >
-                  {isFetching ? "Loading..." : "Show more"}
-                </button>
-              ) : (
-                <h3
-                  css={css`
-                    margin: 0 auto;
-                  `}
-                >
-                  No More Games
-                </h3>
-              )}
-            </div>
-          </div>
+          <InfiniteList
+            items={games}
+            canFetchMore={canFetchMore}
+            fetchMore={fetchMore}
+            isFetching={isFetching}
+            renderItem={(game) => (
+              <GameItem key={game.id} game={game} user={user} />
+            )}
+            noMoreText="No more games"
+          />
         </Content>
       )}
     </Wrapper>
