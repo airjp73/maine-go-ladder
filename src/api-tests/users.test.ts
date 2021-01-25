@@ -14,7 +14,7 @@ import {
   withArchived,
 } from "./apiTestUtils";
 import { cleanupDB } from "./dbUtil";
-import { archiveUser } from "../pages/api/users/[userId]";
+import { archiveUser, editName } from "../pages/api/users/[userId]";
 import { AuditEventType } from "../resources/audit-events/AuditEvent";
 import sortByDate from "../common/util/sortBydate";
 import expectAuditRecord from "../common/server/expectAuditRecord";
@@ -112,6 +112,25 @@ describe("user endpoints", () => {
       await expectAuditRecord(AuditEventType.USER_DELETED, {
         id: user.id,
         name: user.name,
+      });
+    });
+  });
+
+  describe("change user name", () => {
+    it("should change the specified user's name", async () => {
+      const user = await randomUser();
+      const newName = randomString();
+
+      await editName(user.id, newName);
+      const result = (
+        await knex("users").select("name").where({ id: user.id })
+      )[0];
+      expect(result.name).toBe(newName);
+
+      await expectAuditRecord(AuditEventType.USER_RENAMED, {
+        id: user.id,
+        oldName: user.name,
+        name: newName,
       });
     });
   });

@@ -22,7 +22,9 @@ export async function archiveUser(userId: string): Promise<void> {
 
 export async function editName(id: string, name: string): Promise<User> {
   return await knex.transaction(async (trx) => {
-    const [oldName] = await trx("users").where("id", id).select("name");
+    const [{ name: oldName }] = await trx("users")
+      .where("id", id)
+      .select("name");
 
     const updatedUsers = await trx("users")
       .where("id", id)
