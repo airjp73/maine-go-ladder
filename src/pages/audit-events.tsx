@@ -34,6 +34,8 @@ const getEventTypeLabel = (type: AuditEventType): string => {
       return "User Deleted";
     case AuditEventType.GAME_RECORDED:
       return "Game Recorded";
+    case AuditEventType.USER_RENAMED:
+      return "User Renamed";
   }
 };
 
@@ -106,6 +108,18 @@ const getDetails = (event: AuditEvent): Exclude<React.ReactNode, undefined> => {
       );
     case AuditEventType.GAME_RECORDED:
       return <GameRecordedDetail details={event.details} />;
+    case AuditEventType.USER_RENAMED:
+      return (
+        <div>
+          <LabelledValue label="Id" value={event.details.id} />
+          <LabelledValue label="Old Name" value={event.details.oldName} />
+          <LabelledValue
+            label="New Name"
+            value={event.details.name}
+            href={`/user?userId=${event.details.id}`}
+          />
+        </div>
+      );
   }
 };
 
