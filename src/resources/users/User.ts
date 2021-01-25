@@ -7,6 +7,7 @@ export interface User {
   streak: number;
   games?: Game[];
   archived: boolean;
+  created_at: string;
 }
 
 export type NewUser = Pick<User, "name" | "ladder_rung">;

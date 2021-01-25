@@ -135,11 +135,21 @@ const UserPage: React.FC = () => {
             `}
           >
             <div>
+              <h3
+                css={css`
+                  margin: 0 0 0.5rem 0;
+                `}
+              >
+                {user.name}
+              </h3>
               <p>
                 <strong>Ladder Rating:</strong> {rungToRating(user.ladder_rung)}
               </p>
               <p>
                 <strong>Current Streak:</strong> {user.streak}
+              </p>
+              <p>
+                <strong>Added to ladder:</strong> {formatDate(user.created_at)}
               </p>
             </div>
             <div
