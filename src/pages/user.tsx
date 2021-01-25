@@ -27,6 +27,8 @@ import useSessionState, {
   SessionStates,
 } from "../resources/session/useSessionState";
 import { useInfiniteQuery } from "react-query";
+import EditUserForm from "../users/EditUserForm";
+import ModalButton from "../common/components/Modal/ModalButton";
 
 const dateFormat = new Intl.DateTimeFormat("en", {
   year: "numeric",
@@ -134,10 +136,16 @@ const UserPage: React.FC = () => {
               }
             `}
           >
-            <div>
+            <div
+              css={css`
+                > p {
+                  margin-top: 1rem;
+                }
+              `}
+            >
               <h3
                 css={css`
-                  margin: 0 0 0.5rem 0;
+                  margin: 0;
                 `}
               >
                 {user.name}
@@ -158,7 +166,27 @@ const UserPage: React.FC = () => {
               `}
             >
               {sessionState === SessionStates.LOGGED_IN && (
-                <DeleteUserButton user={user} onAfterDelete={() => push("/")} />
+                <div
+                  css={css`
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    height: 100%;
+                  `}
+                >
+                  <ModalButton
+                    title={`Change ${user.name}'s name`}
+                    buttonLabel="Change Name"
+                  >
+                    {({ close }) => (
+                      <EditUserForm user={user} onAfterSave={close} />
+                    )}
+                  </ModalButton>
+                  <DeleteUserButton
+                    user={user}
+                    onAfterDelete={() => push("/")}
+                  />
+                </div>
               )}
             </div>
           </div>

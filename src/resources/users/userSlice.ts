@@ -41,6 +41,18 @@ export const deleteUser = createAsyncThunk<Record<string, unknown>, string>(
   }
 );
 
+export type NamePatch = { id: string; name: string };
+export const renameUser = createAsyncThunk<User, NamePatch>(
+  "users/edit",
+  async ({ id, name }) => {
+    const response = await performFetch(`/api/users/${id}`, {
+      body: JSON.stringify({ name }),
+      method: "PATCH",
+    });
+    return response.json();
+  }
+);
+
 const userAdapter = createEntityAdapter<User>({
   selectId: (user) => user.id,
   sortComparer: (a, b) => b.ladder_rung - a.ladder_rung,
@@ -80,6 +92,13 @@ const userSlice = createSlice({
 
     builder.addCase(deleteUser.fulfilled, (state, action) => {
       userAdapter.removeOne(state, action.meta.arg);
+    });
+
+    builder.addCase(renameUser.fulfilled, (state, action) => {
+      userAdapter.updateOne(state, {
+        id: action.payload.id,
+        changes: action.payload,
+      });
     });
   },
 });

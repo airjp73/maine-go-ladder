@@ -3,6 +3,7 @@ import { User } from "../users/User";
 export enum AuditEventType {
   USER_CREATED = "USER_CREATED",
   USER_DELETED = "USER_DELETED",
+  USER_RENAMED = "USER_RENAMED",
   GAME_RECORDED = "GAME_RECORDED",
 }
 
@@ -22,6 +23,11 @@ export interface DeleteUserAuditEvent extends BaseAuditEvent {
   details: Pick<User, "id" | "name">;
 }
 
+export interface UserRenamedAuditEvent extends BaseAuditEvent {
+  type: AuditEventType.USER_RENAMED;
+  details: { id: string; name: string; oldName: string };
+}
+
 export interface GameRecordedAuditEvent extends BaseAuditEvent {
   type: AuditEventType.GAME_RECORDED;
   details: {
@@ -35,7 +41,8 @@ export interface GameRecordedAuditEvent extends BaseAuditEvent {
 export type AuditEvent =
   | CreateUserAuditEvent
   | DeleteUserAuditEvent
-  | GameRecordedAuditEvent;
+  | GameRecordedAuditEvent
+  | UserRenamedAuditEvent;
 
 export type AuditDetails<
   T extends AuditEventType,
