@@ -18,7 +18,7 @@ describe("audit events", () => {
   describe("get audit events", () => {
     it("should return all audit events", async () => {
       const allAuditEvents = await generateCollection(async (num) => {
-        await wait(num * 50);
+        await wait(num * 100);
         return randomAuditEvent();
       }, 50);
       const expected = allAuditEvents.sort(
