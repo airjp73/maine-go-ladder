@@ -20,7 +20,7 @@ describe("audit events", () => {
       const allAuditEvents = await generateCollection(async (num) => {
         await wait(num * 100);
         return randomAuditEvent();
-      }, 50);
+      }, 20);
       const expected = allAuditEvents.sort(
         (a, b) =>
           new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
