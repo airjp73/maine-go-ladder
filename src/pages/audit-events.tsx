@@ -52,10 +52,11 @@ const GameRecordedSummary: React.FC<{
   return null;
 };
 
-const getSummary = (event: AuditEvent): React.ReactNode => {
+const getSummary = (event: AuditEvent): NonNullable<React.ReactNode> => {
   switch (event.type) {
     case AuditEventType.USER_CREATED:
     case AuditEventType.USER_DELETED:
+    case AuditEventType.USER_RENAMED:
       return event.details.name;
     case AuditEventType.GAME_RECORDED:
       return <GameRecordedSummary details={event.details} />;
