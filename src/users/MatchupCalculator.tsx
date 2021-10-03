@@ -149,9 +149,6 @@ const MatchupCalculator: React.FC = () => {
                   height={matchup.type === "HANDICAP" ? "9rem" : "1.5rem"}
                 >
                   {getMatchupInfo(matchup)}
-                  <p>
-                    Fischer time: 10 minutes + 10 seconds per move up to 1 hour
-                  </p>
                 </AnimateHeight>
               )}
             </AnimatePresence>
