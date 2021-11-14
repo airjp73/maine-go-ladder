@@ -146,7 +146,7 @@ const MatchupCalculator: React.FC = () => {
               {matchup && (
                 <AnimateHeight
                   key="matchup-info"
-                  height={matchup.type === "HANDICAP" ? "9rem" : "1.5rem"}
+                  height={matchup.type === "HANDICAP" ? "6rem" : "1.5rem"}
                 >
                   {getMatchupInfo(matchup)}
                 </AnimateHeight>
