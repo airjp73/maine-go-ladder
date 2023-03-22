@@ -25,6 +25,7 @@ import LoadingState from "../common/components/LoadingState/LoadingState";
 import { userSelectors, fetchUsers } from "../resources/users/userSlice";
 import { useInfiniteQuery } from "react-query";
 import InfiniteList from "../common/components/InfiniteList/InfiniteList";
+import { Theme } from "../common/styles/theme";
 
 const getEventTypeLabel = (type: AuditEventType): string => {
   switch (type) {
@@ -130,8 +131,9 @@ const AuditEventItem: React.FC<{
   onClick: () => void;
 }> = ({ auditEvent, isSelected, onClick }) => (
   <InfiniteList.Item
-    css={css`
+    css={(theme: Theme) => css`
       display: block;
+      ${auditEvent.reverted && `color: ${theme.colors.highlightSecondary};`}
     `}
     onClick={onClick}
   >
@@ -147,6 +149,7 @@ const AuditEventItem: React.FC<{
         `}
       >
         {getEventTypeLabel(auditEvent.type)}
+        {auditEvent.reverted && <> - REVERTED</>}
       </h2>
       <p
         css={css`
