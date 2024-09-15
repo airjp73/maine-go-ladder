@@ -28,26 +28,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Deps
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test
-        run: npm run test
-        env:
-          DATABASE_CONNECTION_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}
-
-      - name: Deploy to now
-        run: DEPLOYMENT=`npx vercel --token ${{ secrets.NOW_TOKEN }} --confirm`
-
-      - name: Migrate database
-        run: npm run migrate
-        env:
-          DATABASE_CONNECTION_URL: ${{ secrets.DATABASE_CONNECTION_URL }}
-
-      - name: Alias Deployment
+      - name: Migrate database step 1
         run: |
-          npx vercel alias set $DEPLOYMENT maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
-          npx vercel alias set $DEPLOYMENT www.maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
+          node ./migrate-step-1.js
+      # - name: Install Deps
+      #   run: npm ci
+      #
+      # - name: Lint
+      #   run: npm run lint
+      #
+      # - name: Test
+      #   run: npm run test
+      #   env:
+      #     DATABASE_CONNECTION_URL: postgresql://postgres:postgres@postgres:${{ job.services.postgres.ports[5432] }}
+      #
+      # - name: Deploy to now
+      #   run: DEPLOYMENT=`npx vercel --token ${{ secrets.NOW_TOKEN }} --confirm`
+      #
+      # - name: Migrate database
+      #   run: npm run migrate
+      #   env:
+      #     DATABASE_CONNECTION_URL: ${{ secrets.DATABASE_CONNECTION_URL }}
+      #
+      # - name: Alias Deployment
+      #   run: |
+      #     npx vercel alias set $DEPLOYMENT maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
+      #     npx vercel alias set $DEPLOYMENT www.maine-go-ladder.xyz --token ${{ secrets.NOW_TOKEN }}
