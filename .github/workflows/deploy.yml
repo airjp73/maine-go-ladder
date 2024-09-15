@@ -31,6 +31,8 @@ jobs:
       - name: Migrate database step 1
         run: |
           node ./migrate-step-1.js
+        env:
+          DATABASE_CONNECTION_URL: ${{ secrets.DATABASE_CONNECTION_URL }}
       # - name: Install Deps
       #   run: npm ci
       #
